@@ -48,7 +48,7 @@ ignore:
 
   # linter definitions etc.
   - .editorconfig
-  - .hadolint.yml
+  - .ansible-lint.yml
   - .lychee.toml
   - .ls-lint.yml
   - .markdownlint.yml

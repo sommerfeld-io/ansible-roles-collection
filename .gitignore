@@ -5,6 +5,7 @@ target
 *.log
 *.lock
 yamllint-*
+.ansible
 
 node_modules
 /node_modules/

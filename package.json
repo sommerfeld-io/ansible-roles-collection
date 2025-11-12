@@ -1,13 +1,13 @@
 {
-  "name": "template-repository",
-  "version": "1.5.1",
+  "name": "roles",
+  "version": "0.0.0",
   "directories": {
     "doc": "docs"
   },
   "keywords": [],
   "author": "sebastian-sommerfeld.io",
   "license": "MIT",
-  "description": "Template Repo",
+  "description": "Ansible Roles Repo",
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/exec": "^6.0.3",

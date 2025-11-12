@@ -2,8 +2,8 @@
 x-volumes: &volumes
   - /etc/timezone:/etc/timezone:ro
   - /etc/localtime:/etc/localtime:ro
-  - project-root-volume:/workspaces/template-repository
-x-workdir: &default-workdir /workspaces/template-repository
+  - project-root-volume:/workspaces/roles
+x-workdir: &default-workdir /workspaces/roles
 x-tty: &tty true
 
 volumes:
@@ -50,32 +50,9 @@ services:
     command: --config .lychee.toml .
     tty: *tty
 
-  docs-build:
-    image: &docs-image sommerfeldio/mkdocs:latest
+  lint-ansible:
+    image: pipelinecomponents/ansible-lint:0.79.11
     volumes: *volumes
     working_dir: *default-workdir
-    command: build
+    command: ansible-lint . -c .ansible-lint.yml
     tty: *tty
-
-  docs-dev-server:
-    image: *docs-image
-    volumes: *volumes
-    working_dir: *default-workdir
-    ports:
-      - 3080:8000
-    tty: *tty
-
-  app-lint-dockerfile:
-    image: &lint-dockerfile-image hadolint/hadolint:latest
-    volumes: *volumes
-    working_dir: *default-workdir
-    entrypoint: hadolint Dockerfile
-
-  app:
-    image: ${COMPOSE_PROJECT_NAME}-app:${DEV_TAG}
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      app-lint-dockerfile:
-        condition: service_completed_successfully
