@@ -12,6 +12,10 @@
 
         "*/defaults",
 		"*/files/**",
-        "*/tasks/**"
+        "*/tasks/**",
+
+        "tests/ansible/vars",
+        "tests/vagrant/arch/.vagrant",
+        "tests/vagrant/ubuntu/.vagrant"
 	]
 }

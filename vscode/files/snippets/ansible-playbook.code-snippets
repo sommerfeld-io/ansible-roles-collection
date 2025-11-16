@@ -1,0 +1,20 @@
+{
+  "Ansible playbook skeleton": {
+    "scope": "yaml",
+    "prefix": "ansible-playbook-skeleton",
+    "body": [
+      "---",
+      "- name: ${1:playbook_name}",
+      "  hosts: ${2:group}:${3:group}",
+      "  gather_facts: true",
+      "  become: ${4:become}",
+      "  vars_files:",
+      "    - ../vars/main.yml",
+      "  tasks:",
+      "    - ansible.builtin.include_role:",
+      "        name: ../roles/ansible-roles-collection/${5:role}",
+      "",
+    ],
+    "description": "Ansible playbook skeleton template",
+  },
+}

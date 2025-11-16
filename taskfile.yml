@@ -35,8 +35,19 @@ tasks:
       - rm -rf .cache
       - rm -rf node_modules
       - rm -rf target
-      - rm -rf .ansible
+      - sudo rm -rf .ansible
       - find . -type f -exec chmod +r {} +
+      - task: internal:cleanup:vagrant
+        vars: { BOX: 'arch' }
+
+  internal:cleanup:vagrant:
+    desc: 'Remove vagrantbox'
+    internal: true
+    dir: tests/vagrant/{{ .BOX }}
+    cmds:
+      - vagrant halt
+      - vagrant destroy -f
+      - rm -rf .vagrant
 
   # ===============================================================================================
 
@@ -45,3 +56,15 @@ tasks:
     cmds:
       - for: ['yaml', 'filenames', 'folders', 'ansible'] # 'workflows', 'markdown-links',
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
+
+  # ===============================================================================================
+
+  test:arch:
+    desc: 'Run roles in Arch Linux Vagrantbox'
+    dir: tests/vagrant/arch
+    cmds:
+      - vagrant validate
+      - vagrant up
+      # - vagrant ssh
+      - vagrant halt
+      - vagrant destroy -f

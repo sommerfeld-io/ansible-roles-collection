@@ -4,3 +4,6 @@
 
 - name: Task  ----  SSH
   ansible.builtin.import_tasks: 20-ssh-keypair.yml
+
+- name: Task  ----  SSH
+  ansible.builtin.import_tasks: 90-uninstall.yml

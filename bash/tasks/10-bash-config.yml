@@ -16,11 +16,11 @@
     - export G='\033[1;30m'
     - export HOSTNAME # Ensure is available for other processes and sub-shells
 
-- name: Bash  ----  Config  ----  Write aliases to .bash_aliases
+- name: Bash  ----  Config  ----  Write aliases to .bashrc
   ansible.builtin.lineinfile:
     create: true
     mode: u=rw,g=,o=
-    dest: "/home/{{ ansible_user }}/.bash_aliases"
+    dest: "/home/{{ ansible_user }}/.bashrc"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     line: "{{ item }}"
