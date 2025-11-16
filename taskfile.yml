@@ -65,6 +65,5 @@ tasks:
     cmds:
       - vagrant validate
       - vagrant up
-      # - vagrant ssh
-      - vagrant halt
-      - vagrant destroy -f
+      - task: internal:cleanup:vagrant
+        vars: { BOX: 'arch' }

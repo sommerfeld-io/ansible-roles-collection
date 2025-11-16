@@ -1,10 +1,8 @@
 ---
-- name: Test playbook for all roles in this collection
+- name: Information about the system under test
   hosts: system_under_test
   gather_facts: true
   become: true
-  vars_files:
-    - vars/main.yml
   tasks:
     - name: System Under Test  ----  Info  ----  Display system information
       ansible.builtin.debug:
@@ -13,16 +11,21 @@
           - "Distribution: {{ ansible_distribution }}"
           - "Kernel: {{ ansible_kernel }}"
           - "Architecture: {{ ansible_architecture }}"
-
     - name: System Under Test  ----  Info  ----  Get Arch info
       shell: |
         echo "Build ID: $(grep BUILD_ID /etc/os-release | cut -d= -f2)"
         echo "Last updated: $(pacman -Qi filesystem | grep 'Install Date' | cut -d: -f2-)"
       register: arch_info
-
     - name: System Under Test  ----  Info  ----  Display Arch info
       debug:
         var: arch_info.stdout_lines
 
+- name: Run roles from this collection against the system under test
+  hosts: system_under_test
+  gather_facts: true
+  become: true
+  vars_files:
+    - vars/main.yml
+  tasks:
     - ansible.builtin.include_role:
         name: ../../bash
