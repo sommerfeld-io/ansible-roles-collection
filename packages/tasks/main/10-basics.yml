@@ -11,7 +11,7 @@
       - make
       - ncdu
       - htop
-      - neofetch
+      - fastfetch
       - python3-pip # python package manager
       - vim
       - jq

@@ -1,6 +1,5 @@
 ---
 - name: Ansible Setup  ----  Selected hosts only
-  # when: inventory_hostname == 'admin-pi.fritz.box'
   block:
     - name: Ansible Setup  ----  Install ansible (OS-codename {{ ansible_distribution_release }})
       ansible.builtin.apt:
@@ -21,3 +20,4 @@
         - community.docker
       args:
         executable: /bin/bash
+  # when: inventory_hostname == 'admin-pi.fritz.box'

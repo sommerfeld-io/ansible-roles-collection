@@ -1,1 +1,6 @@
 ---
+- name: Packages Main  ----  Uninstall
+  ansible.builtin.apt:
+    pkg:
+      - neofetch
+    state: absent

@@ -37,17 +37,8 @@ tasks:
       - rm -rf target
       - sudo rm -rf .ansible
       - find . -type f -exec chmod +r {} +
-      - task: internal:cleanup:vagrant
-        vars: { BOX: 'arch' }
-
-  internal:cleanup:vagrant:
-    desc: 'Remove vagrantbox'
-    internal: true
-    dir: tests/vagrant/{{ .BOX }}
-    cmds:
-      - vagrant halt
-      - vagrant destroy -f
-      - rm -rf .vagrant
+      - find . -type d -exec chmod +r {} +
+      - find . -name "*.sh" -type f -exec chmod +x {} +
 
   # ===============================================================================================
 
@@ -61,9 +52,25 @@ tasks:
 
   test:arch:
     desc: 'Run roles in Arch Linux Vagrantbox'
+    summary: 'Test Docker roles on Arch Linux using Vagrant. Reboot Vagrantbox during test to ensure all kernels modules that are required for Docker are loaded.'
     dir: tests/vagrant/arch
     cmds:
-      - vagrant validate
-      - vagrant up
       - task: internal:cleanup:vagrant
         vars: { BOX: 'arch' }
+      - vagrant validate
+      - vagrant up
+      - vagrant halt
+      - vagrant up
+      # - vagrant ssh
+      # TODO ... run inspec tests here
+      - task: internal:cleanup:vagrant
+        vars: { BOX: 'arch' }
+
+  internal:cleanup:vagrant:
+    desc: 'Remove vagrantbox'
+    internal: true
+    dir: tests/vagrant/{{ .BOX }}
+    cmds:
+      - vagrant halt
+      - vagrant destroy -f
+      - rm -rf .vagrant
