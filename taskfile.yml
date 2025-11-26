@@ -62,6 +62,7 @@ tasks:
       - vagrant halt
       - vagrant up
       # - vagrant ssh
+      # - docker run --rm -it chef/inspec:5.22.76 exec https://github.com/sommerfeld-io/inspec-profiles/tree/main/profiles/linux-essentials  --no-distinct-exit --chef-license=accept
       # TODO ... run inspec tests here
       - task: internal:cleanup:vagrant
         vars: { BOX: 'arch' }
