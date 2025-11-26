@@ -49,13 +49,13 @@
     # - ansible.builtin.include_role:
     #     name: ../vscode
     #     tasks_from: main
-    # - ansible.builtin.include_role:
-    #     name: ../cron
-    #     tasks_from: main
+    - ansible.builtin.include_role:
+        name: ../cron
+        tasks_from: main
     # - ansible.builtin.include_role:
     #     name: ../taskfile-dev
-    # - ansible.builtin.include_role:
-    #     name: ../ansible
+    - ansible.builtin.include_role:
+        name: ../ansible
     # - ansible.builtin.include_role:
     #     name: ../conky
     # - ansible.builtin.include_role:
@@ -66,11 +66,11 @@
   gather_facts: true
   become: false
   tasks:
-    #! - ansible.builtin.include_role:
-    #!     name: ../atuin
-    # - ansible.builtin.include_role:
-    #     name: ../cron
-    #     tasks_from: jobs
+    - ansible.builtin.include_role:
+        name: ../atuin
+    - ansible.builtin.include_role:
+        name: ../cron
+        tasks_from: jobs
     # - ansible.builtin.include_role:
     #     name: ../docker
     #     tasks_from: scout
