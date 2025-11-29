@@ -37,12 +37,12 @@
         name: ../filesystem
     - ansible.builtin.include_role:
         name: ../git
+    - ansible.builtin.include_role:
+        name: ../packages
+        tasks_from: main
     # - ansible.builtin.include_role:
     #     name: ../packages
-    #     tasks_from: main
-    # - ansible.builtin.include_role:
-    #     name: ../packages
-    #     tasks_from: ubuntu # TODO convert from ubuntu to desktop and enable arch as well
+    #     tasks_from: desktop
     - ansible.builtin.include_role:
         name: ../docker
         tasks_from: main

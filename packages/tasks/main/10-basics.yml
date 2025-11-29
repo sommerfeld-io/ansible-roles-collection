@@ -1,20 +1,35 @@
 ---
-- name: Packages Main  ----  Basics  ----  Install
+- name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install
   ansible.builtin.apt:
-    pkg:
-      - apt-transport-https
+    pkg: &packages
       - ca-certificates
       - curl
       - gnupg
       - lsb-release
-      - software-properties-common
       - make
       - ncdu
       - htop
       - fastfetch
-      - python3-pip # python package manager
       - vim
       - jq
+    state: latest
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install Ubuntu specifics
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - software-properties-common
+      - python3-pip # python package manager
       - auditd
     state: latest
     update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Packages Main  ----  Arch  ----  Basics  ----  Install
+  community.general.pacman:
+    name: *packages
+    state: present
+    update_cache: true
+  when: ansible_os_family == "Archlinux"
