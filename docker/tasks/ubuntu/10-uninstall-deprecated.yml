@@ -1,5 +1,5 @@
 ---
-- name: Docker  ----  Uninstall  ----  Purge deprecated docker installations
+- name: Docker  ----  Ubuntu  ----  Purge deprecated packages
   ansible.builtin.apt:
     pkg:
       - docker
@@ -10,3 +10,4 @@
       - runc
     state: absent
     update_cache: true
+  when: ansible_os_family == "Debian"

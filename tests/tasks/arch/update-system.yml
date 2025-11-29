@@ -1,0 +1,22 @@
+---
+- name: System Under Test  ----  Arch  ----  Ensure System is as up-to-date as possible
+  block:
+    - name: System Under Test  ----  Arch  ----  Update keyring
+      community.general.pacman:
+        name: archlinux-keyring
+        state: present
+        update_cache: true
+    - name: System Under Test  ----  Arch  ----  Full system upgrade
+      community.general.pacman:
+        upgrade: true
+        update_cache: true
+    - name: System Under Test  ----  Arch  ----  Install base packages
+      community.general.pacman:
+        name:
+          - which
+        state: present
+  when: ansible_os_family == "Archlinux"
+
+## TODO ... -------------------------------------------------------------------------------------
+## TODO ... move this into a dedicated role for Arch? So I can use this with real systems as well
+## TODO ... -------------------------------------------------------------------------------------

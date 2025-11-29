@@ -1,12 +1,24 @@
 ---
-- name: Docker  ----  Purge deprecated docker installations
-  ansible.builtin.import_tasks: 10-uninstall-deprecated.yml
+- name: Docker  ----  Ubuntu
+  block:
+    - name: Docker  ----  Ubuntu  ----  Purge deprecated docker installations
+      ansible.builtin.include_tasks: ubuntu/10-uninstall-deprecated.yml
+    - name: Docker  ----  Ubuntu  ----  Configure apt for Docker
+      ansible.builtin.include_tasks: ubuntu/20-apt-repository.yml
+    - name: Docker  ----  Ubuntu  ----  Install
+      ansible.builtin.include_tasks: ubuntu/30-install.yml
+    - name: Docker  ----  Docker Info
+      ansible.builtin.include_tasks: ubuntu/40-info.yml
+  when: ansible_os_family == "Debian"
 
-- name: Docker  ----  Configure apt for Docker
-  ansible.builtin.import_tasks: 20-apt-repository.yml
+- name: Docker  ----  Arch
+  block:
+    - name: Docker  ----  Arch  ----  Install
+      ansible.builtin.include_tasks: arch/10-install.yml
+  when: ansible_os_family == "Archlinux"
 
-- name: Docker  ----  Install
-  ansible.builtin.import_tasks: 30-install.yml
+- name: Docker  ----  Add user to docker group
+  ansible.builtin.include_tasks: 50-user.yml
 
 - name: Docker  ----  Uninstall
-  ansible.builtin.import_tasks: 90-unintall.yml
+  ansible.builtin.include_tasks: 90-uninstall.yml

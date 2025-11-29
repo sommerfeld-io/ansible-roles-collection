@@ -1,1 +1,13 @@
 ---
+- name: Packages Main  ----  Ubuntu  ----  Uninstall
+  ansible.builtin.apt:
+    pkg: &packages
+      - neofetch
+    state: absent
+  when: ansible_os_family == "Debian"
+
+- name: Packages Main  ----  Arch  ----  Uninstall
+  community.general.pacman:
+    name: *packages
+    state: absent
+  when: ansible_os_family == "Archlinux"

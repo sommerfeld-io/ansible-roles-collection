@@ -1,5 +1,21 @@
 ---
-- name: Config  ----  Cron Job  ----  Ensure permissions
+- name: Cron  ----  Arch
+  block:
+    - name: Cron  ----  Arch  ----  Install
+      community.general.pacman:
+        name:
+          - cronie
+        state: present
+        update_cache: true
+
+    - name: Cron  ----  Arch  ----  Enable service
+      ansible.builtin.systemd:
+        name: cronie.service
+        enabled: true
+        state: started
+  when: ansible_os_family == "Archlinux"
+
+- name: Cron  ----  Ensure permissions
   ansible.builtin.file:
     path: "{{ item }}"
     mode: u=rwx,g=x,o=x # ubuntu default = rwxr-xr-x
@@ -9,5 +25,12 @@
     - /etc/cron.daily
     - /etc/cron.weekly
     - /etc/cron.monthly
-    - /etc/cron.yearly
     - /etc/cron.d
+
+- name: Cron  ----  Ubuntu  ----  Ensure permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: u=rwx,g=x,o=x # ubuntu default = rwxr-xr-x
+  loop:
+    - /etc/cron.yearly
+  when: ansible_os_family == "Debian"
