@@ -1,23 +1,27 @@
 ---
-- name: Packages Ubuntu  ----  Uninstall  ----  Pre-installed packages
-  ansible.builtin.apt:
-    pkg:
-      - thunderbird
-      - libreoffice
-      - libreoffice-*
-      - totem
-      - totem-*
-    state: absent
+- name: Packages Desktop  ----  Uninstall  ----  Ubuntu
+  when: ansible_os_family == "Debian"
+  block:
 
-- name: Packages Ubuntu  ----  Uninstall  ----  Other packages
-  ansible.builtin.apt:
-    pkg:
-      - yarn
-      - google-chrome-stable
-    state: absent
+    - name: Packages Desktop  ----  Uninstall  ----  Ubuntu  ----  Pre-installed packages
+      ansible.builtin.apt:
+        pkg:
+          - thunderbird
+          - libreoffice
+          - libreoffice-*
+          - totem
+          - totem-*
+        state: absent
 
-- name: Packages Ubuntu  ----  Uninstall  ----  Pre-installed snap packages
-  community.general.snap:
-    name:
-      - thunderbird
-    state: absent
+    - name: Packages Desktop  ----  Uninstall  ----  Ubuntu  ----  Other packages
+      ansible.builtin.apt:
+        pkg:
+          - yarn
+          - google-chrome-stable
+        state: absent
+
+    - name: Packages Desktop  ----  Uninstall  ----  Ubuntu  ----  Pre-installed snap packages
+      community.general.snap:
+        name:
+          - thunderbird
+        state: absent

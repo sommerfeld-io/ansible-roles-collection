@@ -1,0 +1,19 @@
+---
+- name: Packages Desktop  ----  Etcher  ----  Ubuntu
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Packages Desktop  ----  Etcher  ----  Ubuntu  ----  Download
+      ansible.builtin.get_url:
+        url: https://github.com/balena-io/etcher/releases/download/v{{ version }}/balena-etcher_{{ version }}_{{ architecture }}.deb
+        dest: /tmp/balena-etcher_{{ architecture }}.deb
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+        mode: u=rwx,g=rx,o=rx
+      vars:
+        version: 1.19.25
+
+    - name: Packages Desktop  ----  Etcher  ----  Ubuntu  ----  Install
+      ansible.builtin.apt:
+        deb: /tmp/balena-etcher_{{ architecture }}.deb
+        state: present

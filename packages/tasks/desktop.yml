@@ -8,17 +8,14 @@
 - name: Packages  ----  Install Sublime Text
   ansible.builtin.import_tasks: desktop/21-sublime.yml
 
-- name: Packages  ----  Install Snap packages
-  ansible.builtin.import_tasks: desktop/30-snap.yml
-
 - name: Packages  ----  Install Etcher
-  ansible.builtin.import_tasks: desktop/40-etcher.yml
+  ansible.builtin.import_tasks: desktop/30-etcher.yml
 
 - name: Packages  ----  Install Chrome
-  ansible.builtin.import_tasks: desktop/50-chrome.yml
+  ansible.builtin.import_tasks: desktop/40-chrome.yml
 
 - name: Packages  ----  Install Media Players
-  ansible.builtin.import_tasks: desktop/60-media-players.yml
+  ansible.builtin.import_tasks: desktop/50-media-players.yml
 
 - name: Packages  ----  Uninstall unneeded packages
   ansible.builtin.import_tasks: desktop/90-uninstall.yml
