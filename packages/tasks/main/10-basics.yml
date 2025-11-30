@@ -1,35 +1,47 @@
 ---
-- name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install
-  ansible.builtin.apt:
-    pkg: &packages
-      - ca-certificates
-      - curl
-      - gnupg
-      - lsb-release
-      - make
-      - ncdu
-      - htop
-      - fastfetch
-      - vim
-      - jq
-    state: latest
-    update_cache: true
+- name: Packages Main  ----  Ubuntu  ----  Basics
   when: ansible_os_family == "Debian"
+  block:
 
-- name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install Ubuntu specifics
-  ansible.builtin.apt:
-    pkg:
-      - apt-transport-https
-      - software-properties-common
-      - python3-pip # python package manager
-      - auditd
-    state: latest
-    update_cache: true
-  when: ansible_os_family == "Debian"
+    - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install
+      ansible.builtin.apt:
+        pkg: &packages
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+          - make
+          - ncdu
+          - htop
+          - fastfetch
+          - vim
+          - jq
+        state: latest
+        update_cache: true
 
-- name: Packages Main  ----  Arch  ----  Basics  ----  Install
-  community.general.pacman:
-    name: *packages
-    state: present
-    update_cache: true
+    - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install Ubuntu specifics
+      ansible.builtin.apt:
+        pkg:
+          - apt-transport-https
+          - software-properties-common
+          - python3-pip
+          - auditd
+        state: latest
+        update_cache: true
+
+- name: Packages Main  ----  Arch  ----  Basics
   when: ansible_os_family == "Archlinux"
+  block:
+
+    - name: Packages Main  ----  Arch  ----  Basics  ----  Install
+      community.general.pacman:
+        name: *packages
+        state: present
+        update_cache: true
+
+    - name: Packages Main  ----  Arch  ----  Basics  ----  Install
+      community.general.pacman:
+        name:
+          - python-pip
+        state: present
+        update_cache: true

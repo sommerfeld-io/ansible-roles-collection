@@ -1,9 +1,9 @@
 ---
-- name: Packages Desktop  ----  Media Players  ----  Ubuntu
+- name: Packages Desktop  ----  Ubuntu  ----  Media Players
   when: ansible_os_family == "Debian"
   block:
 
-    - name: Packages Desktop  ----  Media Players  ----  Ubuntu  ----  Players and DRM packages
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Players and DRM packages
       ansible.builtin.apt:
         pkg:
           - vlc
@@ -18,7 +18,7 @@
         state: latest
         update_cache: true
 
-    - name: Packages Desktop  ----  Media Players  ----  Ubuntu  ----  Audio CD ripper
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Audio CD ripper
       ansible.builtin.apt:
         pkg:
           - asunder # https://wiki.ubuntuusers.de/Asunder
@@ -30,7 +30,7 @@
         state: latest
         update_cache: true
 
-    - name: Packages Desktop  ----  Media Players  ----  Ubuntu  ----  CD/DVD writer
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  CD/DVD writer
       ansible.builtin.apt:
         pkg:
           - brasero
@@ -38,8 +38,14 @@
         state: latest
         update_cache: true
 
-    - name: Packages Desktop  ----  Media Players  ----  Ubuntu  ----  Spotify
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Spotify
       community.general.snap:
         name:
           - spotify
         state: present
+
+# - name: Packages Desktop  ----  Arch  ----  Media Players
+#   when: ansible_os_family == "Archlinux"
+#   block:
+
+    # todo ...

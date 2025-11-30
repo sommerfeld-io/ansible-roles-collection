@@ -1,9 +1,9 @@
 ---
-- name: Packages Desktop  ----  Uninstall  ----  Ubuntu
+- name: Packages Desktop  ----  Ubuntu  ----  Uninstall
   when: ansible_os_family == "Debian"
   block:
 
-    - name: Packages Desktop  ----  Uninstall  ----  Ubuntu  ----  Pre-installed packages
+    - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Pre-installed packages
       ansible.builtin.apt:
         pkg:
           - thunderbird
@@ -13,15 +13,22 @@
           - totem-*
         state: absent
 
-    - name: Packages Desktop  ----  Uninstall  ----  Ubuntu  ----  Other packages
+    - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Other packages
       ansible.builtin.apt:
         pkg:
+          - asciidoctor
           - yarn
           - google-chrome-stable
         state: absent
 
-    - name: Packages Desktop  ----  Uninstall  ----  Ubuntu  ----  Pre-installed snap packages
+    - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Pre-installed snap packages
       community.general.snap:
         name:
           - thunderbird
         state: absent
+
+# - name: Packages Desktop  ----  Arch  ----  Uninstall
+#   when: ansible_os_family == "Archlinux"
+#   block:
+
+    # todo ...
