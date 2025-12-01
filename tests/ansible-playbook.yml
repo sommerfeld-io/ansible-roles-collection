@@ -1,6 +1,6 @@
 ---
 - name: Basic Vagrantbox setup
-  hosts: system_under_test
+  hosts: all
   gather_facts: true
   become: true
   tasks:
@@ -25,7 +25,7 @@
     - ansible.builtin.include_tasks: tasks/arch/update-system.yml
 
 - name: Run roles against the system under test
-  hosts: system_under_test
+  hosts: all
   gather_facts: true
   become: true
   tasks:
@@ -62,7 +62,7 @@
         name: ../github-cli
 
 - name: Run roles against the system under test (non-root)
-  hosts: system_under_test
+  hosts: all
   gather_facts: true
   become: false
   tasks:

@@ -33,6 +33,7 @@ tasks:
     cmds:
       - docker compose down --remove-orphans
       - rm -rf .cache
+      - rm -rf tests/.vagrant
       - rm -rf node_modules
       - rm -rf target
       - sudo rm -rf .ansible
@@ -50,28 +51,64 @@ tasks:
 
   # ===============================================================================================
 
+  test:
+    desc: 'Run roles on all Vagrantboxes in sequence'
+    summary: >
+      Test roles on all supported operating systems using Vagrant. Reboot Vagrantboxes during test
+      to ensure all kernel modules that are required for Docker are loaded. This task updates the
+      Vagrantboxes to the latest version before running the tests.
+    dir: tests
+    cmds:
+      - rm -rf .vagrant
+      - vagrant box update
+      - task: test:arch
+      - task: test:ubuntu
+
   test:arch:
-    desc: 'Run roles in Arch Linux Vagrantbox'
-    summary: 'Test Docker roles on Arch Linux using Vagrant. Reboot Vagrantbox during test to ensure all kernels modules that are required for Docker are loaded.'
-    dir: tests/vagrant/arch
+    desc: 'Run roles on Arch Linux Vagrantbox'
+    summary: >
+      Test Docker roles on Arch Linux using Vagrant. Reboot Vagrantbox during test to ensure all
+      kernel modules that are required for Docker are loaded.
+    dir: tests
     cmds:
       - task: internal:cleanup:vagrant
         vars: { BOX: 'arch' }
-      - vagrant validate
-      - vagrant up
-      - vagrant halt
-      - vagrant up
-      # - vagrant ssh
-      # - docker run --rm -it chef/inspec:5.22.76 exec https://github.com/sommerfeld-io/inspec-profiles/tree/main/profiles/linux-essentials  --no-distinct-exit --chef-license=accept
-      # TODO ... run inspec tests here
+      - task: internal:test
+        vars: { BOX: 'arch' }
       - task: internal:cleanup:vagrant
         vars: { BOX: 'arch' }
+
+  test:ubuntu:
+    desc: 'Run roles on Ubuntu Vagrantbox'
+    summary: >
+      Test Docker roles on Ubuntu using Vagrant. Reboot Vagrantbox during test to ensure all
+      Ubuntu updates are installed.
+    dir: tests
+    cmds:
+      - task: internal:cleanup:vagrant
+        vars: { BOX: 'ubuntu' }
+      - task: internal:test
+        vars: { BOX: 'ubuntu' }
+      - task: internal:cleanup:vagrant
+        vars: { BOX: 'ubuntu' }
+
+  internal:test:
+    desc: 'Run roles on Vagrantbox'
+    internal: true
+    dir: tests
+    cmds:
+      - vagrant validate
+      - time vagrant up {{ .BOX }}
+      - vagrant halt {{ .BOX }}
+      - vagrant up {{ .BOX }}
+      - vagrant ssh {{ .BOX }}
+      # - docker run --rm -it chef/inspec:5.22.76 exec https://github.com/sommerfeld-io/inspec-profiles/tree/main/profiles/linux-essentials  --no-distinct-exit --chef-license=accept
+      # TODO ... run inspec tests here
 
   internal:cleanup:vagrant:
     desc: 'Remove vagrantbox'
     internal: true
-    dir: tests/vagrant/{{ .BOX }}
+    dir: tests
     cmds:
-      - vagrant halt
-      - vagrant destroy -f
-      - rm -rf .vagrant
+      - vagrant halt {{ .BOX }}
+      - vagrant destroy -f {{ .BOX }}

@@ -24,7 +24,7 @@
         state: latest
         update_cache: true
 
-    - name: Packages Desktop  ----  Ubuntu  ----  Basics  ----  Install ubuntu specifics
+    - name: Packages Desktop  ----  Ubuntu  ----  Basics  ----  Install specifics
       ansible.builtin.apt:
         pkg:
           - tilix
@@ -44,6 +44,13 @@
       community.general.pacman:
         name: *packages-desktop
         state: present
+        update_cache: true
+
+    - name: Packages Desktop  ----  Arch  ----  Basics  ----  Install specifics
+      community.general.pacman:
+        pkg:
+          - which
+        state: latest
         update_cache: true
 
     # TODO
