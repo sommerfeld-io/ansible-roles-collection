@@ -6,12 +6,12 @@
     - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Download GPG key
       ansible.builtin.get_url:
         url: https://download.sublimetext.com/sublimehq-pub.gpg
-        dest: /etc/apt/keyrings/sublimehq-archive-keyring.gpg
+        dest: /etc/apt/keyrings/sublimehq-pub.asc
         mode: '0644'
 
     - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Add apt repository
       ansible.builtin.apt_repository:
-        repo: deb https://download.sublimetext.com apt/stable/
+        repo: deb [signed-by=/etc/apt/keyrings/sublimehq-pub.asc] https://download.sublimetext.com apt/stable/
         state: present
 
     - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Install
@@ -26,3 +26,44 @@
 #   block:
 
     # todo ...
+    # https://www.sublimetext.com/docs/linux_repositories.html#pacman
+
+- name: Packages Desktop  ----  Arch  ----  Sublime
+  when: ansible_os_family == "Archlinux"
+  block:
+
+    - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Download GPG key
+      ansible.builtin.get_url:
+        url: https://download.sublimetext.com/sublimehq-pub.gpg
+        dest: /tmp/sublimehq-pub.gpg
+        mode: '0644'
+
+    - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Add GPG key to pacman keyring
+      ansible.builtin.command:
+        cmd: pacman-key --add /tmp/sublimehq-pub.gpg
+      changed_when: true
+
+    - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Locally sign GPG key
+      ansible.builtin.command:
+        cmd: pacman-key --lsign-key 8A8F901A
+      changed_when: true
+
+    - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Remove temporary GPG key file
+      ansible.builtin.file:
+        path: /tmp/sublimehq-pub.gpg
+        state: absent
+
+    - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Add repository to pacman.conf
+      ansible.builtin.blockinfile:
+        path: /etc/pacman.conf
+        block: |
+          [sublime-text]
+          Server = https://download.sublimetext.com/arch/stable/x86_64
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - Sublime Text"
+
+    - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Install
+      community.general.pacman:
+        name:
+          - sublime-text
+        state: latest
+        update_cache: true
