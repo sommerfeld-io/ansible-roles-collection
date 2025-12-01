@@ -1,10 +1,20 @@
 ---
-- name: VSCode  ----  Install
-  community.general.snap:
-    name:
-      - code
-    state: present
-    classic: true
+- name: VSCode  ----  Ubuntu
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: VSCode  ----  Ubuntu  ----  Install
+      community.general.snap:
+        name:
+          - code
+        state: present
+        classic: true
+
+# - name: VSCode  ----  Arch
+#   when: ansible_os_family == "Archlinux"
+#   block:
+
+    # todo ...
 
 - name: VSCode  ----  Snippets
   ansible.builtin.import_tasks: 10-snippets.yml

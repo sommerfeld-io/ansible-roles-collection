@@ -1,0 +1,16 @@
+---
+- name: Conky  ----  Ubuntu  ----  Install
+  ansible.builtin.apt:
+    pkg:
+      - conky-all
+    state: latest
+    update_cache: true
+  when: ansible_os_family == "Debian"
+
+- name: Conky  ----  Arch  ----  Install
+  community.general.pacman:
+    pkg:
+      - conky
+    state: latest
+    update_cache: true
+  when: ansible_os_family == "Archlinux"

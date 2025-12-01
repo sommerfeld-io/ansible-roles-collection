@@ -1,27 +1,42 @@
 ---
-- name: GitHub CLI  ----  Ensure keyrings directory exists
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: '0755'
+- name: GitHub CLI  ----  Ubuntu
+  when: ansible_os_family == "Debian"
+  block:
 
-- name: GitHub CLI  ----  Download GPG key
-  ansible.builtin.get_url:
-    url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
-    dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
-    mode: '0644'
+    - name: GitHub CLI  ----  Ubuntu  ----  Ensure keyrings directory exists
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
 
-- name: GitHub CLI  ----  Add apt repository
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
-    filename: github-cli
-    state: present
-    update_cache: true
+    - name: GitHub CLI  ----  Ubuntu  ----  Download GPG key
+      ansible.builtin.get_url:
+        url: https://cli.github.com/packages/githubcli-archive-keyring.gpg
+        dest: /etc/apt/keyrings/githubcli-archive-keyring.gpg
+        mode: '0644'
 
-- name: GitHub CLI  ----  Install gh
-  ansible.builtin.apt:
-    name: gh
-    state: latest
+    - name: GitHub CLI  ----  Ubuntu  ----  Add apt repository
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main"
+        filename: github-cli
+        state: present
+        update_cache: true
+
+    - name: GitHub CLI  ----  Ubuntu  ----  Install
+      ansible.builtin.apt:
+        name: gh
+        state: latest
+
+- name: GitHub CLI  ----  Arch
+  when: ansible_os_family == "Archlinux"
+  block:
+
+    - name: GitHub CLI  ----  Arch  ----  Install
+      community.general.pacman:
+        pkg:
+          - github-cli
+        state: latest
+        update_cache: true
 
 - name: GitHub CLI  ----  Verify installation
   ansible.builtin.command: gh --version

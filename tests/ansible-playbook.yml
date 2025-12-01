@@ -46,20 +46,20 @@
     - ansible.builtin.include_role:
         name: ../docker
         tasks_from: main
-    # - ansible.builtin.include_role:
-    #     name: ../vscode
-    #     tasks_from: main
+    - ansible.builtin.include_role:
+        name: ../vscode
+        tasks_from: main
     - ansible.builtin.include_role:
         name: ../cron
         tasks_from: main
-    # - ansible.builtin.include_role:
-    #     name: ../taskfile-dev
+    - ansible.builtin.include_role:
+        name: ../taskfile-dev
     - ansible.builtin.include_role:
         name: ../ansible
-    # - ansible.builtin.include_role:
-    #     name: ../conky
-    # - ansible.builtin.include_role:
-    #     name: ../github-cli
+    - ansible.builtin.include_role:
+        name: ../conky
+    - ansible.builtin.include_role:
+        name: ../github-cli
 
 - name: Run roles against the system under test (non-root)
   hosts: system_under_test
@@ -71,9 +71,9 @@
     - ansible.builtin.include_role:
         name: ../cron
         tasks_from: jobs
-    # - ansible.builtin.include_role:
-    #     name: ../docker
-    #     tasks_from: scout
-    # - ansible.builtin.include_role:
-    #     name: ../vscode
-    #     tasks_from: plugins
+    - ansible.builtin.include_role:
+        name: ../docker
+        tasks_from: scout
+    - ansible.builtin.include_role:
+        name: ../vscode
+        tasks_from: plugins

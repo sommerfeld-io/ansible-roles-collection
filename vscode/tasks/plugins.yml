@@ -1,17 +1,18 @@
 ---
+- name: VSCode  ----  Check if vscode is installed
+  ansible.builtin.shell: |
+    command -v code >/dev/null 2>&1
+  args:
+    executable: /bin/bash
+  register: vscode_installed
+  changed_when: false
+  failed_when: false
+
 - name: VSCode  ----  Install Extensions
   ansible.builtin.shell: |
     extensions=(
-      'streetsidesoftware.code-spell-checker'
-      'asciidoctor.asciidoctor-vscode'
       'ms-azuretools.vscode-docker'
       'aaron-bond.better-comments'
-      'pomdtr.markdown-kroki'
-      'timonwong.shellcheck'
-      'jebbs.plantuml'
-      'github.vscode-github-actions'
-      'redhat.vscode-yaml'
-      'ms-vscode.makefile-tools'
       'ms-vscode-remote.remote-containers'
     )
     for extension in "${extensions[@]}"
@@ -21,3 +22,4 @@
     done
   args:
     executable: /bin/bash
+  when: vscode_installed.rc == 0
