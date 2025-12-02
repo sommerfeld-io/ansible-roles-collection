@@ -71,11 +71,13 @@ tasks:
       kernel modules that are required for Docker are loaded.
     dir: tests
     cmds:
-      - task: internal:cleanup:vagrant
+      - task: internal:vagrant:stop
         vars: { BOX: 'arch' }
-      - task: internal:test
+      - task: internal:vagrant:start
         vars: { BOX: 'arch' }
-      - task: internal:cleanup:vagrant
+      - task: internal:test:inspec
+        vars: { BOX: 'arch' }
+      - task: internal:vagrant:stop
         vars: { BOX: 'arch' }
 
   test:ubuntu:
@@ -85,14 +87,16 @@ tasks:
       Ubuntu updates are installed.
     dir: tests
     cmds:
-      - task: internal:cleanup:vagrant
+      - task: internal:vagrant:stop
         vars: { BOX: 'ubuntu' }
-      - task: internal:test
+      - task: internal:vagrant:start
         vars: { BOX: 'ubuntu' }
-      - task: internal:cleanup:vagrant
+      - task: internal:test:inspec
+        vars: { BOX: 'ubuntu' }
+      - task: internal:vagrant:stop
         vars: { BOX: 'ubuntu' }
 
-  internal:test:
+  internal:vagrant:start:
     desc: 'Run roles on Vagrantbox'
     internal: true
     dir: tests
@@ -101,14 +105,36 @@ tasks:
       - time vagrant up {{ .BOX }}
       - vagrant halt {{ .BOX }}
       - vagrant up {{ .BOX }}
-      # - vagrant ssh {{ .BOX }}
-      # - docker run --rm -it chef/inspec:5.22.76 exec https://github.com/sommerfeld-io/inspec-profiles/tree/main/profiles/linux-essentials  --no-distinct-exit --chef-license=accept
-      # TODO ... run inspec tests here
 
-  internal:cleanup:vagrant:
+  internal:vagrant:stop:
     desc: 'Remove vagrantbox'
     internal: true
     dir: tests
     cmds:
       - vagrant halt {{ .BOX }}
       - vagrant destroy -f {{ .BOX }}
+
+  internal:test:inspec:
+    desc: 'Run inspec tests on Vagrantbox'
+    internal: true
+    dir: tests
+    vars:
+      INSPEC_IMAGE: chef/inspec:5.22.76
+      BASELINE: https://github.com/dev-sec/linux-baseline
+      BOX_USER: vagrant
+    cmds:
+      - |
+        PORT=$(vagrant ssh-config {{ .BOX }} | grep "Port" | awk '{print $2}')
+        USER={{ .BOX_USER }}
+        KEY=$(vagrant ssh-config {{ .BOX }} | grep "IdentityFile" | awk '{print $2}' | tr -d '"')
+
+        echo "bridged ssh port = $PORT"
+        echo "identity file    = $KEY"
+
+        docker run --rm \
+          --network host \
+          --volume "$KEY:$KEY:ro" \
+          {{ .INSPEC_IMAGE }} exec {{ .BASELINE }} \
+            --target ssh://$USER@127.0.0.1:$PORT \
+            --key-files=$KEY \
+            --chef-license=accept
