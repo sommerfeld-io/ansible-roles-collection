@@ -6,7 +6,7 @@
       - docker-buildx
     state: present
     update_cache: true
-  retries: 3
+  retries: 5
   delay: 10
   register: docker_install
   until: docker_install is succeeded
