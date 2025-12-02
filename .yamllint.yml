@@ -5,6 +5,7 @@ ignore: |
   node_modules
   .vagrant
   target
+  tests/inspec/ansible-baseline/vendor
 
 rules:
   line-length:

@@ -37,6 +37,8 @@ tasks:
       - rm -rf node_modules
       - rm -rf target
       - sudo rm -rf .ansible
+      - sudo rm -rf tests/inspec/ansible-baseline/vendor
+      - sudo rm -f tests/inspec/ansible-baseline/inspec.lock
       - find . -type f -exec chmod +r {} +
       - find . -type d -exec chmod +r {} +
       - find . -name "*.sh" -type f -exec chmod +x {} +
@@ -75,7 +77,7 @@ tasks:
         vars: { BOX: 'arch' }
       - task: internal:vagrant:start
         vars: { BOX: 'arch' }
-      - task: internal:test:inspec
+      - task: internal:inspec:test
         vars: { BOX: 'arch' }
       - task: internal:vagrant:stop
         vars: { BOX: 'arch' }
@@ -91,7 +93,7 @@ tasks:
         vars: { BOX: 'ubuntu' }
       - task: internal:vagrant:start
         vars: { BOX: 'ubuntu' }
-      - task: internal:test:inspec
+      - task: internal:inspec:test
         vars: { BOX: 'ubuntu' }
       - task: internal:vagrant:stop
         vars: { BOX: 'ubuntu' }
@@ -114,15 +116,30 @@ tasks:
       - vagrant halt {{ .BOX }}
       - vagrant destroy -f {{ .BOX }}
 
-  internal:test:inspec:
+  inspec:check:
+    desc: 'Check inspec profile {{ .PROFILE }}'
+    dir: tests
+    vars: &inspec_vars
+      INSPEC_IMAGE: chef/inspec:5.22.76
+      PROFILE: ansible-baseline
+      BOX_USER: vagrant
+    cmds:
+      - for: ['vendor', 'check']
+        cmd: |
+          docker run --rm \
+            --volume "$(pwd)/inspec:/inspec" \
+            --workdir "/inspec" \
+            {{ .INSPEC_IMAGE }} {{ .ITEM }} {{ .PROFILE }} \
+              --chef-license=accept
+
+  internal:inspec:test:
     desc: 'Run inspec tests on Vagrantbox'
     internal: true
     dir: tests
-    vars:
-      INSPEC_IMAGE: chef/inspec:5.22.76
-      BASELINE: https://github.com/dev-sec/linux-baseline
-      BOX_USER: vagrant
+    vars: *inspec_vars
     cmds:
+      - sudo rm -rf tests/inspec/ansible-baseline/vendor
+      - sudo rm -f inspec/ansible-baseline/inspec.lock
       - |
         PORT=$(vagrant ssh-config {{ .BOX }} | grep "Port" | awk '{print $2}')
         USER={{ .BOX_USER }}
@@ -134,7 +151,9 @@ tasks:
         docker run --rm \
           --network host \
           --volume "$KEY:$KEY:ro" \
-          {{ .INSPEC_IMAGE }} exec {{ .BASELINE }} \
+          --volume "$(pwd)/inspec:/inspec" \
+          --workdir "/inspec" \
+          {{ .INSPEC_IMAGE }} exec {{ .PROFILE }} \
             --target ssh://$USER@127.0.0.1:$PORT \
             --key-files=$KEY \
             --chef-license=accept

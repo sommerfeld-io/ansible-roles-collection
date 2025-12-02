@@ -14,8 +14,10 @@
 		"*/files/**",
         "*/tasks/**",
 
-        "tests/ansible/vars",
-        "tests/vagrant/arch/.vagrant",
-        "tests/vagrant/ubuntu/.vagrant"
+        "tests/.vagrant",
+        "tests/inspec/*/controls",
+        "tests/inspec/*/vendor/**",
+        "tests/tasks/arch",
+        "tests/tasks/ubuntu"
 	]
 }
