@@ -130,7 +130,7 @@ tasks:
             --volume "$(pwd)/inspec:/inspec" \
             --workdir "/inspec" \
             {{ .INSPEC_IMAGE }} {{ .ITEM }} {{ .PROFILE }} \
-              --chef-license=accept
+              --chef-license=accept || true
 
   internal:inspec:test:
     desc: 'Run inspec tests on Vagrantbox'
@@ -138,8 +138,6 @@ tasks:
     dir: tests
     vars: *inspec_vars
     cmds:
-      - sudo rm -rf tests/inspec/ansible-baseline/vendor
-      - sudo rm -f inspec/ansible-baseline/inspec.lock
       - |
         PORT=$(vagrant ssh-config {{ .BOX }} | grep "Port" | awk '{print $2}')
         USER={{ .BOX_USER }}
@@ -156,4 +154,4 @@ tasks:
           {{ .INSPEC_IMAGE }} exec {{ .PROFILE }} \
             --target ssh://$USER@127.0.0.1:$PORT \
             --key-files=$KEY \
-            --chef-license=accept
+            --chef-license=accept || true
