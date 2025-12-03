@@ -12,6 +12,7 @@
           - totem
           - totem-*
         state: absent
+        purge: true
 
     - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Other packages
       ansible.builtin.apt:
@@ -20,12 +21,14 @@
           - yarn
           - google-chrome-stable
         state: absent
+        purge: true
 
     - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Pre-installed snap packages
       community.general.snap:
         name:
           - thunderbird
         state: absent
+        purge: true
 
     - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Dev Tools
       community.general.snap:

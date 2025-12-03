@@ -4,6 +4,7 @@
     pkg: &packages
       - neofetch
     state: absent
+    purge: true
   when: ansible_os_family == "Debian"
 
 - name: Packages Main  ----  Arch  ----  Uninstall
