@@ -1,0 +1,51 @@
+---
+- name: Packages Desktop  ----  Ubuntu  ----  Media Players
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Players and DRM packages
+      ansible.builtin.apt:
+        pkg:
+          - vlc
+          - vlc-plugin-access-extra
+          - libbluray-bdj
+          - libdvdcss2
+          - vlc-plugin-fluidsynth
+          - vlc-plugin-jack
+          - ffmpeg
+          - libavcodec-extra
+          - ubuntu-restricted-extras
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Audio CD ripper
+      ansible.builtin.apt:
+        pkg:
+          - asunder # https://wiki.ubuntuusers.de/Asunder
+          - lame
+          - vorbis-tools
+          - flac
+          - libopus0
+          - wavpack
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  CD/DVD writer
+      ansible.builtin.apt:
+        pkg:
+          - brasero
+          - gstreamer1.0-plugins-ugly
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Spotify
+      community.general.snap:
+        name:
+          - spotify
+        state: present
+
+# - name: Packages Desktop  ----  Arch  ----  Media Players
+#   when: ansible_os_family == "Archlinux"
+#   block:
+
+    # todo ...

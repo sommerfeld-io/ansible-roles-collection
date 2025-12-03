@@ -1,3 +1,13 @@
 ---
+- name: VSCode  ----  Check if vscode is installed
+  ansible.builtin.shell: |
+    command -v code >/dev/null 2>&1
+  args:
+    executable: /bin/bash
+  register: vscode_installed
+  changed_when: false
+  failed_when: false
+
 - name: VSCode  ----  Snippets
   ansible.builtin.import_tasks: 10-snippets.yml
+  when: vscode_installed.rc == 0

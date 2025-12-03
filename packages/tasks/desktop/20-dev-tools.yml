@@ -1,0 +1,42 @@
+---
+- name: Packages Desktop  ----  Ubuntu  ----  Dev Tools
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Dev Tools  ---- Install
+      ansible.builtin.apt:
+        pkg: &packages
+          - filezilla
+          - pre-commit
+          - rpi-imager
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Dev Tools  ----  Install snap packages
+      community.general.snap:
+        name:
+          - postman
+        state: present
+
+    # - name: Packages Desktop  ----  Ubuntu  ----  Dev Tools  ----  Install Snap packages (classic)
+    #   community.general.snap:
+    #     name:
+    #       - intellij-idea-ultimate
+    #       - intellij-idea-community
+    #     state: present
+    #     classic: true
+
+- name: Packages Desktop  ----  Arch  ----  Dev Tools
+  when: ansible_os_family == "Archlinux"
+  block:
+
+    - name: Packages Desktop  ----  Arch  ----  Dev Tools  ---- Install
+      community.general.pacman:
+        name: *packages
+        state: present
+        update_cache: true
+
+    # TODO
+    # postman
+    # intellij-idea-ultimate
+    # intellij-idea-community

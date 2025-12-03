@@ -41,8 +41,8 @@ ignore:
   - .idea
   - .vscode
   - node_modules
-  - target/docs/site
   - target
+  - tests/inspec/ansible-baseline/vendor
 
   - .task
 

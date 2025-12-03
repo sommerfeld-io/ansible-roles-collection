@@ -1,0 +1,65 @@
+---
+- name: Packages Desktop  ----  Ubuntu  ----  Basics
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Basics  ----  Install software packages
+      ansible.builtin.apt:
+        pkg: &packages-desktop
+          - gnome-tweaks
+          - nmap
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Basics  ----  Install packages to control Dell monitors
+      ansible.builtin.apt:
+        pkg:
+          - ddcui
+          - libddcutil5
+          - ddcutil
+          - i2c-tools
+          - libi2c0
+          - libx86-1
+          - read-edid
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Basics  ----  Install specifics
+      ansible.builtin.apt:
+        pkg:
+          - tilix
+          - rar
+          - unrar
+          - p7zip
+          - p7zip-full
+          - p7zip-rar
+        state: latest
+        update_cache: true
+
+- name: Packages Desktop  ----  Arch  ----  Basics
+  when: ansible_os_family == "Archlinux"
+  block:
+
+    - name: Packages Desktop  ----  Arch  ----  Basics  ----  Install software packages
+      community.general.pacman:
+        name: *packages-desktop
+        state: present
+        update_cache: true
+
+    - name: Packages Desktop  ----  Arch  ----  Basics  ----  Install specifics
+      community.general.pacman:
+        pkg:
+          - which
+        state: latest
+        update_cache: true
+
+    # TODO
+    # tilix
+    # rar
+    # unrar
+    # p7zip
+    # p7zip-full
+    # p7zip-rar
+
+    # TODO
+    # all packages to control Dell monitors

@@ -1,0 +1,19 @@
+---
+- name: Packages Desktop  ----  Ubuntu  ----  Chromium
+  when: ansible_os_family == "Debian"
+  block:
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Chromium  ----  Install
+      ansible.builtin.apt:
+        pkg:
+          - chromium-browser
+          - chromium-browser-l10n
+          - chromium-codecs-ffmpeg
+        state: latest
+        update_cache: true
+
+# - name: Packages Desktop  ----  Arch  ----  Chromium
+#   when: ansible_os_family == "Archlinux"
+#   block:
+
+    # todo ...

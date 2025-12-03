@@ -1,0 +1,79 @@
+---
+- name: Basic Vagrantbox setup
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - name: System Under Test  ----  Info  ----  Display system information
+      ansible.builtin.debug:
+        msg:
+          - "OS Family: {{ ansible_os_family }}"
+          - "Distribution: {{ ansible_distribution }}"
+          - "Kernel: {{ ansible_kernel }}"
+          - "Architecture: {{ ansible_architecture }}"
+
+    - name: System Under Test  ----  Info  ----  Get System info
+      shell: |
+        echo "Build ID: $(grep BUILD_ID /etc/os-release | cut -d= -f2)"
+        echo "Last updated: $(pacman -Qi filesystem | grep 'Install Date' | cut -d: -f2-)"
+      register: system_info
+
+    - name: System Under Test  ----  Info  ----  Display System info
+      debug:
+        var: system_info.stdout_lines
+
+    - ansible.builtin.include_tasks: tasks/arch/update-system.yml
+
+- name: Run roles against the system under test
+  hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+    - ansible.builtin.include_role:
+        name: ../hardening
+    - ansible.builtin.include_role:
+        name: ../bash
+    - ansible.builtin.include_role:
+        name: ../filesystem
+    - ansible.builtin.include_role:
+        name: ../git
+    - ansible.builtin.include_role:
+        name: ../packages
+        tasks_from: main
+    - ansible.builtin.include_role:
+        name: ../packages
+        tasks_from: desktop
+    - ansible.builtin.include_role:
+        name: ../docker
+        tasks_from: main
+    - ansible.builtin.include_role:
+        name: ../vscode
+        tasks_from: main
+    - ansible.builtin.include_role:
+        name: ../cron
+        tasks_from: main
+    - ansible.builtin.include_role:
+        name: ../taskfile-dev
+    - ansible.builtin.include_role:
+        name: ../ansible
+    - ansible.builtin.include_role:
+        name: ../conky
+    - ansible.builtin.include_role:
+        name: ../github-cli
+
+- name: Run roles against the system under test (non-root)
+  hosts: all
+  gather_facts: true
+  become: false
+  tasks:
+    - ansible.builtin.include_role:
+        name: ../atuin
+    - ansible.builtin.include_role:
+        name: ../cron
+        tasks_from: jobs
+    - ansible.builtin.include_role:
+        name: ../docker
+        tasks_from: scout
+    - ansible.builtin.include_role:
+        name: ../vscode
+        tasks_from: plugins

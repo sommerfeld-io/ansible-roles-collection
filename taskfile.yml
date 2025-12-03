@@ -33,21 +33,15 @@ tasks:
     cmds:
       - docker compose down --remove-orphans
       - rm -rf .cache
+      - rm -rf tests/.vagrant
       - rm -rf node_modules
       - rm -rf target
       - sudo rm -rf .ansible
+      - sudo rm -rf tests/inspec/ansible-baseline/vendor
+      - sudo rm -f tests/inspec/ansible-baseline/inspec.lock
       - find . -type f -exec chmod +r {} +
-      - task: internal:cleanup:vagrant
-        vars: { BOX: 'arch' }
-
-  internal:cleanup:vagrant:
-    desc: 'Remove vagrantbox'
-    internal: true
-    dir: tests/vagrant/{{ .BOX }}
-    cmds:
-      - vagrant halt
-      - vagrant destroy -f
-      - rm -rf .vagrant
+      - find . -type d -exec chmod +r {} +
+      - find . -name "*.sh" -type f -exec chmod +x {} +
 
   # ===============================================================================================
 
@@ -59,11 +53,105 @@ tasks:
 
   # ===============================================================================================
 
+  test:
+    desc: 'Run roles on all Vagrantboxes in sequence'
+    summary: >
+      Test roles on all supported operating systems using Vagrant. Reboot Vagrantboxes during test
+      to ensure all kernel modules that are required for Docker are loaded. This task updates the
+      Vagrantboxes to the latest version before running the tests.
+    dir: tests
+    cmds:
+      - rm -rf .vagrant
+      - vagrant box update
+      - task: test:arch
+      - task: test:ubuntu
+
   test:arch:
-    desc: 'Run roles in Arch Linux Vagrantbox'
-    dir: tests/vagrant/arch
+    desc: 'Run roles on Arch Linux Vagrantbox'
+    summary: >
+      Test Docker roles on Arch Linux using Vagrant. Reboot Vagrantbox during test to ensure all
+      kernel modules that are required for Docker are loaded.
+    dir: tests
+    cmds:
+      - task: internal:vagrant:stop
+        vars: { BOX: 'arch' }
+      - task: internal:vagrant:start
+        vars: { BOX: 'arch' }
+      - task: internal:inspec:test
+        vars: { BOX: 'arch' }
+      - task: internal:vagrant:stop
+        vars: { BOX: 'arch' }
+
+  test:ubuntu:
+    desc: 'Run roles on Ubuntu Vagrantbox'
+    summary: >
+      Test Docker roles on Ubuntu using Vagrant. Reboot Vagrantbox during test to ensure all
+      Ubuntu updates are installed.
+    dir: tests
+    cmds:
+      - task: internal:vagrant:stop
+        vars: { BOX: 'ubuntu' }
+      - task: internal:vagrant:start
+        vars: { BOX: 'ubuntu' }
+      - task: internal:inspec:test
+        vars: { BOX: 'ubuntu' }
+      - task: internal:vagrant:stop
+        vars: { BOX: 'ubuntu' }
+
+  internal:vagrant:start:
+    desc: 'Run roles on Vagrantbox'
+    internal: true
+    dir: tests
     cmds:
       - vagrant validate
-      - vagrant up
-      - task: internal:cleanup:vagrant
-        vars: { BOX: 'arch' }
+      - time vagrant up {{ .BOX }}
+      - vagrant halt {{ .BOX }}
+      - vagrant up {{ .BOX }}
+
+  internal:vagrant:stop:
+    desc: 'Remove vagrantbox'
+    internal: true
+    dir: tests
+    cmds:
+      - vagrant halt {{ .BOX }}
+      - vagrant destroy -f {{ .BOX }}
+
+  inspec:check:
+    desc: 'Check inspec profile {{ .PROFILE }}'
+    dir: tests
+    vars: &inspec_vars
+      INSPEC_IMAGE: chef/inspec:5.22.76
+      PROFILE: ansible-baseline
+      BOX_USER: vagrant
+    cmds:
+      - for: ['vendor', 'check']
+        cmd: |
+          docker run --rm \
+            --volume "$(pwd)/inspec:/inspec" \
+            --workdir "/inspec" \
+            {{ .INSPEC_IMAGE }} {{ .ITEM }} {{ .PROFILE }} \
+              --chef-license=accept || true
+
+  internal:inspec:test:
+    desc: 'Run inspec tests on Vagrantbox'
+    internal: true
+    dir: tests
+    vars: *inspec_vars
+    cmds:
+      - |
+        PORT=$(vagrant ssh-config {{ .BOX }} | grep "Port" | awk '{print $2}')
+        USER={{ .BOX_USER }}
+        KEY=$(vagrant ssh-config {{ .BOX }} | grep "IdentityFile" | awk '{print $2}' | tr -d '"')
+
+        echo "bridged ssh port = $PORT"
+        echo "identity file    = $KEY"
+
+        docker run --rm \
+          --network host \
+          --volume "$KEY:$KEY:ro" \
+          --volume "$(pwd)/inspec:/inspec" \
+          --workdir "/inspec" \
+          {{ .INSPEC_IMAGE }} exec {{ .PROFILE }} \
+            --target ssh://$USER@127.0.0.1:$PORT \
+            --key-files=$KEY \
+            --chef-license=accept || true

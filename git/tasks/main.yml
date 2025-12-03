@@ -1,10 +1,18 @@
 ---
-- name: Git  ----  Install package
+- name: Git  ----  Install package (Ubuntu/Debian)
   ansible.builtin.apt:
-    pkg:
+    pkg: &packages
       - git
-    state: latest
-    update_cache: true
+    state: &state latest
+    update_cache: &update true
+  when: ansible_os_family == "Debian"
+
+- name: Git  ----  Install package (Arch)
+  community.general.pacman:
+    name: *packages
+    state: *state
+    update_cache: *update
+  when: ansible_os_family == "Archlinux"
 
 - name: Git  ----  Copy git configuration
   ansible.builtin.copy:

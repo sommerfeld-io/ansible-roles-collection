@@ -1,0 +1,25 @@
+---
+- name: Docker  ----  Arch  ----  Install
+  community.general.pacman:
+    name:
+      - docker
+      - docker-buildx
+    state: present
+    update_cache: true
+  retries: 5
+  delay: 10
+  register: docker_install
+  until: docker_install is succeeded
+  when: ansible_os_family == "Archlinux"
+
+- name: Docker  ----  Arch  ----  Enable containerd service
+  ansible.builtin.systemd:
+    name: containerd.service
+    enabled: true
+  when: ansible_os_family == "Archlinux"
+
+- name: Docker  ----  Arch  ----  Enable docker service
+  ansible.builtin.systemd:
+    name: docker.service
+    enabled: true
+  when: ansible_os_family == "Archlinux"
