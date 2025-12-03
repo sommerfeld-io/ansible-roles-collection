@@ -1,5 +1,6 @@
 ---
 - name: Cron  ----  Arch
+  when: ansible_os_family == "Archlinux"
   block:
     - name: Cron  ----  Arch  ----  Install
       community.general.pacman:
@@ -13,7 +14,6 @@
         name: cronie.service
         enabled: true
         state: started
-  when: ansible_os_family == "Archlinux"
 
 - name: Cron  ----  Ensure permissions
   ansible.builtin.file:
