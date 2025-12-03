@@ -1,3 +1,15 @@
 | Version     | {{~#if date}} Created on |{{~/if~}} Compare                                                                            |
 | ----------- | {{~#if date}}----------- |{{~/if~}} ---------------------------------------------------------------------------------- |
 | {{version}} | {{~#if date}} {{date}}   |{{~/if~}} [{{previousTag}}...{{currentTag}}](../../compare/{{previousTag}}...{{currentTag}}) |
+
+{{!-- Backwards compatible to the previous version. --}}
+
+### How to update
+
+The task from `ubuntu` of the `packages` role has been renamed to `desktop`.
+
+```yaml
+- ansible.builtin.include_role:
+    name: ../packages
+    tasks_from: desktop # formerly known as ubuntu
+```
