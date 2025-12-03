@@ -28,7 +28,6 @@
         name:
           - thunderbird
         state: absent
-        purge: true
 
     - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Dev Tools
       community.general.snap:
