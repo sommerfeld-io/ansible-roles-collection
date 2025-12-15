@@ -1,0 +1,14 @@
+{
+  "k8s Namespace": {
+    "scope": "yaml",
+    "prefix": "k8s-namespace",
+    "body": [
+      "---",
+      "apiVersion: v1",
+      "kind: Namespace",
+      "metadata:",
+      "  name: ${1:name}",
+    ],
+    "description": "Kubernetes Namespace definition snippet",
+  },
+}

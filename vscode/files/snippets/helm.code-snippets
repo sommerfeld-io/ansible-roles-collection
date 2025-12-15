@@ -1,5 +1,5 @@
 {
-  "Task": {
+  "Helm Chart.yaml": {
     "scope": "yaml",
     "prefix": "helm-chart-yaml",
     "body": [
