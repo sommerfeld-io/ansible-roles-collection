@@ -8,7 +8,7 @@
       "name: ${1:name}",
       "description: The Helm chart for ${1:name}",
       "maintainers:",
-      "  - name: @sebastian-sommerfeld-io",
+      "  - name: '@sebastian-sommerfeld-io'",
       "    email: sebastian@sommerfeld.io",
       "    url: https://sommerfeld.io",
       "",
