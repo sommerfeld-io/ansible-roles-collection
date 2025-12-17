@@ -123,4 +123,3 @@ tasks:
       - 'echo -e " ${B}Ubuntu Codename:${D} $(lsb_release -c | cut -f2)"'
       - for: ["[c]hromium", "[f]irefox"]
         cmd: ps aux | grep -i '{{ .ITEM }}' | awk '{sum+=$6} END {print sum/1024 " MiB"}'
-    silent: true
