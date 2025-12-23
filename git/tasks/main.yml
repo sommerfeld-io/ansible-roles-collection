@@ -20,4 +20,4 @@
     dest: "/home/{{ ansible_user }}/.gitconfig"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: u=rw,g=r,o=r
+    mode: u=rw,g=r,o=

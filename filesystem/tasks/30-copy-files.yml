@@ -15,7 +15,7 @@
     dest: "/home/{{ ansible_user }}/Pictures/wallpapers/{{ item }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: u=rw,g=r,o=r
+    mode: u=rw,g=r,o=
   with_items:
     - 1.jpg
     - 2.jpg

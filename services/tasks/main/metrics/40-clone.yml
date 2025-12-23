@@ -14,7 +14,7 @@
 - name: Services  ----  Telemetry Metrics  ----  Set permissions on repo folders
   ansible.builtin.file:
     path: "{{ item.dest }}/{{ item.repo }}"
-    mode: '0775'
+    mode: u=rwx,g=rx,o=
     recurse: true
   loop:
     - { dest: "{{ services_dot_repos_dir }}", repo: "telemetry" }

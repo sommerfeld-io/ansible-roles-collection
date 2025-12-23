@@ -5,6 +5,6 @@
     dest: "{{ item.dest }}"
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
-    mode: u=rw,g=r,o=r
+    mode: u=rw,g=r,o=
   with_items:
     - { src: "../files/docker-stacks/petclinic", dest: "{{ docker_stacks_dir }}" }
