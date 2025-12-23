@@ -36,7 +36,7 @@
         state: directory
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
-        mode: u=rwx,g=rx,o=rx
+        mode: u=rwx,g=rx,o=
       with_items:
         - "{{ virtualization_vm_folder }}"
 
