@@ -1,24 +1,8 @@
 ---
-- name: Git Repositories  ----  Clone repositories
-  block:
-
-    - name: Git Repositories  ----  Get status
-      ansible.builtin.stat:
-        path: "{{ item.dest }}/{{ item.repo }}"
-      register: repo_directory_status
-      loop: "{{ repositories }}"
-      loop_control:
-        label: "Check {{ item.dest }}/{{ item.repo }}"
-
-    - name: Git Repositories  ----  Clone repo if not existing
-      ansible.builtin.git:
-        repo: "{{ github }}:{{ item.item.org }}/{{ item.item.repo }}.git"
-        dest: "{{ item.item.dest }}/{{ item.item.repo }}"
-        clone: true
-        update: false
-        key_file: "/home/{{ ansible_user }}/.ssh/id_rsa"
-        accept_hostkey: true
-      when: not item.stat.exists
-      loop: "{{ repo_directory_status.results }}"
-      loop_control:
-        label: "Clone {{ github }}:{{ item.item.org }}/{{ item.item.repo }}.git"
+- name: Git Repositories  ----  Remove outdated repositories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ dir_repos_sommerfeld_io }}/gatus-status-page"
+    - "{{ dir_repos_sommerfeld_io }}/release-watcher"
