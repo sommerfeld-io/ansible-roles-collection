@@ -77,3 +77,7 @@
     - ansible.builtin.include_role:
         name: ../vscode
         tasks_from: plugins
+    - ansible.builtin.include_role:
+        name: ../kubectl
+    - ansible.builtin.include_role:
+        name: ../helm
