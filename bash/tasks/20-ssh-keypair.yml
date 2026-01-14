@@ -1,4 +1,14 @@
 ---
+- name: Bash  ----  SSH  ----  Ensure .ssh directory exists
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: u=rwx,g=rx,o=rx
+  with_items:
+    - "/home/{{ ansible_user }}/.ssh"
+
 - name: Bash  ----  SSH  ----  Create ssh keypair
   community.crypto.openssh_keypair:
     path: "/home/{{ ansible_user }}/.ssh/id_rsa"
