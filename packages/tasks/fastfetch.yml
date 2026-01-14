@@ -1,0 +1,16 @@
+---
+- name: Packages Fastfetch  ----  Ubuntu  ----  Cleanup
+  ansible.builtin.apt:
+    pkg: &packages
+      - neofetch
+    state: absent
+    purge: true
+  when: ansible_os_family == "Debian"
+
+- name: Packages Fastfetch  ----  Ubuntu  ----  Install
+  ansible.builtin.apt:
+    pkg: &packages
+      - fastfetch
+    state: latest
+    update_cache: true
+  when: ansible_os_family == "Debian"
