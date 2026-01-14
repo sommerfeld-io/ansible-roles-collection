@@ -13,7 +13,6 @@
           - make
           - ncdu
           - htop
-          - fastfetch
           - vim
           - jq
         state: latest
