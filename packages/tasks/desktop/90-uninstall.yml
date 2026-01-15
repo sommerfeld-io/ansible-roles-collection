@@ -34,6 +34,7 @@
         name:
           - intellij-idea-ultimate
           - intellij-idea-community
+          - balena-etcher
         state: absent
 
 # - name: Packages Desktop  ----  Arch  ----  Uninstall
