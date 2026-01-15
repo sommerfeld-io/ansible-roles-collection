@@ -14,8 +14,11 @@
         filename: hashicorp
         state: present
       vars:
-        codename: "{{ ansible_distribution_release }}"
-        # codename: noble # HashiCorp supports only LTS releases - so dynamically setting the distribution release might not work
+        # HashiCorp supports only LTS releases - so 25.10 is mapped to 'plucky' which is 24.04 LTS
+        codename: >-
+          {% if ansible_distribution_version == '25.10' -%}
+          plucky{%- else -%}
+          {{ ansible_distribution_release }}{%- endif %}
 
     - name: Virtualization  ----  Vagrant ---- Install Vagrant packages
       ansible.builtin.apt:
