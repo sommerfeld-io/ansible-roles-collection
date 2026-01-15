@@ -62,12 +62,16 @@ tasks:
       - ddcutil -b {{ .MONITOR_CURVED }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_DP }}
       - ddcutil -b {{ .MONITOR_NORMAL }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_1 }}
 
-  screen:office:
+  screen:picon:
     vars: *screen-vars
     desc: *screen-desc
     cmds:
       - ddcutil -b {{ .MONITOR_CURVED }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_2 }}
       - ddcutil -b {{ .MONITOR_NORMAL }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_DP }}
+
+  screen:office:
+    cmds:
+      - task: screen:picon
 
   # ===============================================================================================
 
