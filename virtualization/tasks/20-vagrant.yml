@@ -14,10 +14,10 @@
         filename: hashicorp
         state: present
       vars:
-        # HashiCorp supports only LTS releases - so 25.10 is mapped to 'plucky' which is 24.04 LTS
+        # HashiCorp supports only LTS releases - so 25.10 is mapped to 'noble' which is 24.04 LTS
         codename: >-
           {% if ansible_distribution_version == '25.10' -%}
-          plucky{%- else -%}
+          noble{%- else -%}
           {{ ansible_distribution_release }}{%- endif %}
 
     - name: Virtualization  ----  Vagrant ---- Install Vagrant packages
