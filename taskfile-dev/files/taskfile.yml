@@ -90,6 +90,13 @@ tasks:
     desc: *ssh-connect-desc
     cmds: *ssh-connect-cmd
 
+  ssh:connect:picon:
+    vars:
+      USER: sebastian
+      HOST: picon.fritz.box
+    desc: *ssh-connect-desc
+    cmds: *ssh-connect-cmd
+
   ssh:connect:admin-pi:
     vars:
       USER: sebastian
