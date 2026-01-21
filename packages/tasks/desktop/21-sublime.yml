@@ -13,6 +13,7 @@
       ansible.builtin.apt_repository:
         repo: deb [signed-by=/etc/apt/keyrings/sublimehq-pub.asc] https://download.sublimetext.com apt/stable/
         state: present
+        mode: '0644'
 
     - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Install
       ansible.builtin.apt:

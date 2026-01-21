@@ -7,18 +7,20 @@
         curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /etc/apt/keyrings/hashicorp-archive-keyring.gpg
       args:
         creates: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+      register: gpg_download_result
+      until: gpg_download_result is succeeded
+      retries: 3
+      delay: 5
 
     - name: Virtualization  ----  Vagrant ---- Add apt repository (OS-codename {{ codename }})
       ansible.builtin.apt_repository:
-        repo: "deb https://apt.releases.hashicorp.com {{ codename }} main"
+        repo: "deb [signed-by=/etc/apt/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ codename }} main"
         filename: hashicorp
         state: present
       vars:
         # HashiCorp supports only LTS releases - so 25.10 is mapped to 'noble' which is 24.04 LTS
         codename: >-
-          {% if ansible_distribution_version == '25.10' -%}
-          noble{%- else -%}
-          {{ ansible_distribution_release }}{%- endif %}
+          {{ ansible_distribution_release }}
 
     - name: Virtualization  ----  Vagrant ---- Install Vagrant packages
       ansible.builtin.apt:
