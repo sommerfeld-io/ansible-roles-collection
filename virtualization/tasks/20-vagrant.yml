@@ -37,7 +37,8 @@
         filename: hashicorp
         state: present
       vars:
-        # HashiCorp supports only LTS releases - so 25.10 (plucky/questing) is mapped to 'noble' which is 24.04 LTS
+        ## HashiCorp supports only LTS releases
+        ## So 25.04 (plucky) and 25.10 (questing) are mapped to 24.04 LTS (noble)
         codename: >-
           {% if ansible_distribution_version.startswith('25.') -%}
           noble{%- else -%}
