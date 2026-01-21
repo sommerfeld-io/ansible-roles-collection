@@ -2,15 +2,34 @@
 - name: Virtualization  ----  Vagrant
   block:
 
-    - name: Virtualization  ----  Vagrant ---- Download and convert HashiCorp GPG key
+    # - name: Virtualization  ----  Vagrant ---- Download and convert HashiCorp GPG key
+    #   ansible.builtin.shell: |
+    #     curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+    #     chmod 0644 /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+    #   args:
+    #     creates: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+    #   register: gpg_download_result
+    #   until: gpg_download_result is succeeded
+    #   retries: 3
+    #   delay: 5
+
+    - name: Virtualization  ----  Vagrant ---- Download HashiCorp GPG key
+      ansible.builtin.get_url:
+        url: https://apt.releases.hashicorp.com/gpg
+        dest: /tmp/hashicorp-archive-keyring.gpg.asc
+        mode: '0644'
+
+    - name: Virtualization  ----  Vagrant ---- Convert GPG key to binary format
       ansible.builtin.shell: |
-        curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+        gpg --dearmor -o /etc/apt/keyrings/hashicorp-archive-keyring.gpg < /tmp/hashicorp-archive-keyring.gpg.asc
       args:
+        executable: /bin/bash
         creates: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
-      register: gpg_download_result
-      until: gpg_download_result is succeeded
-      retries: 3
-      delay: 5
+
+    - name: Virtualization  ----  Vagrant ---- Set keyring file permissions
+      ansible.builtin.file:
+        path: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+        mode: '0644'
 
     - name: Virtualization  ----  Vagrant ---- Add apt repository
       ansible.builtin.apt_repository:
