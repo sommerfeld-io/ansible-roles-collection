@@ -12,15 +12,17 @@
       retries: 3
       delay: 5
 
-    - name: Virtualization  ----  Vagrant ---- Add apt repository (OS-codename {{ codename }})
+    - name: Virtualization  ----  Vagrant ---- Add apt repository
       ansible.builtin.apt_repository:
         repo: "deb [signed-by=/etc/apt/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ codename }} main"
         filename: hashicorp
         state: present
       vars:
-        # HashiCorp supports only LTS releases - so 25.10 is mapped to 'noble' which is 24.04 LTS
+        # HashiCorp supports only LTS releases - so 25.10 (plucky/questing) is mapped to 'noble' which is 24.04 LTS
         codename: >-
-          {{ ansible_distribution_release }}
+          {% if ansible_distribution_version.startswith('25.') -%}
+          noble{%- else -%}
+          {{ ansible_distribution_release }}{%- endif %}
 
     - name: Virtualization  ----  Vagrant ---- Install Vagrant packages
       ansible.builtin.apt:
