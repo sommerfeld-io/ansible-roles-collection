@@ -1,0 +1,22 @@
+---
+- name: Bash  ----  Config root  ----  Write aliases to .bashrc
+  ansible.builtin.lineinfile:
+    create: true
+    mode: u=rw,g=,o=
+    dest: "/root/.bashrc"
+    owner: "root"
+    group: "root"
+    line: "{{ item }}"
+    state: present
+  loop:
+    - alias ll="ls -alFh --color=auto"
+    - alias ls="ls -a --color=auto"
+    - alias grep="grep --color=auto"
+    - alias pull-all-repos="git all pull"
+
+- name: Bash  ----  Config root  ----  Update prompt in .bashrc
+  ansible.builtin.lineinfile:
+    dest: "/root/.bashrc"
+    regexp: '^PS1='
+    line: "export PS1='{{ ps1_root }}'"
+    state: present

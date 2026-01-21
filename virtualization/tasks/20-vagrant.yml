@@ -2,17 +2,6 @@
 - name: Virtualization  ----  Vagrant
   block:
 
-    # - name: Virtualization  ----  Vagrant ---- Download and convert HashiCorp GPG key
-    #   ansible.builtin.shell: |
-    #     curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /etc/apt/keyrings/hashicorp-archive-keyring.gpg
-    #     chmod 0644 /etc/apt/keyrings/hashicorp-archive-keyring.gpg
-    #   args:
-    #     creates: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
-    #   register: gpg_download_result
-    #   until: gpg_download_result is succeeded
-    #   retries: 3
-    #   delay: 5
-
     - name: Virtualization  ----  Vagrant ---- Download HashiCorp GPG key
       ansible.builtin.get_url:
         url: https://apt.releases.hashicorp.com/gpg
