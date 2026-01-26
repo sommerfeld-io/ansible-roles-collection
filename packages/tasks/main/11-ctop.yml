@@ -1,0 +1,9 @@
+---
+- name: Packages Main  ----  Install ctop
+  ansible.builtin.get_url:
+    url: https://github.com/bcicen/ctop/releases/download/v{{ packages_ctop_version }}/ctop-{{ packages_ctop_version }}-linux-{{ architecture }}
+    dest: /usr/local/bin/ctop
+    mode: u=rwx,g=rx,o=rx
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+  become: true

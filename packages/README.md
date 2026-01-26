@@ -14,3 +14,11 @@ First, run `tasks_from: main`, then either `tasks_from: ubuntu` or `tasks_from: 
 |----------------------|-------------|
 | `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user). |
 | `{{ architecture }}` | The system architecture (`amd64` or `arm64`). |
+
+## Optional Variables
+
+The following variables are optional and have default values:
+
+| Variable                      | Description                                             | Default   |
+|-------------------------------|---------------------------------------------------------|-----------|
+| `{{ packages_ctop_version }}` | Install for desktop (`amd64`) or Raspberry Pi (`arm64`) | `0.7.7`   |

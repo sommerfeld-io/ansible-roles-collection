@@ -2,5 +2,8 @@
 - name: Packages  ----  Install basics
   ansible.builtin.import_tasks: main/10-basics.yml
 
+- name: Packages  ----  Install ctop
+  ansible.builtin.import_tasks: main/11-ctop.yml
+
 - name: Packages  ----  Uninstall scripts
   ansible.builtin.import_tasks: main/91-uninstall-scripts.yml
