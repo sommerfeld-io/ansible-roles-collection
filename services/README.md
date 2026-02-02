@@ -7,6 +7,14 @@ This stack installs and starts services for all workstations and Raspberry Pi no
 
 ## Expected Variables
 
-| Variable             | Description |
-|----------------------|-------------|
+| Variable             | Description                                                           |
+|----------------------|-----------------------------------------------------------------------|
 | `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user). |
+
+## Optional Variables
+
+The following variables are optional and have default values:
+
+| Variab      le                    | Description                                    | Default          |
+|-----------------------------------|------------------------------------------------|------------------|
+| `{{ git_repositories_ssh_base }}` | SSH Base-URL to clone repositories from GitHub | `git@github.com` |
