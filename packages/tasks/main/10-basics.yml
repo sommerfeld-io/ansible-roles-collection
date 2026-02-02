@@ -9,12 +9,13 @@
           - ca-certificates
           - curl
           - gnupg
+          - htop
           - lsb-release
           - make
           - ncdu
-          - htop
-          - vim
+          - nmap
           - jq
+          - vim
         state: latest
         update_cache: true
 

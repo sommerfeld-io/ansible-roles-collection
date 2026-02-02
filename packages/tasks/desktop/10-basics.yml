@@ -7,7 +7,6 @@
       ansible.builtin.apt:
         pkg: &packages-desktop
           - gnome-tweaks
-          - nmap
         state: latest
         update_cache: true
 
