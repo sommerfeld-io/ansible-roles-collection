@@ -28,6 +28,7 @@
   ansible.builtin.shell: ansible-galaxy collection install {{ item }}
   loop:
     - community.general
+    - community.grafana
     - community.docker
   args:
     executable: /bin/bash
