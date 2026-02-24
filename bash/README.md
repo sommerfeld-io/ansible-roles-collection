@@ -6,8 +6,9 @@ This role is intended to be used on all machines (RasPi and workstation).
 
 ## Expected Variables
 
-| Variable             | Description                                                                     |
-|----------------------|---------------------------------------------------------------------------------|
-| `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user)            |
-| `{{ ps1 }}`          | The bash prompt string. This variable is set in the host inventory              |
-| `{{ ps1_root }}`     | The bash prompt for the user `root`. This variable is set in the host inventory |
+| Variable                 | Description                                                                     |
+|--------------------------|---------------------------------------------------------------------------------|
+| `{{ ansible_user }}`     | The user to install and configure for (typically the logged-in user)            |
+| `{{ ps1 }}`              | The bash prompt string. This variable is set in the host inventory              |
+| `{{ ps1_root }}`         | The bash prompt for the user `root`. This variable is set in the host inventory |
+| `{{ SONARCLOUD_TOKEN }}` | A token (best from an Ansible Vault) to use interact with SonarCloud MCP Server |
