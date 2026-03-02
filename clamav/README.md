@@ -1,6 +1,6 @@
 # Role: ClamAV
 
-This r
+This role installs and configures ClamAV antivirus with automated signature updates via FreshClam. It provides on-demand scanning capability for specified paths without running as a daemon.
 
 This role is intended to be used on all Ubuntu machines (RasPi and workstation).
 
