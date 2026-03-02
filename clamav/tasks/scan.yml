@@ -1,11 +1,19 @@
 ---
-- name: ClamAV  ----  Scan  ----  Run ClamAV scan
+- name: ClamAV  ----  Scan  ----  Run scan
   ansible.builtin.shell: clamscan -r "{{ scan_path }}" --infected  --database="{{ clamav_database_dir }}"
   args:
     executable: /bin/bash
   register: clamscan_out
   failed_when: clamscan_out.rc >= 2
+  become: true
 
-- name: ClamAV  ----  Scan  ----  ClamAV scan output
+- name: ClamAV  ----  Scan  ----  Show scan results
   ansible.builtin.debug:
-    msg: "{{ clamscan_out.stdout }}"
+    msg:
+      - "Return Code: {{ clamscan_out.rc }}"
+      - "{{ clamscan_out.stdout }}"
+
+- name: ClamAV  ----  Scan  ----  Show errors if any
+  ansible.builtin.debug:
+    msg: "STDERR: {{ clamscan_out.stderr }}"
+  when: clamscan_out.stderr | length > 0
