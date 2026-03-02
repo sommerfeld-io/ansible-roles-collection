@@ -8,5 +8,4 @@
 
 - name: ClamAV  ----  Scan  ----  ClamAV scan output
   ansible.builtin.debug:
-    msg: "{{ item }}"
-  loop: "{{ clamscan_out.stdout_lines | default([]) }}"
+    msg: "{{ clamscan_out.stdout }}"
