@@ -1,0 +1,20 @@
+---
+- name: ClamAV  ----  Ubuntu  ----  Install
+  ansible.builtin.apt:
+    pkg:
+      - clamav
+      - clamav-freshclam
+    state: latest
+    update_cache: true
+
+- name: ClamAV  ----  Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ clamav_user }}"
+    group: "{{ clamav_group }}"
+    mode: u=rwx,g=rx,o=rx
+  with_items:
+    - "{{ clamav_database_dir }}"
+    - "{{ clamav_log_dir }}"
+    - "{{ clamav_run_dir }}"

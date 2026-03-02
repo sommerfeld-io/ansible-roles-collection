@@ -1,0 +1,27 @@
+---
+- name: ClamAV  ----  FreshClam  ----  Deploy configuration
+  ansible.builtin.template:
+    src: freshclam.conf.j2
+    dest: /etc/clamav/freshclam.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart freshclam
+
+- name: ClamAV  ----  FreshClam  ----  Stop freshclam before initial update
+  ansible.builtin.service:
+    name: clamav-freshclam
+    state: stopped
+  failed_when: false
+
+- name: ClamAV  ----  FreshClam  ----  Run initial signature update
+  ansible.builtin.command: freshclam
+  register: freshclam_result
+  changed_when: "'updated' in freshclam_result.stdout"
+  failed_when: false
+
+- name: ClamAV  ----  FreshClam  ----  Start and enable freshclam
+  ansible.builtin.service:
+    name: clamav-freshclam
+    state: started
+    enabled: true

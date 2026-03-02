@@ -1,0 +1,12 @@
+---
+- name: ClamAV  ----  Scan  ----  Run ClamAV scan
+  ansible.builtin.shell: clamscan -r "{{ scan_path }}" --infected  --database="{{ clamav_database_dir }}"
+  args:
+    executable: /bin/bash
+  register: clamscan_out
+  failed_when: clamscan_out.rc >= 2
+
+- name: ClamAV  ----  Scan  ----  ClamAV scan output
+  ansible.builtin.debug:
+    msg: "{{ item }}"
+  loop: "{{ clamscan_out.stdout_lines | default([]) }}"

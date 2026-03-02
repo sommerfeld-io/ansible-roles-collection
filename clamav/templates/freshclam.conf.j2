@@ -1,0 +1,21 @@
+# templates/freshclam.conf.j2 - ClamAV signature update configuration
+# Managed by Ansible
+
+DatabaseOwner clamav
+UpdateLogFile {{ clamav_freshclam_log_file }}
+LogVerbose false
+LogSyslog false
+LogFacility LOG_LOCAL6
+LogFileMaxSize 2M
+{% if clamav_freshclam_log_rotate %}
+LogRotate true
+{% endif %}
+LogTime true
+DatabaseDirectory {{ clamav_database_dir }}
+DatabaseMirror {{ clamav_freshclam_database_mirror }}
+MaxAttempts 5
+ScriptedUpdates yes
+CompressLocalDatabase no
+Checks {{ clamav_freshclam_checks_per_day }}
+ConnectTimeout 30
+ReceiveTimeout 30

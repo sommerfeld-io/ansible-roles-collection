@@ -1,0 +1,12 @@
+---
+clamav_user: clamav
+clamav_group: clamav
+
+clamav_database_dir: /var/lib/clamav
+clamav_log_dir: /var/log/clamav
+clamav_run_dir: /var/run/clamav
+
+clamav_freshclam_checks_per_day: 12   # Check every 2 hours
+clamav_freshclam_database_mirror: "database.clamav.net"
+clamav_freshclam_log_file: /var/log/clamav/freshclam.log
+clamav_freshclam_log_rotate: true

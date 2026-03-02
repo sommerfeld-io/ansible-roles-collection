@@ -1,0 +1,6 @@
+---
+- name: ClamAV  ----  Install
+  ansible.builtin.import_tasks: 10-install.yml
+
+- name: ClamAV  ----  Configure FreshClam
+  ansible.builtin.import_tasks: 20-configuring-freshclam.yml

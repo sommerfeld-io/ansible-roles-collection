@@ -12,7 +12,9 @@
 
         "*/defaults",
 		"*/files/**",
+        "*/handlers/**",
         "*/tasks/**",
+        "*/templates/**",
 
         "tests/.vagrant",
         "tests/inspec/*/controls",
