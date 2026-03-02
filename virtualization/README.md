@@ -1,8 +1,8 @@
 # Role: Virtualization
 
-This role installs and configures Virtualbox and Vagrant including all dependencies and relevant plugins.
+The role installs and configures Virtualbox and Vagrant including all dependencies and relevant plugins.
 
-This role is intended to be used on Ubuntu Desktop machines.
+The role is intended to be used on Ubuntu Desktop machines.
 
 ## Expected Variables
 

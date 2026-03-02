@@ -2,7 +2,7 @@
 
 Install `task` command line tool from [Taskfile.dev](https://taskfile.dev).
 
-This role is intended to be used on all machines (RasPi and workstation).
+The role is intended to be used on all machines (RasPi and workstation).
 
 ## Expected Variables
 

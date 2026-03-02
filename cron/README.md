@@ -1,10 +1,10 @@
 # Role: Cron
 
-With `tasks_from: main` this role configures global cron settings.
+With `tasks_from: main` The role configures global cron settings.
 
-With `tasks_from: jobs` this role configures cron jobs for the user.
+With `tasks_from: jobs` The role configures cron jobs for the user.
 
-This role is intended to be used on all machines (RasPi and workstation).
+The role is intended to be used on all machines (RasPi and workstation).
 
 ## Expected Variables
 

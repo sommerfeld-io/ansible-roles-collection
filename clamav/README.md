@@ -1,10 +1,12 @@
 # Role: ClamAV
 
-This role installs and configures ClamAV antivirus with automated signature updates via FreshClam. It provides on-demand scanning capability for specified paths without running as a daemon.
+The role installs and configures ClamAV antivirus with automated signature updates via FreshClam. It provides on-demand scanning capability for specified paths without running as a daemon.
 
-This role is intended to be used on all Ubuntu machines (RasPi and workstation).
+The role is intended to be used on all Ubuntu machines (RasPi and workstation).
 
 ## How to use
+
+The role does not offer a `main.yml`, so you always have to specify a file.
 
 ```yaml
 ## Install
@@ -20,7 +22,7 @@ This role is intended to be used on all Ubuntu machines (RasPi and workstation).
     scan_path: /some/path/to/scan
 ```
 
-> **:bulb: NOTE:** This role does not offer a `main.yml`, so you always have to specify a file.
+> **:bulb: NOTE:** The role must run in a playbook with `become: true` to allow ClamAV to scan all files in all directories.
 
 ## Expected Variables
 

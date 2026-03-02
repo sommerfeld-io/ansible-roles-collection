@@ -2,7 +2,7 @@
 
 Install Git, a distributed version control system.
 
-This role is intended to be used on all machines (RasPi and workstation).
+The role is intended to be used on all machines (RasPi and workstation).
 
 ## Expected Variables
 

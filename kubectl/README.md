@@ -1,8 +1,8 @@
 # Role: kubectl
 
-Install `kubectl`. For the time being, this role is used in the `talos` repository only. This repo provides a local development environment for Kubernetes using Talos.
+Install `kubectl`. For the time being, The role is used in the `talos` repository only. This repo provides a local development environment for Kubernetes using Talos.
 
-Even though usage is limited at the moment, this role supports all machines (RasPi and workstation).
+Even though usage is limited at the moment, The role supports all machines (RasPi and workstation).
 
 ## Expected Variables
 

@@ -2,7 +2,7 @@
 
 Install and configure.
 
-This role is intended to be used on Ubuntu Desktop systems.
+The role is intended to be used on Ubuntu Desktop systems.
 
 ## Expected Variables
 

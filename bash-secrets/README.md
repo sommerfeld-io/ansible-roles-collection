@@ -2,7 +2,7 @@
 
 Configures secrets to use in bash and to delegate to other tools. Should be stored in an Ansible Vault.
 
-This role is intended to be used on all machines (RasPi and workstation).
+The role is intended to be used on all machines (RasPi and workstation).
 
 ## Expected Variables
 

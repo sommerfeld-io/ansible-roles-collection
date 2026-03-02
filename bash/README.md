@@ -2,7 +2,7 @@
 
 Configures bash settings and create an SSH keypair.
 
-This role is intended to be used on all machines (RasPi and workstation).
+The role is intended to be used on all machines (RasPi and workstation).
 
 ## Expected Variables
 

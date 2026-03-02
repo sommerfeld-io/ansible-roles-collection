@@ -2,8 +2,8 @@
 
 This stack installs and starts services for all workstations and Raspberry Pi nodes. The corresponding repositories are updated to the latest version.
 
-- With `tasks_from: main` this role installs / starts all exporters to expose common services. This is intended to be used on all machines (RasPi and workstation).
-- With `tasks_from: admin-pi` this role installs / starts the services and is intended to be used on the `admin-pi` only.
+- With `tasks_from: main` The role installs / starts all exporters to expose common services. This is intended to be used on all machines (RasPi and workstation).
+- With `tasks_from: admin-pi` The role installs / starts the services and is intended to be used on the `admin-pi` only.
 
 ## Expected Variables
 
