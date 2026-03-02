@@ -10,9 +10,10 @@
 - name: ClamAV  ----  Scan  ----  Show scan results (list only infected files)
   ansible.builtin.debug:
     msg: "{{ ['Return Code: ' ~ clamscan_out.rc] + clamscan_out.stdout.split('\n') + (['', 'STDERR:'] + clamscan_out.stderr.split('\n') if clamscan_out.stderr | length > 0 else []) }}"
-  failed_when: clamscan_out.rc > 0
 
-- name: ClamAV  ----  Scan  ----  Fail on hard errors
-  ansible.builtin.fail:
-    msg: "ClamAV scan failed with return code {{ clamscan_out.rc }}"
-  when: clamscan_out.rc >= 2
+- name: ClamAV  ----  Scan  ----  Assert scan completed successfully
+  ansible.builtin.assert:
+    that:
+      - clamscan_out.rc == 0
+    fail_msg: "{{ 'Found infected files' if clamscan_out.rc == 1 else 'Exit on hard error' }}"
+    success_msg: "Scan completed successfully - no infected files found"
