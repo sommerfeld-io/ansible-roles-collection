@@ -9,9 +9,7 @@
 
 - name: ClamAV  ----  Scan  ----  Show scan results
   ansible.builtin.debug:
-    msg:
-      - "Return Code: {{ clamscan_out.rc }}"
-      - "{{ clamscan_out.stdout }}"
+    msg: "{{ ['Return Code: ' ~ clamscan_out.rc] + clamscan_out.stdout.split('\n') }}"
 
 - name: ClamAV  ----  Scan  ----  Show errors if any
   ansible.builtin.debug:
