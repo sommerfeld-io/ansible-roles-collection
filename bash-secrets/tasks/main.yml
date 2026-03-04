@@ -1,8 +1,0 @@
----
-- name: Bash  ----  Secrets  ----  Write to .bashrc
-  ansible.builtin.lineinfile:
-    dest: "/home/{{ ansible_user }}/.bashrc"
-    state: present
-    line: "{{ item }}"
-  loop:
-    - export SONARCLOUD_TOKEN={{ SONARCLOUD_TOKEN }}
