@@ -20,11 +20,14 @@
     - name: ClamAV  ----  Health  ----  Calculate signature age in days
       ansible.builtin.set_fact:
         sig_age_days: "{{ ((ansible_date_time.epoch | int) - (sig_file.stat.mtime | int)) / 86400 }}"
+      when: sig_file.stat.exists
 
     - name: ClamAV  ----  Health  ----  Alert if signatures are stale
       ansible.builtin.debug:
         msg: "WARNING: ClamAV signatures on {{ inventory_hostname }} are {{ sig_age_days | round(1) }} days old"
-      when: sig_age_days | float > max_signature_age_days
+      when:
+        - sig_file.stat.exists
+        - sig_age_days | float > max_signature_age_days
 
 - name: ClamAV  ----  Scan
   block:
