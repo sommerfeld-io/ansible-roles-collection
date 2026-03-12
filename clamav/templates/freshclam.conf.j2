@@ -2,7 +2,7 @@
 # Managed by Ansible
 
 DatabaseOwner clamav
-UpdateLogFile {{ clamav_freshclam_log_file }}
+UpdateLogFile "{{ clamav_log_dir }}/freshclam.log"
 LogVerbose false
 LogSyslog false
 LogFacility LOG_LOCAL6
