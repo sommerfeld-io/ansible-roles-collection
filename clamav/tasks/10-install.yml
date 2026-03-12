@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     pkg:
       - clamav
+      - clamav-daemon
       - clamav-freshclam
     state: latest
     update_cache: true
