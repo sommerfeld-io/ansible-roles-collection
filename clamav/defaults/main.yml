@@ -11,6 +11,7 @@ clamav_freshclam_database_mirror: "database.clamav.net"
 clamav_freshclam_log_file: /var/log/clamav/freshclam.log
 clamav_freshclam_log_rotate: true
 
+clamav_clamd_config_file: /etc/clamav/clamd.conf
 clamav_clamd_log_file: /var/log/clamav/clamd.log
 clamav_clamav_clamd_max_filesize: "25M"
 clamav_clamd_max_scansize: "100M"
