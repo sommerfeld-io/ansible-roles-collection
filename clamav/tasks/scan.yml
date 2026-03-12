@@ -1,22 +1,51 @@
 ---
-- name: ClamAV  ----  Scan  ----  Run scan
-  ansible.builtin.shell: clamscan -r "{{ scan_path }}" --infected  --database="{{ clamav_database_dir }}"
-  args:
-    executable: /bin/bash
-  register: clamscan_out
-  failed_when: false
-  become: true
+- name: ClamAV  ----  Health
+  block:
 
-- name: ClamAV  ----  Scan  ----  Show scan results (list only infected files)
-  ansible.builtin.debug:
-    msg: "{{ ['Return Code: ' ~ clamscan_out.rc] + clamscan_out.stdout.split('\n') + (['', 'STDERR:'] + clamscan_out.stderr.split('\n') if clamscan_out.stderr | length > 0 else []) }}"
+    - name: ClamAV  ----  Health  ----  Check clamd service status
+      ansible.builtin.service_facts:
 
-- name: ClamAV  ----  Scan  ----  Found infected files
-  ansible.builtin.fail:
-    msg: "Scan exited with exit code {{ clamscan_out.rc }} - Found infected files"
-  when: clamscan_out.rc == 1
+    - name: ClamAV  ----  Health  ----  Verify clamd is running
+      ansible.builtin.assert:
+        that:
+          - "'clamav-daemon.service' in ansible_facts.services"
+          - "ansible_facts.services['clamav-daemon.service'].state == 'running'"
+        fail_msg: "ClamAV daemon is not running on {{ inventory_hostname }}"
 
-- name: ClamAV  ----  Scan  ----  Exit on hard error
-  ansible.builtin.fail:
-    msg: "Scan exited with exit code {{ clamscan_out.rc }} - Hard error"
-  when: clamscan_out.rc >= 2
+    - name: ClamAV  ----  Health  ----  Check signature database age
+      ansible.builtin.stat:
+        path: "{{ clamav_database_dir }}/daily.cvd"
+      register: sig_file
+
+    - name: ClamAV  ----  Health  ----  Calculate signature age in days
+      ansible.builtin.set_fact:
+        sig_age_days: "{{ ((ansible_date_time.epoch | int) - (sig_file.stat.mtime | int)) / 86400 }}"
+
+    - name: ClamAV  ----  Health  ----  Alert if signatures are stale
+      ansible.builtin.debug:
+        msg: "WARNING: ClamAV signatures on {{ inventory_hostname }} are {{ sig_age_days | round(1) }} days old"
+      when: sig_age_days | float > max_signature_age_days
+
+- name: ClamAV  ----  Scan
+  block:
+    - name: ClamAV  ----  Scan  ----  Run scan with clamd
+      ansible.builtin.shell: clamdscan --multiscan --fdpass --infected "{{ scan_path }}"
+      args:
+        executable: /bin/bash
+      register: clamscan_out
+      failed_when: false
+      become: true
+
+    - name: ClamAV  ----  Scan  ----  Show scan results (list only infected files)
+      ansible.builtin.debug:
+        msg: "{{ ['Return Code: ' ~ clamscan_out.rc] + clamscan_out.stdout.split('\n') + (['', 'STDERR:'] + clamscan_out.stderr.split('\n') if clamscan_out.stderr | length > 0 else []) }}"
+
+    - name: ClamAV  ----  Scan  ----  Found infected files
+      ansible.builtin.fail:
+        msg: "Scan exited with exit code {{ clamscan_out.rc }} - Found infected files"
+      when: clamscan_out.rc == 1
+
+    - name: ClamAV  ----  Scan  ----  Exit on hard error
+      ansible.builtin.fail:
+        msg: "Scan exited with exit code {{ clamscan_out.rc }} - Hard error"
+      when: clamscan_out.rc >= 2

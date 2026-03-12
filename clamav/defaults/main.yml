@@ -10,3 +10,16 @@ clamav_freshclam_checks_per_day: 12   # Check every 2 hours
 clamav_freshclam_database_mirror: "database.clamav.net"
 clamav_freshclam_log_file: /var/log/clamav/freshclam.log
 clamav_freshclam_log_rotate: true
+
+clamav_clamd_log_file: /var/log/clamav/clamd.log
+clamav_clamav_clamd_max_filesize: "25M"
+clamav_clamd_max_scansize: "100M"
+clamav_clamd_max_recursion: 128
+clamav_clamd_max_files: 50000
+clamav_clamd_scan_pe: true # Scan Windows executables
+clamav_clamd_scan_elf: true # Scan Linux executables
+clamav_clamd_scan_ole2: true # Scan Office documents
+clamav_clamd_scan_pdf: true # Scan PDF files
+clamav_clamd_scan_hml: true # Scan HTML files
+clamav_clamd_scan_archive: true # Scan compressed archives
+clamav_clamd_alert_exceeds_max: true # Alert on files that exceed limits

@@ -1,0 +1,36 @@
+# templates/clamd.conf.j2 - ClamAV daemon configuration
+# Managed by Ansible
+
+LocalSocket {{ clamav_run_dir }}/clamd.ctl
+FixStaleSocket true
+LocalSocketGroup clamav
+LocalSocketMode 666
+User {{ clamav_user }}
+ReadTimeout 180
+MaxThreads 12
+MaxConnectionQueueLength 15
+LogSyslog false
+LogFacility LOG_LOCAL6
+LogClean false
+LogVerbose false
+LogFile {{ clamav_clamd_log_file }}
+LogFileUnlock false
+LogFileMaxSize 5M
+LogRotate true
+LogTime true
+PreludeEnable no
+DatabaseDirectory {{ clamav_database_dir }}
+OfficialDatabaseOnly false
+SelfCheck 3600
+Foreground false
+MaxDirectoryRecursion {{ clamav_clamd_max_recursion }}
+MaxFiles {{ clamav_clamd_max_files }}
+MaxFileSize {{ clamav_clamav_clamd_max_filesize }}
+MaxScanSize {{ clamav_clamd_max_scansize }}
+ScanPE {{ 'true' if clamav_clamd_scan_pe else 'false' }}
+ScanELF {{ 'true' if clamav_clamd_scan_elf else 'false' }}
+ScanOLE2 {{ 'true' if clamav_clamd_scan_ole2 else 'false' }}
+ScanPDF {{ 'true' if clamav_clamd_scan_pdf else 'false' }}
+ScanHTML {{ 'true' if clamav_clamd_scan_hml else 'false' }}
+ScanArchive {{ 'true' if clamav_clamd_scan_archive else 'false' }}
+AlertExceedsMax {{ 'true' if clamav_clamd_alert_exceeds_max else 'false' }}

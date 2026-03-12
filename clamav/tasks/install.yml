@@ -3,4 +3,7 @@
   ansible.builtin.import_tasks: 10-install.yml
 
 - name: ClamAV  ----  Configure FreshClam
-  ansible.builtin.import_tasks: 20-configuring-freshclam.yml
+  ansible.builtin.import_tasks: 20-configure-freshclam.yml
+
+- name: ClamAV  ----  Configure clamd (scan daemon)
+  ansible.builtin.import_tasks: 30-configure-clamd.yml
