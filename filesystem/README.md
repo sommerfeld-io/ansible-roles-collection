@@ -11,6 +11,7 @@ The role is intended to be used on all machines (RasPi and workstation).
 | `{{ ansible_user }}`                      | The user to install and configure for (typically the logged-in user).                     |
 | `{{ dir_work }}`                          | Workspace directory.                                                                      |
 | `{{ dir_repos }}`                         | Directory for git repositories.                                                           |
+| `{{ dir_repos_bad_android }}`             | Directory for GitHub repositories under the `bad-android` organization.                   |
 | `{{ dir_repos_sommerfeld_io }}`           | Directory for GitHub repositories under the `sommerfeld-io` organization.                 |
 | `{{ dir_repos_sommerfeld_io_archive }}`   | Directory for GitHub repositories archive under the `sommerfeld-io-archive` organization. |
 | `{{ dir_repos_sebastian_sommerfeld_io }}` | Directory for GitHub repositories under the `sebastian-sommerfeld-io` user space.         |

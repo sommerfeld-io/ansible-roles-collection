@@ -5,3 +5,4 @@
     state: absent
   with_items:
     - /home/{{ ansible_user }}/.config/libreoffice
+    - /home/{{ ansible_user }}/.repos
