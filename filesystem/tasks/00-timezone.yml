@@ -12,7 +12,7 @@
 
 - name: Filesystem  ----  Timezone  ----  Ensure /etc/timezone is a file with correct content and permissions
   ansible.builtin.copy:
-    content: "Europe/Berlin"
+    content: "Europe/Berlin\n"
     dest: /etc/timezone
     owner: root
     group: root
