@@ -4,6 +4,10 @@
     name: "{{ item }}"
     global: true
     state: present
+  environment:
+    HOME: "/home/{{ ansible_user }}"
+    NPM_CONFIG_PREFIX: "/home/{{ ansible_user }}/.local"
+    PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH }}"
   loop:
     - "@google/gemini-cli"
     - "@github/copilot"
