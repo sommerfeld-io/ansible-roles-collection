@@ -1,0 +1,9 @@
+---
+- name: Node  ----  Modules AI  ----  Install global Node.js applications
+  community.general.npm:
+    name: "{{ item }}"
+    global: true
+    state: present
+  loop:
+    - "@google/gemini-cli"
+    - "@github/copilot"
