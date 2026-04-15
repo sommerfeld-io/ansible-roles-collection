@@ -1,4 +1,7 @@
 ---
+- name: Filesystem  ----  Timezone
+  ansible.builtin.import_tasks: 00-timezone.yml
+
 - name: Filesystem  ----  Common directories
   ansible.builtin.import_tasks: 10-common-directories.yml
 

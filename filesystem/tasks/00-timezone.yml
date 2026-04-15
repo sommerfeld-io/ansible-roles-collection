@@ -1,0 +1,19 @@
+---
+- name: Filesystem  ----  Timezone  ----  Stat /etc/timezone
+  ansible.builtin.stat:
+    path: /etc/timezone
+  register: timezone_stat
+
+- name: Filesystem  ----  Timezone  ----  Remove /etc/timezone if it is a directory
+  ansible.builtin.file:
+    path: /etc/timezone
+    state: absent
+  when: timezone_stat.stat.exists and timezone_stat.stat.isdir
+
+- name: Filesystem  ----  Timezone  ----  Ensure /etc/timezone is a file with correct content and permissions
+  ansible.builtin.copy:
+    content: "Europe/Berlin"
+    dest: /etc/timezone
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
