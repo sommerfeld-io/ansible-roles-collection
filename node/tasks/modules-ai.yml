@@ -1,15 +1,9 @@
 ---
-- name: Node  ----  Modules AI  ----  Install Node.js applications for {{ ansible_user }}
+- name: Node  ----  Modules AI  ----  Install Node.js applications
   community.general.npm:
     name: "{{ item }}"
     global: true
     state: present
-  become: true
-  become_user: "{{ ansible_user }}"
-  environment:
-    HOME: "/home/{{ ansible_user }}"
-    NPM_CONFIG_PREFIX: "/home/{{ ansible_user }}/.local"
-    PATH: "/home/{{ ansible_user }}/.local/bin:{{ ansible_env.PATH }}"
   loop:
     - "@google/gemini-cli"
     - "@github/copilot"
