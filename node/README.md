@@ -4,7 +4,7 @@ Use `tasks_from: main` to install NodeJS.
 
 Use `tasks_from: modules-ai` to install node modules related to AI (CLIs and other tools).
 
-> **:zap: NOTE:** Gemini CLI and Copilot CLI are installs as node modules but not fully configured through Ansible. Most likely, there is still some manual config to be done when running the tools for the first time.
+> **:zap: NOTE:** Gemini CLI and Copilot CLI are installed into `/home/{{ ansible_user }}/.local` so they are available to `{{ ansible_user }}` instead of only to `root`. Most likely, there is still some manual config to be done when running the tools for the first time.
 
 The role is intended to be used on all machines (RasPi and workstation).
 
