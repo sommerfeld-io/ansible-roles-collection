@@ -25,7 +25,7 @@
         update_cache: true
 
     - name: Node  ----  Ubuntu ----  Verify installation
-      ansible.builtin.command: node -v
+      ansible.builtin.command: node --version
       register: node_v
       changed_when: false
 

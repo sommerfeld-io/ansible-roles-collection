@@ -25,6 +25,7 @@
         repo: "deb [signed-by=/etc/apt/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ codename }} main"
         filename: hashicorp
         state: present
+        mode: '0644'
       vars:
         ## HashiCorp supports only LTS releases
         ## So 25.04 (plucky) and 25.10 (questing) are mapped to 24.04 LTS (noble)
