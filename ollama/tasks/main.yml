@@ -1,0 +1,14 @@
+---
+- name: Ollama  ----  Install via official script
+  ansible.builtin.shell: curl -fsSL https://ollama.com/install.sh | sh
+  args:
+    executable: /bin/bash
+    creates: /usr/local/bin/ollama
+
+- name: Ollama  ----  Models  ----  Pull LLM models
+  ansible.builtin.shell: "ollama pull {{ item }}"
+  args:
+    executable: /bin/bash
+  loop: "{{ ollama_models }}"
+  register: pull_result
+  changed_when: "'success' in pull_result.stdout"
