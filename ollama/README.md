@@ -1,4 +1,4 @@
-# Role: ClamAV
+# Role: Ollama
 
 The role installs and configures Ollama.
 
