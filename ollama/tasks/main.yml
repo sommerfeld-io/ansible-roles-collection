@@ -5,6 +5,15 @@
     executable: /bin/bash
     creates: /usr/local/bin/ollama
 
+- name: Ollama  ----  Verify version
+  ansible.builtin.command: ollama --version
+  register: ollama_version
+  changed_when: false
+
+- name: Ollama  ----  Print version
+  ansible.builtin.debug:
+    msg: "{{ ollama_version.stdout }}"
+
 - name: Ollama  ----  Models  ----  Pull LLM models
   ansible.builtin.shell: "ollama pull {{ item }}"
   args:
