@@ -78,10 +78,16 @@
       ansible.builtin.pause:
         seconds: 30
 
+    - name: Ollama  ----  Models  ----  List installed models
+      ansible.builtin.command: ollama list
+      register: ollama_installed_models
+      changed_when: false
+
     - name: Ollama  ----  Models  ----  Pull LLM models
       ansible.builtin.shell: "ollama pull {{ item }}"
       args:
         executable: /bin/bash
       loop: "{{ ollama_models }}"
+      when: "item not in ollama_installed_models.stdout"
       register: pull_result
       changed_when: "'success' in pull_result.stdout"
