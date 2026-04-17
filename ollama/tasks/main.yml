@@ -51,7 +51,7 @@
           After=network-online.target
 
           [Service]
-          ExecStart=/usr/bin/ollama serve
+          ExecStart=/usr/local/bin/ollama serve
           User={{ ollama_user }}
           Group={{ ollama_group }}
           Restart=always
