@@ -74,6 +74,10 @@
 
 - name: Ollama  ----  Models
   block:
+    - name: Ollama  ----  Models  ----  Wait for service to be ready
+      ansible.builtin.pause:
+        seconds: 30
+
     - name: Ollama  ----  Models  ----  Pull LLM models
       ansible.builtin.shell: "ollama pull {{ item }}"
       args:
