@@ -16,7 +16,7 @@ Verify the install:
 - `ollama list`
 - `ollama run <the-model-name>`
 
-> **:zap: NOTE:** The role only installs or updates Ollama, when `/usr/local/bin/ollama` exists. When you want to update, remove the binary and run your playbook with this role again.
+> **:zap: NOTE:** The role only installs or updates Ollama, when `/usr/local/bin/ollama` exists. When you want to update, remove the binary and run your playbook with this role again. If you are upgrading from a prior version, you also should remove the old libraries with `sudo rm -rf /usr/lib/ollama` first.
 
 - Chec
 
