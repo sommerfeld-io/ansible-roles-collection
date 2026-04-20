@@ -57,7 +57,6 @@
           Restart=always
           RestartSec=3
           Environment="PATH={{ ansible_env.PATH }}"
-          Environment="OLLAMA_PROMETHEUS=true"
 
           [Install]
           WantedBy=multi-user.target
