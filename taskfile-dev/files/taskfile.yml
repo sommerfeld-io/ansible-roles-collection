@@ -51,8 +51,8 @@ tasks:
 
   screen:caprica:
     vars: &screen-vars
-      MONITOR_CURVED: "5" # Curved /dev/i2c-5
-      MONITOR_NORMAL: "4" # UHD /dev/i2c-4
+      MONITOR_CURVED: "17" # Curved DELL S3422DWG /dev/i2c-17
+      MONITOR_NORMAL: "18" # UHD DELL UP2716D /dev/i2c-18
       CHANGE_INPUT_SOURCE: "0x60"
       SOURCE_HDMI_1: "0x11"
       SOURCE_HDMI_2: "0x12"
@@ -60,14 +60,14 @@ tasks:
     desc: &screen-desc 'Switch inputs sources for screens'
     cmds:
       - ddcutil -b {{ .MONITOR_CURVED }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_DP }}
-      - ddcutil -b {{ .MONITOR_NORMAL }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_1 }}
+      - ddcutil -b {{ .MONITOR_NORMAL }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_2 }}
 
   screen:picon:
     vars: *screen-vars
     desc: *screen-desc
     cmds:
-      - ddcutil -b {{ .MONITOR_CURVED }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_2 }}
-      - ddcutil -b {{ .MONITOR_NORMAL }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_DP }}
+      - ddcutil -b {{ .MONITOR_CURVED }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_1 }}
+      - ddcutil -b {{ .MONITOR_NORMAL }} setvcp {{ .CHANGE_INPUT_SOURCE }} {{ .SOURCE_HDMI_1 }}
 
   screen:office:
     cmds:
