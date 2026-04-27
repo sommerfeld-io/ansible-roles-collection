@@ -1,0 +1,68 @@
+# GitHub Copilot Instructions
+
+This is `ansible-roles-collection` by sommerfeld-io - a set of 26+ reusable Ansible roles for configuring Linux systems (Ubuntu/Debian and Arch Linux). See [README.md](../README.md) for the full project overview.
+
+## Commands
+
+```bash
+task lint          # Run all linters (YAML, Ansible, filenames, markdown-links) via Docker
+task test          # Full test: Vagrant (Arch + Ubuntu) + InSpec compliance checks
+task test:ubuntu   # Test roles on Ubuntu Vagrant box only
+task test:arch     # Test roles on Arch Linux Vagrant box only
+task cleanup       # Remove .cache, node_modules, .ansible, vagrant artifacts
+```
+
+> Linters pull Docker images - run `task lint` before committing.
+
+## Role Structure
+
+Every role follows this layout:
+
+```
+role-name/
+├── README.md             # Documents variables and usage
+├── defaults/main.yml     # Default variables (always role-prefixed)
+├── handlers/main.yml     # Handlers (optional)
+├── tasks/
+│   ├── main.yml          # Imports numbered subtasks
+│   └── NN-name.yml       # Numbered subtasks: 10-, 20-, 90- (uninstall)
+├── templates/            # Jinja2 templates
+└── files/                # Static files
+```
+
+Some roles expose multiple entry points via `tasks_from` (e.g. `packages` has `main`, `desktop`, `raspi`; `clamav` has `install`, `scan`).
+
+## Conventions
+
+**Variable naming** (enforced by ansible-lint): `^[a-z_][a-z0-9_]*$`
+Always prefix variables with the role name: `docker_version`, `packages_ctop_version`, `helm_architecture`.
+
+**Task naming**:
+```yaml
+- name: Role Name  ----  Section  ----  Action
+```
+
+**OS detection** - always use `when:` with `ansible_os_family`, never hardcode paths:
+```yaml
+when: ansible_os_family == "Debian"
+when: ansible_os_family == "Archlinux"
+```
+
+**Privilege model**: root tasks use `become: true`; user-space tasks use `become: false`. The test playbook runs these in separate phases - see [tests/ansible-playbook.yml](../tests/ansible-playbook.yml).
+
+**State reporting**: Use `changed_when: false` on informational/read-only tasks. Handlers only fire when a task reports `changed`.
+
+**Task imports**: prefer `ansible.builtin.import_tasks` for static imports; use `include_role` with `tasks_from` for multi-entry-point roles.
+
+## Testing
+
+Tests use Vagrant + InSpec. The InSpec compliance profile lives in [tests/inspec/ansible-baseline/](../tests/inspec/ansible-baseline/).
+See [tests/README.md](../tests/README.md) for full test setup.
+
+## Ansible Lint
+
+Config in [.ansible-lint.yml](../.ansible-lint.yml): profile `basic`, offline mode, `yaml[line-length]` skipped.
+
+## CI/CD
+
+Pipeline at [.github/workflows/pipeline.yml](./workflows/pipeline.yml): ShellCheck → lint matrix → InSpec profile check → semantic-release on `main`.

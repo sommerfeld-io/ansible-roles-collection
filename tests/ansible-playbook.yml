@@ -22,43 +22,57 @@
       debug:
         var: system_info.stdout_lines
 
-    - ansible.builtin.include_tasks: tasks/arch/update-system.yml
+    - name: System Under Test  ----  Update  ----  Update Arch system
+      ansible.builtin.include_tasks: tasks/arch/update-system.yml
 
 - name: Run roles against the system under test
   hosts: all
   gather_facts: true
   become: true
   tasks:
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply hardening
+      ansible.builtin.include_role:
         name: ../hardening
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply bash
+      ansible.builtin.include_role:
         name: ../bash
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply filesystem
+      ansible.builtin.include_role:
         name: ../filesystem
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply git
+      ansible.builtin.include_role:
         name: ../git
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply packages (main)
+      ansible.builtin.include_role:
         name: ../packages
         tasks_from: main
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply packages (desktop)
+      ansible.builtin.include_role:
         name: ../packages
         tasks_from: desktop
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply docker (main)
+      ansible.builtin.include_role:
         name: ../docker
         tasks_from: main
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply vscode (main)
+      ansible.builtin.include_role:
         name: ../vscode
         tasks_from: main
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply cron (main)
+      ansible.builtin.include_role:
         name: ../cron
         tasks_from: main
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply taskfile-dev
+      ansible.builtin.include_role:
         name: ../taskfile-dev
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply ansible
+      ansible.builtin.include_role:
         name: ../ansible
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply conky
+      ansible.builtin.include_role:
         name: ../conky
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Root  ----  Apply github-cli
+      ansible.builtin.include_role:
         name: ../github-cli
 
 - name: Run roles against the system under test (non-root)
@@ -66,18 +80,24 @@
   gather_facts: true
   become: false
   tasks:
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Non-Root  ----  Apply atuin
+      ansible.builtin.include_role:
         name: ../atuin
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Non-Root  ----  Apply cron (jobs)
+      ansible.builtin.include_role:
         name: ../cron
         tasks_from: jobs
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Non-Root  ----  Apply docker (scout)
+      ansible.builtin.include_role:
         name: ../docker
         tasks_from: scout
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Non-Root  ----  Apply vscode (plugins)
+      ansible.builtin.include_role:
         name: ../vscode
         tasks_from: plugins
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Non-Root  ----  Apply kubectl
+      ansible.builtin.include_role:
         name: ../kubectl
-    - ansible.builtin.include_role:
+    - name: Run Roles  ----  Non-Root  ----  Apply helm
+      ansible.builtin.include_role:
         name: ../helm

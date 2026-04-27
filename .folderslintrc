@@ -5,6 +5,8 @@
 		".github",
 		".github/workflows",
 		".github/workflows/assets",
+		".github/prompts",
+		".github/skills/*",
 
         ".task/**",
 
