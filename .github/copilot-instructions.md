@@ -2,6 +2,33 @@
 
 This is `ansible-roles-collection` by sommerfeld-io - a set of 26+ reusable Ansible roles for configuring Linux systems (Ubuntu/Debian and Arch Linux). See [README.md](../README.md) for the full project overview.
 
+## Commit Messages: Conventional Commits
+
+Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for every commit message.
+
+**Format:** `<type>[optional scope]: <description>`
+
+| Type | Effect | When to use |
+|------|--------|-------------|
+| `fix` | PATCH release | Patches a bug |
+| `feat` | MINOR release | Introduces a new feature |
+| `BREAKING CHANGE` footer | MAJOR release | Introduces a breaking API change |
+| `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test` | No release | All other changes |
+
+**Rules:**
+- A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`
+- Breaking changes must include `BREAKING CHANGE:` in the footer: `feat!: drop support for Node 6`
+- Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$`
+
+## Project Overview
+
+This is the **`sommerfeld-io` organization's `.github` meta-repository**. It serves as:
+- Fallback community health files (PR templates, issue templates, code of conduct) for all org repos without their own `.github/` directory
+- Reusable GitHub Actions workflow library referenced by other repositories
+- Conventions and standards for all `sommerfeld-io` projects
+
+Key docs: [Development Guide](../docs/development-guide.md) | [Contributing](../CONTRIBUTING.md)
+
 ## Commands
 
 ```bash
