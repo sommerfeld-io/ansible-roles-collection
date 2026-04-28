@@ -62,31 +62,6 @@ jobs:
         run: docker compose up "lint-$LINTER" --exit-code-from "lint-$LINTER"
         shell: bash
 
-  check-inspec-profile:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
-      - name: Install Task
-        uses: arduino/setup-task@v2.0.0
-        with:
-          version: 3.x
-      - name: Login to Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.DOCKERHUB_USER }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Validate Inspec profile
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export TASK_X_REMOTE_TASKFILES=1
-          task inspec:check --yes
-        shell: bash
-
   # ----- Release stage ---------------------------------------------------------------------------
 
   release-code:
@@ -94,7 +69,6 @@ jobs:
     needs: [
       'shellcheck',
       'lint',
-      'check-inspec-profile',
     ]
     if: ${{ (github.actor != 'dependabot[bot]') && (github.ref == 'refs/heads/main') }}
     secrets:

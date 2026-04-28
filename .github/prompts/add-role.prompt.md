@@ -115,6 +115,5 @@ The following variables are optional and have default values:
 
 1. Confirm all files were created.
 2. Remind the user to:
-   - Add the role to [tests/ansible-playbook.yml](../../tests/ansible-playbook.yml) in the correct phase (root or user-space)
-   - Add InSpec controls in [tests/inspec/ansible-baseline/](../../tests/inspec/ansible-baseline/) to verify the role
+   - Add the role to [tests/ansible/playbook.yml](../../tests/ansible/playbook.yml) in the correct phase (root or user-space)
    - Run `task lint` to validate the new role files

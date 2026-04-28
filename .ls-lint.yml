@@ -48,7 +48,6 @@ ignore:
   - .vscode
   - node_modules
   - target
-  - tests/inspec/ansible-baseline/vendor
 
   - .task
 

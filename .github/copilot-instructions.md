@@ -6,7 +6,7 @@ This is `ansible-roles-collection` by sommerfeld-io - a set of 26+ reusable Ansi
 
 Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for every commit message.
 
-**Format:** `<type>[optional scope]: <description>`
+**Format:** `<type>(optional scope): <description>`
 
 | Type | Effect | When to use |
 |------|--------|-------------|
@@ -16,9 +16,11 @@ Always use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/
 | `build`, `chore`, `ci`, `docs`, `style`, `refactor`, `perf`, `test` | No release | All other changes |
 
 **Rules:**
-- A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`
+- A scope may be added in parentheses for extra context: `feat(parser): add ability to parse arrays`. A scope may not be with a slash (`/`).
 - Breaking changes must include `BREAKING CHANGE:` in the footer: `feat: drop support for Node 6`
 - Commit message titles must also match the project pattern: `^(fix|feat|build|chore|ci|docs|style|refactor|perf|test)/[a-z0-9._-]+$`
+
+Write commit messages using the Conventional Commits format, ensuring the header (`type(scope): summary`) is clear and descriptive, as it will be displayed on GitHub release pages and used for changelogs. Focus the header on user-visible, meaningful change descriptions and avoid vague wording. Always document breaking changes explicitly in the footer using `BREAKING CHANGE:` (do not use the `!` notation).
 
 ## Project Overview
 
@@ -33,11 +35,12 @@ Key docs: [Development Guide](../docs/development-guide.md) | [Contributing](../
 
 ```bash
 task lint          # Run all linters (YAML, Ansible, filenames, markdown-links) via Docker
-task test          # Full test: Vagrant (Arch + Ubuntu) + InSpec compliance checks
-task test:ubuntu   # Test roles on Ubuntu Vagrant box only
-task test:arch     # Test roles on Arch Linux Vagrant box only
-task cleanup       # Remove .cache, node_modules, .ansible, vagrant artifacts
+task test          # Full test: Docker Compose (multi-version Ubuntu) + Ansible provisioning
+task test:ubuntu   # Test roles on Ubuntu Docker containers only
+task test:arch     # Test roles on Arch Linux Docker containers only
+task cleanup       # Remove .cache, node_modules, .ansible, Docker artifacts
 ```
+
 
 > Linters pull Docker images - run `task lint` before committing.
 
@@ -83,8 +86,7 @@ when: ansible_os_family == "Archlinux"
 
 ## Testing
 
-Tests use Vagrant + InSpec. The InSpec compliance profile lives in [tests/inspec/ansible-baseline/](../tests/inspec/ansible-baseline/).
-See [tests/README.md](../tests/README.md) for full test setup.
+Tests use Docker Compose and Taskfile for orchestration. See [tests/README.md](../tests/README.md) for the full Docker-based test setup and instructions.
 
 ## Ansible Lint
 
@@ -92,4 +94,4 @@ Config in [.ansible-lint.yml](../.ansible-lint.yml): profile `basic`, offline mo
 
 ## CI/CD
 
-Pipeline at [.github/workflows/pipeline.yml](./workflows/pipeline.yml): ShellCheck → lint matrix → InSpec profile check → semantic-release on `main`.
+Pipeline at [.github/workflows/pipeline.yml](./workflows/pipeline.yml): ShellCheck → lint matrix → semantic-release on `main`.

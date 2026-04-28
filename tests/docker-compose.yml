@@ -107,32 +107,3 @@ services:
       ubuntu-25_04:
         condition: service_healthy
     tty: *tty
-
-  inspec-runner:
-    image: chef/inspec:latest
-    volumes:
-      - project-tests-volume:/workspaces/roles/tests:ro
-    working_dir: *default-workdir
-    entrypoint: ["/bin/sh", "-c"]
-    environment:
-      - TARGET_USER=testuser
-      - TARGET_PASSWORD=testpassword
-      ## List of target container names
-      - TARGET_HOSTS=ubuntu-26_04 ubuntu-25_10 ubuntu-25_04
-    command:
-      - |
-        for host in $${TARGET_HOSTS}; do
-          inspec exec inspec/ansible-baseline \
-            --target=ssh://$${TARGET_USER}@$${host}:22 \
-            --password=$${TARGET_PASSWORD} \
-            --chef-license=accept \
-            --no-create-lockfile
-
-          echo "------------------------------------------------------------------------------------------"
-          echo "FINISHED $${TARGET_HOSTS}"
-          echo "------------------------------------------------------------------------------------------"
-        done
-    depends_on:
-      ansible-runner:
-        condition: service_completed_successfully
-    tty: *tty

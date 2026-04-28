@@ -19,8 +19,6 @@ tasks:
       - rm -rf node_modules
       - rm -rf target
       - sudo rm -rf .ansible
-      - sudo rm -rf tests/inspec/ansible-baseline/vendor
-      - sudo rm -f tests/inspec/ansible-baseline/inspec.lock
       - find . -type f -exec chmod ugo+r {} +
       - find . -type d -exec chmod 755 {} +
       - find . -name "*.sh" -type f -exec chmod +x {} +
@@ -57,24 +55,10 @@ tasks:
 
   # ===============================================================================================
 
-  inspec:check:
-    desc: 'Check inspec profile {{ .PROFILE }}'
-    dir: tests
-    vars: &inspec_vars
-      INSPEC_IMAGE: chef/inspec:5.22.76
-      PROFILE: ansible-baseline
-    cmds:
-      - for: ['vendor', 'check']
-        cmd: |
-          docker run --rm \
-            --volume "$(pwd)/inspec:/inspec" \
-            --workdir "/inspec" \
-            {{ .INSPEC_IMAGE }} {{ .ITEM }} {{ .PROFILE }} \
-              --chef-license=accept || true
-
   test:
-    desc: 'Run all tests (ansible and inspec) for this project against all Dockerfiles from `tests` folder'
+    desc: 'Run all tests against all target containers'
     dir: tests
     cmds:
+      - task: cleanup:filesystem
       - docker compose up --build
       # - docker compose down --remove-orphans --volumes

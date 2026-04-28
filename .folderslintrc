@@ -18,8 +18,6 @@
         "*/tasks/**",
         "*/templates/**",
 
-        "tests/inspec/*/controls",
-        "tests/inspec/*/vendor/**",
         "tests/ansible/tasks/arch",
         "tests/ansible/tasks/ubuntu",
         "tests/ansible/vars/arch"
