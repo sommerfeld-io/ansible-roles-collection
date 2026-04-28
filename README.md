@@ -11,6 +11,8 @@ A collection of Ansible roles for various purposes.
 
 For documentation on a role, see the `README.md` in the folder of the respective role.
 
+We have a testing process in place to ensure our Ansible roles remain compatible with the targeted operating systems. See <tests/README.md> for details
+
 ## Risks and Technical Debts
 
 All issues labeled as `risk` (= some sort of risk or a technical debt) or `security` (= disclosed security issues - e.g. CVEs) [are tracked as GitHub issue](https://github.com/sommerfeld-io/ansible-roles-collection/issues?q=is%3Aissue+label%3Asecurity%2Crisk+is%3Aopen) and carry the respective label.

@@ -25,8 +25,14 @@ This ensures your Ansible roles are tested in an environment that more closely m
 ### Running the tests
 
 ```sh
-# Build and start the test environment
-docker compose up --build
+# Lets assume you are in the project root
+(
+    cd tests || exit
+    docker compose up --build
+)
+
+# Or the easier way
+task test
 ```
 
 Multiple Ubuntu containers (e.g. 26.04, 25.10) are built and started as test targets.
@@ -73,3 +79,17 @@ While Docker-based testing has limitations (such as not supporting systemd, snap
 ## Testing different Ansible versions
 
 This setup also functions as a safe testing ground for newer Ansible versions. Simply change the `ansible-runner` image in `docker-compose.yml` to a newer tag to validate  roles and playbooks before upgrading in production.
+
+## Adding a new System under Test for a new operating system
+
+To add a new System under Test, update all of the following:
+
+- **Create a Dockerfile for the new version**
+    - Copy an existing Dockerfile (e.g., `Dockerfile.ubuntu-26.04`) and adapt it for the new version.
+    - Name it `Dockerfile.ubuntu-XX.XX` (e.g., `Dockerfile.ubuntu-27.04`) or some name that reflects the operating system.
+- **Update `docker-compose.yml`**
+    - Add a new service for the new Ubuntu version and a corresponding  linter service for the Dockerfile.
+    - In the `ansible-runner` service, add a new `depends_on` entry for the new System under Test with `condition: service_healthy`.
+- **Update the Ansible inventory**  `ansible/hosts.yml` and add a new host entry.
+
+This ensures your new Ubuntu test target is fully integrated into the Docker-based test workflow.

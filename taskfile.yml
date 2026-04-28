@@ -60,5 +60,6 @@ tasks:
     dir: tests
     cmds:
       - task: cleanup:filesystem
-      - docker compose up --build
-      # - docker compose down --remove-orphans --volumes
+      - docker compose build
+      - docker compose up --exit-code-from ansible-runner
+      - docker compose down --remove-orphans --volumes

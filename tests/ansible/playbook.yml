@@ -7,7 +7,7 @@
     - vars/main.yml
     - vars/ubuntu.yml
   tasks:
-    - name: System Under Test  ----  Info  ----  Display system information
+    - name: System under Test  ----  Info  ----  Display system information
       ansible.builtin.debug:
         msg:
           - "OS Family: {{ ansible_os_family }}"
@@ -15,20 +15,20 @@
           - "Kernel: {{ ansible_kernel }}"
           - "Architecture: {{ ansible_architecture }}"
 
-    - name: System Under Test  ----  Info  ----  Get System info
+    - name: System under Test  ----  Info  ----  Get System info
       shell: |
         echo "Build ID: $(grep BUILD_ID /etc/os-release | cut -d= -f2)"
         echo "Last updated: $(pacman -Qi filesystem | grep 'Install Date' | cut -d: -f2-)"
       register: system_info
 
-    - name: System Under Test  ----  Info  ----  Display System info
+    - name: System under Test  ----  Info  ----  Display System info
       debug:
         var: system_info.stdout_lines
 
-    - name: System Under Test  ----  Update  ----  Update Arch system
+    - name: System under Test  ----  Update  ----  Update Arch system
       ansible.builtin.include_tasks: tasks/arch/update-system.yml
 
-- name: Run roles against the system under test
+- name: Run roles against the System under Test
   hosts: all
   gather_facts: true
   become: true
@@ -87,7 +87,7 @@
       ansible.builtin.include_role:
         name: ../helm
 
-- name: Run roles against the system under test (non-root)
+- name: Run roles against the System under Test (non-root)
   hosts: all
   gather_facts: true
   become: false
