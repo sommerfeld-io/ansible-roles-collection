@@ -19,6 +19,7 @@ volumes:
 services:
 
   lint-ubuntu-26_04:
+    profiles: ["lint"]
     image: &hadolint-image hadolint/hadolint:latest
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
@@ -27,6 +28,7 @@ services:
     tty: *tty
 
   ubuntu-26_04:
+    profiles: ["system-under-test"]
     image: local/ubuntu:26.04
     container_name: ubuntu-26_04
     tty: *tty
@@ -35,13 +37,11 @@ services:
       context: .
       dockerfile: Dockerfile.ubuntu-26.04
     healthcheck: *healthcheck
-    depends_on:
-      lint-ubuntu-26_04:
-        condition: service_completed_successfully
 
   # ---------------------------------------------------------------------------
 
   lint-ubuntu-25_10:
+    profiles: ["lint"]
     image: *hadolint-image
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
@@ -50,6 +50,7 @@ services:
     tty: *tty
 
   ubuntu-25_10:
+    profiles: ["system-under-test"]
     image: local/ubuntu:25.10
     container_name: ubuntu-25_10
     tty: *tty
@@ -58,13 +59,11 @@ services:
       context: .
       dockerfile: Dockerfile.ubuntu-25.10
     healthcheck: *healthcheck
-    depends_on:
-      lint-ubuntu-25_10:
-        condition: service_completed_successfully
 
   # ---------------------------------------------------------------------------
 
   lint-ubuntu-25_04:
+    profiles: ["lint"]
     image: *hadolint-image
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
@@ -73,6 +72,7 @@ services:
     tty: *tty
 
   ubuntu-25_04:
+    profiles: ["system-under-test"]
     image: local/ubuntu:25.04
     container_name: ubuntu-25_04
     tty: *tty
@@ -81,13 +81,11 @@ services:
       context: .
       dockerfile: Dockerfile.ubuntu-25.04
     healthcheck: *healthcheck
-    depends_on:
-      lint-ubuntu-25_04:
-        condition: service_completed_successfully
 
   # ---------------------------------------------------------------------------
 
   ansible-runner:
+    profiles: ["test"]
     image: alpine/ansible:2.20.0
     container_name: ansible-runner
     volumes:
