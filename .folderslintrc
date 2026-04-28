@@ -21,7 +21,8 @@
         "tests/.vagrant",
         "tests/inspec/*/controls",
         "tests/inspec/*/vendor/**",
-        "tests/tasks/arch",
-        "tests/tasks/ubuntu"
+        "tests/ansible/tasks/arch",
+        "tests/ansible/tasks/ubuntu",
+        "tests/ansible/vars/arch"
 	]
 }

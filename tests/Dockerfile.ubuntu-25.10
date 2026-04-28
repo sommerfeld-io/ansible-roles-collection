@@ -1,0 +1,30 @@
+FROM ubuntu:25.10
+LABEL maintainer="sebastian@sommerfeld.io"
+
+RUN apt-get update \
+    && apt-get install -y \
+        openssh-server \
+        sudo \
+        python3 \
+        python3-pip \
+        netcat-openbsd \
+        cron \
+    && mkdir -p /var/run/sshd \
+    && echo 'root:root' | chpasswd \
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd \
+    && mkdir -p /root/.ssh \
+    && echo 'export VISIBLE=now' >> /etc/profile
+
+ARG USER=testuser
+ARG PASSWORD=testpassword
+RUN useradd -m -s /bin/bash ${USER} \
+    && echo "${USER}:${PASSWORD}" | chpasswd \
+    && usermod -aG sudo ${USER} \
+    && mkdir -p /home/${USER}/.ssh \
+    && chown ${USER}:${USER} /home/${USER}/.ssh \
+    && echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER} \
+    && chmod 0440 /etc/sudoers.d/${USER}
+
+EXPOSE 22
+CMD /usr/sbin/sshd -D

@@ -29,6 +29,10 @@ ls:
   Dockerfile: PascalCase
   Vagrantfile: PascalCase
 
+  # Allow only versioned Ubuntu Dockerfiles in `tests` folder
+  # Adjust rule in case of adding other OS Dockerfiles (e.g. for Arch)
+  tests/Dockerfile.*: regex:^Dockerfile\.ubuntu(-[0-9]{2}\.[0-9]{2})?$
+
   .babelrc: lowercase
   .env: lowercase
   .dockerignore: lowercase
@@ -57,3 +61,4 @@ ignore:
   - .yamllint.yml
   - .pre-commit-config.yaml
   - .releaserc.js
+  - tests/.hadolint.yml

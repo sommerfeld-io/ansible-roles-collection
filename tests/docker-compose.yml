@@ -1,0 +1,84 @@
+---
+x-tty: &tty true
+x-workdir: &default-workdir /workspaces/roles/tests
+x-ubuntu-under-test-healthcheck: &healthcheck
+  test: ["CMD", "sh", "-c", "nc -z localhost 22"]
+  interval: 2s
+  timeout: 2s
+  retries: 15
+  start_period: 2s
+
+volumes:
+  project-tests-volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: .
+      o: bind
+
+services:
+
+  ubuntu-26.04-lint:
+    image: &lint-dockerfile-image hadolint/hadolint:latest
+    volumes:
+      - project-tests-volume:/workspaces/roles/tests:ro
+    working_dir: *default-workdir
+    entrypoint: hadolint Dockerfile.ubuntu-26.04
+    tty: *tty
+
+  ubuntu-26.04:
+    image: local/ubuntu-under-test:26.04
+    container_name: ubuntu-under-test-26_04
+    tty: *tty
+    command: /usr/sbin/sshd -D
+    build:
+      context: .
+      dockerfile: Dockerfile.ubuntu-26.04
+    healthcheck: *healthcheck
+    depends_on:
+      ubuntu-26.04-lint:
+        condition: service_completed_successfully
+
+  # ---------------------------------------------------------------------------
+
+  ubuntu-25.10:
+    image: local/ubuntu-under-test:25.10
+    container_name: ubuntu-under-test-25_10
+    tty: *tty
+    command: /usr/sbin/sshd -D
+    build:
+      context: .
+      dockerfile: Dockerfile.ubuntu-25.10
+    healthcheck: *healthcheck
+    depends_on:
+      ubuntu-25.10-lint:
+        condition: service_completed_successfully
+
+  ubuntu-25.10-lint:
+    image: *lint-dockerfile-image
+    volumes:
+      - project-tests-volume:/workspaces/roles/tests:ro
+    working_dir: *default-workdir
+    entrypoint: hadolint Dockerfile.ubuntu-26.04
+    tty: *tty
+
+  # ---------------------------------------------------------------------------
+
+  ansible-runner:
+    image: alpine/ansible:2.20.0
+    container_name: ansible-runner
+    volumes:
+      - project-tests-volume:/workspaces/roles/tests:ro
+      - ../:/workspaces/roles:ro
+    working_dir: /workspaces/roles/tests
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - ansible-playbook -i ansible/hosts.yml ansible/playbook.yml
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING=False
+    depends_on:
+      ubuntu-26.04:
+        condition: service_healthy
+      ubuntu-25.10:
+        condition: service_healthy
+    tty: *tty

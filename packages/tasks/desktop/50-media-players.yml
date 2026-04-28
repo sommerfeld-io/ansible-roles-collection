@@ -43,6 +43,7 @@
         name:
           - spotify
         state: present
+      when: not is_test | default(false)
 
 # - name: Packages Desktop  ----  Arch  ----  Media Players
 #   when: ansible_os_family == "Archlinux"

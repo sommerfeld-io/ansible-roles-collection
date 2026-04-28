@@ -20,6 +20,7 @@
           - asciidoctor
           - yarn
           - google-chrome-stable
+          - 7zip-rar
         state: absent
         purge: true
 
@@ -28,6 +29,7 @@
         name:
           - thunderbird
         state: absent
+      when: not is_test | default(false)
 
     - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Dev Tools
       community.general.snap:
@@ -36,6 +38,7 @@
           - intellij-idea-community
           - balena-etcher
         state: absent
+      when: not is_test | default(false)
 
 # - name: Packages Desktop  ----  Arch  ----  Uninstall
 #   when: ansible_os_family == "Archlinux"

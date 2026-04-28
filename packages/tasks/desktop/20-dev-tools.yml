@@ -17,6 +17,7 @@
         name:
           - postman
         state: present
+      when: not is_test | default(false)
 
     # - name: Packages Desktop  ----  Ubuntu  ----  Dev Tools  ----  Install Snap packages (classic)
     #   community.general.snap:
@@ -25,6 +26,7 @@
     #       - intellij-idea-community
     #     state: present
     #     classic: true
+    #   when: not is_test | default(false)
 
 - name: Packages Desktop  ----  Arch  ----  Dev Tools
   when: ansible_os_family == "Archlinux"

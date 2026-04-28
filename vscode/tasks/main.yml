@@ -9,6 +9,7 @@
           - code
         state: present
         classic: true
+      when: not is_test | default(false)
 
 # - name: VSCode  ----  Arch
 #   when: ansible_os_family == "Archlinux"

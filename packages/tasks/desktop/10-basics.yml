@@ -31,7 +31,6 @@
           - unrar
           - p7zip
           - p7zip-full
-          - p7zip-rar
         state: latest
         update_cache: true
 
@@ -58,7 +57,6 @@
     # unrar
     # p7zip
     # p7zip-full
-    # p7zip-rar
 
     # TODO
     # all packages to control Dell monitors

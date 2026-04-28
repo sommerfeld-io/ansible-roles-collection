@@ -3,6 +3,9 @@
   hosts: all
   gather_facts: true
   become: true
+  vars_files:
+    - vars/main.yml
+    - vars/ubuntu.yml
   tasks:
     - name: System Under Test  ----  Info  ----  Display system information
       ansible.builtin.debug:
@@ -29,6 +32,9 @@
   hosts: all
   gather_facts: true
   become: true
+  vars_files:
+    - vars/main.yml
+    - vars/ubuntu.yml
   tasks:
     - name: Run Roles  ----  Root  ----  Apply hardening
       ansible.builtin.include_role:
@@ -50,14 +56,14 @@
       ansible.builtin.include_role:
         name: ../packages
         tasks_from: desktop
-    - name: Run Roles  ----  Root  ----  Apply docker (main)
-      ansible.builtin.include_role:
-        name: ../docker
-        tasks_from: main
-    - name: Run Roles  ----  Root  ----  Apply vscode (main)
-      ansible.builtin.include_role:
-        name: ../vscode
-        tasks_from: main
+    # - name: Run Roles  ----  Root  ----  Apply docker (main)
+    #   ansible.builtin.include_role:
+    #     name: ../docker
+    #     tasks_from: main
+    # - name: Run Roles  ----  Root  ----  Apply vscode (main)
+    #   ansible.builtin.include_role:
+    #     name: ../vscode
+    #     tasks_from: main
     - name: Run Roles  ----  Root  ----  Apply cron (main)
       ansible.builtin.include_role:
         name: ../cron
@@ -74,11 +80,20 @@
     - name: Run Roles  ----  Root  ----  Apply github-cli
       ansible.builtin.include_role:
         name: ../github-cli
+    - name: Run Roles  ----  Non-Root  ----  Apply kubectl
+      ansible.builtin.include_role:
+        name: ../kubectl
+    - name: Run Roles  ----  Non-Root  ----  Apply helm
+      ansible.builtin.include_role:
+        name: ../helm
 
 - name: Run roles against the system under test (non-root)
   hosts: all
   gather_facts: true
   become: false
+  vars_files:
+    - vars/main.yml
+    - vars/ubuntu.yml
   tasks:
     - name: Run Roles  ----  Non-Root  ----  Apply atuin
       ansible.builtin.include_role:
@@ -91,13 +106,7 @@
       ansible.builtin.include_role:
         name: ../docker
         tasks_from: scout
-    - name: Run Roles  ----  Non-Root  ----  Apply vscode (plugins)
-      ansible.builtin.include_role:
-        name: ../vscode
-        tasks_from: plugins
-    - name: Run Roles  ----  Non-Root  ----  Apply kubectl
-      ansible.builtin.include_role:
-        name: ../kubectl
-    - name: Run Roles  ----  Non-Root  ----  Apply helm
-      ansible.builtin.include_role:
-        name: ../helm
+    # - name: Run Roles  ----  Non-Root  ----  Apply vscode (plugins)
+    #   ansible.builtin.include_role:
+    #     name: ../vscode
+    #     tasks_from: plugins
