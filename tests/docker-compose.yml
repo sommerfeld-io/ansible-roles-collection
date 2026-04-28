@@ -1,7 +1,7 @@
 ---
 x-tty: &tty true
 x-workdir: &default-workdir /workspaces/roles/tests
-x-ubuntu-under-test-healthcheck: &healthcheck
+x-ubuntu-healthcheck: &healthcheck
   test: ["CMD", "sh", "-c", "nc -z localhost 22"]
   interval: 2s
   timeout: 2s
@@ -18,17 +18,17 @@ volumes:
 
 services:
 
-  ubuntu-26.04-lint:
-    image: &lint-dockerfile-image hadolint/hadolint:latest
+  lint-ubuntu-26_04:
+    image: &hadolint-image hadolint/hadolint:latest
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
     working_dir: *default-workdir
     entrypoint: hadolint Dockerfile.ubuntu-26.04
     tty: *tty
 
-  ubuntu-26.04:
-    image: local/ubuntu-under-test:26.04
-    container_name: ubuntu-under-test-26_04
+  ubuntu-26_04:
+    image: local/ubuntu:26.04
+    container_name: ubuntu-26_04
     tty: *tty
     command: /usr/sbin/sshd -D
     build:
@@ -36,14 +36,22 @@ services:
       dockerfile: Dockerfile.ubuntu-26.04
     healthcheck: *healthcheck
     depends_on:
-      ubuntu-26.04-lint:
+      lint-ubuntu-26_04:
         condition: service_completed_successfully
 
   # ---------------------------------------------------------------------------
 
-  ubuntu-25.10:
-    image: local/ubuntu-under-test:25.10
-    container_name: ubuntu-under-test-25_10
+  lint-ubuntu-25_10:
+    image: *hadolint-image
+    volumes:
+      - project-tests-volume:/workspaces/roles/tests:ro
+    working_dir: *default-workdir
+    entrypoint: hadolint Dockerfile.ubuntu-26.04
+    tty: *tty
+
+  ubuntu-25_10:
+    image: local/ubuntu:25.10
+    container_name: ubuntu-25_10
     tty: *tty
     command: /usr/sbin/sshd -D
     build:
@@ -51,16 +59,31 @@ services:
       dockerfile: Dockerfile.ubuntu-25.10
     healthcheck: *healthcheck
     depends_on:
-      ubuntu-25.10-lint:
+      lint-ubuntu-25_10:
         condition: service_completed_successfully
 
-  ubuntu-25.10-lint:
-    image: *lint-dockerfile-image
+  # ---------------------------------------------------------------------------
+
+  lint-ubuntu-25_04:
+    image: *hadolint-image
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
     working_dir: *default-workdir
     entrypoint: hadolint Dockerfile.ubuntu-26.04
     tty: *tty
+
+  ubuntu-25_04:
+    image: local/ubuntu:25.04
+    container_name: ubuntu-25_04
+    tty: *tty
+    command: /usr/sbin/sshd -D
+    build:
+      context: .
+      dockerfile: Dockerfile.ubuntu-25.04
+    healthcheck: *healthcheck
+    depends_on:
+      lint-ubuntu-25_04:
+        condition: service_completed_successfully
 
   # ---------------------------------------------------------------------------
 
@@ -77,8 +100,39 @@ services:
     environment:
       - ANSIBLE_HOST_KEY_CHECKING=False
     depends_on:
-      ubuntu-26.04:
+      ubuntu-26_04:
         condition: service_healthy
-      ubuntu-25.10:
+      ubuntu-25_10:
         condition: service_healthy
+      ubuntu-25_04:
+        condition: service_healthy
+    tty: *tty
+
+  inspec-runner:
+    image: chef/inspec:latest
+    volumes:
+      - project-tests-volume:/workspaces/roles/tests:ro
+    working_dir: *default-workdir
+    entrypoint: ["/bin/sh", "-c"]
+    environment:
+      - TARGET_USER=testuser
+      - TARGET_PASSWORD=testpassword
+      ## List of target container names
+      - TARGET_HOSTS=ubuntu-26_04 ubuntu-25_10 ubuntu-25_04
+    command:
+      - |
+        for host in $${TARGET_HOSTS}; do
+          inspec exec inspec/ansible-baseline \
+            --target=ssh://$${TARGET_USER}@$${host}:22 \
+            --password=$${TARGET_PASSWORD} \
+            --chef-license=accept \
+            --no-create-lockfile
+
+          echo "------------------------------------------------------------------------------------------"
+          echo "FINISHED $${TARGET_HOSTS}"
+          echo "------------------------------------------------------------------------------------------"
+        done
+    depends_on:
+      ansible-runner:
+        condition: service_completed_successfully
     tty: *tty

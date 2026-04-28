@@ -27,5 +27,5 @@ inputs:
     profile: linux-baseline
   # Override linux-essentials inputs
   - name: username
-    value: vagrant
+    value: testuser
     profile: linux-essentials

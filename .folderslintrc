@@ -18,7 +18,6 @@
         "*/tasks/**",
         "*/templates/**",
 
-        "tests/.vagrant",
         "tests/inspec/*/controls",
         "tests/inspec/*/vendor/**",
         "tests/ansible/tasks/arch",
