@@ -25,13 +25,7 @@ This ensures your Ansible roles are tested in an environment that more closely m
 ### Running the tests
 
 ```sh
-# Lets assume you are in the project root
-(
-    cd tests || exit
-    docker compose up --build
-)
-
-# Or the easier way
+# From the project root
 task test
 ```
 
