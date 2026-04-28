@@ -45,14 +45,14 @@ Stub install tasks. If OS-specific, include both Debian and Archlinux blocks wit
     name: <package>
     state: present
   become: true
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: <Role Title>  ----  Install  ----  Install package (Arch)
   community.general.pacman:
     name: <package>
     state: present
   become: true
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
 ```
 
 ### `<role-name>/tasks/20-configure.yml`
@@ -106,7 +106,7 @@ The following variables are optional and have default values:
 
 - Task names: `Role Title  ----  Section  ----  Action`
 - Variables: lowercase, underscore-separated, prefixed with role name. Never use hyphens.
-- OS detection: always `when: ansible_os_family == "Debian"` or `"Archlinux"`, never hardcode paths
+- OS detection: always `when: ansible_facts['os_family'] == "Debian"` or `"Archlinux"`, never hardcode paths
 - Root tasks: `become: true`; user-space tasks: `become: false`
 - Read-only/informational tasks: add `changed_when: false`
 - Use `ansible.builtin.import_tasks` for static subtask imports

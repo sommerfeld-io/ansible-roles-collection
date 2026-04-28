@@ -1,6 +1,6 @@
 ---
 - name: GitHub CLI  ----  Ubuntu
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: GitHub CLI  ----  Ubuntu  ----  Ensure keyrings directory exists
@@ -29,7 +29,7 @@
         state: latest
 
 - name: GitHub CLI  ----  Arch
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
   block:
 
     - name: GitHub CLI  ----  Arch  ----  Install

@@ -1,6 +1,6 @@
 ---
 - name: Packages Desktop  ----  Ubuntu  ----  Dev Tools
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: Packages Desktop  ----  Ubuntu  ----  Dev Tools  ---- Install
@@ -29,7 +29,7 @@
     #   when: not is_test | default(false)
 
 - name: Packages Desktop  ----  Arch  ----  Dev Tools
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
   block:
 
     - name: Packages Desktop  ----  Arch  ----  Dev Tools  ---- Install

@@ -2,19 +2,19 @@
 - name: Docker  ----  Setup  ----  Verify Docker installation
   ansible.builtin.command: docker version
   register: docker_version_output
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Docker  ----  Setup  ----  Print Docker version
   ansible.builtin.debug:
     msg: "{{ docker_version_output.stdout }}"
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Docker  ----  Setup  ----  Verify Docker Compose installation
   ansible.builtin.command: docker compose version
   register: docker_compose_version_output
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Docker  ----  Setup  ----  Print Docker Compose version
   ansible.builtin.debug:
     msg: "{{ docker_compose_version_output.stdout }}"
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"

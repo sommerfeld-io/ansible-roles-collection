@@ -1,6 +1,6 @@
 ---
 - name: Packages Desktop  ----  Ubuntu  ----  Uninstall
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: Packages Desktop  ----  Ubuntu  ----  Uninstall  ----  Pre-installed packages
@@ -41,7 +41,7 @@
       when: not is_test | default(false)
 
 # - name: Packages Desktop  ----  Arch  ----  Uninstall
-#   when: ansible_os_family == "Archlinux"
+#   when: ansible_facts['os_family'] == "Archlinux"
 #   block:
 
     # todo ...

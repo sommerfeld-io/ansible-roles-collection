@@ -5,7 +5,7 @@
       - conky-all
     state: latest
     update_cache: true
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
 
 - name: Conky  ----  Arch  ----  Install
   community.general.pacman:
@@ -13,4 +13,4 @@
       - conky
     state: latest
     update_cache: true
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"

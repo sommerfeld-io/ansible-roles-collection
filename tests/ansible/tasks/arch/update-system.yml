@@ -1,6 +1,6 @@
 ---
 - name: System under Test  ----  Arch  ----  Ensure System is as up-to-date as possible
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
   block:
     - name: System under Test  ----  Arch  ----  Update keyring
       community.general.pacman:

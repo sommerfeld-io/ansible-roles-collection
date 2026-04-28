@@ -1,6 +1,6 @@
 ---
 - name: Packages Desktop  ----  Ubuntu  ----  Sublime
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Download GPG key
@@ -23,14 +23,14 @@
         update_cache: true
 
 # - name: Packages Desktop  ----  Arch  ----  Sublime
-#   when: ansible_os_family == "Archlinux"
+#   when: ansible_facts['os_family'] == "Archlinux"
 #   block:
 
     # todo ...
     # https://www.sublimetext.com/docs/linux_repositories.html#pacman
 
 - name: Packages Desktop  ----  Arch  ----  Sublime
-  when: ansible_os_family == "Archlinux"
+  when: ansible_facts['os_family'] == "Archlinux"
   block:
 
     - name: Packages Desktop  ----  Arch  ----  Sublime  ----  Download GPG key

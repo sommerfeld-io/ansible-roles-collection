@@ -75,8 +75,8 @@ Always prefix variables with the role name: `docker_version`, `packages_ctop_ver
 
 **OS detection** - always use `when:` with `ansible_os_family`, never hardcode paths:
 ```yaml
-when: ansible_os_family == "Debian"
-when: ansible_os_family == "Archlinux"
+when: ansible_facts['os_family'] == "Debian"
+when: ansible_facts['os_family'] == "Archlinux"
 ```
 
 **Privilege model**: root tasks use `become: true`; user-space tasks use `become: false`. The test playbook runs these in separate phases - see [tests/ansible-playbook.yml](../tests/ansible-playbook.yml).

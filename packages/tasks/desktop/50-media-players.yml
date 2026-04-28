@@ -1,6 +1,6 @@
 ---
 - name: Packages Desktop  ----  Ubuntu  ----  Media Players
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Players and DRM packages
@@ -46,7 +46,7 @@
       when: not is_test | default(false)
 
 # - name: Packages Desktop  ----  Arch  ----  Media Players
-#   when: ansible_os_family == "Archlinux"
+#   when: ansible_facts['os_family'] == "Archlinux"
 #   block:
 
     # todo ...

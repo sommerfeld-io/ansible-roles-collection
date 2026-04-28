@@ -1,6 +1,6 @@
 ---
 - name: Packages Desktop  ----  Ubuntu  ----  Chromium
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: Packages Desktop  ----  Ubuntu  ----  Chromium  ----  Install
@@ -13,7 +13,7 @@
         update_cache: true
 
 # - name: Packages Desktop  ----  Arch  ----  Chromium
-#   when: ansible_os_family == "Archlinux"
+#   when: ansible_facts['os_family'] == "Archlinux"
 #   block:
 
     # todo ...

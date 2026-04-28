@@ -13,4 +13,4 @@
   delay: 10
   register: docker_install
   until: docker_install is succeeded
-  when: ansible_os_family == "Debian"
+  when: ansible_facts['os_family'] == "Debian"

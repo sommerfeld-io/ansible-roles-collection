@@ -7,7 +7,7 @@
           - ansible
         state: latest
         update_cache: true
-      when: ansible_os_family == "Debian"
+      when: ansible_facts['os_family'] == "Debian"
 
     - name: Ansible Setup  ----  Arch  ----  Install ansible (OS-codename {{ ansible_distribution_release }})
       community.general.pacman:
@@ -15,7 +15,7 @@
           - ansible
         state: present
         update_cache: true
-      when: ansible_os_family == "Archlinux"
+      when: ansible_facts['os_family'] == "Archlinux"
 
 - name: Ansible  ----  Verify installation
   ansible.builtin.command: ansible --version
