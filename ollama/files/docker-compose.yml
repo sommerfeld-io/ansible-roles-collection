@@ -1,0 +1,11 @@
+---
+version: '3.8'
+services:
+  ollama-metrics:
+    image: ghcr.io/norskhelsenett/ollama-metrics:latest
+    container_name: ollama-metrics
+    restart: unless-stopped
+    environment:
+      - OLLAMA_HOST=http://localhost:11434
+      - PORT=9180
+    network_mode: host

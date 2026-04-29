@@ -1,0 +1,42 @@
+---
+- name: Ollama  ----  Exporter  ----  Create exporter directory
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: u=rwx,g=rx,o=
+  with_items:
+    - "{{ ollama_exporter_dir }}"
+
+- name: Ollama  ----  Exporter  ----  Copy config
+  ansible.builtin.copy:
+    src: "../files/{{ item }}"
+    dest: "{{ ollama_exporter_dir }}/{{ item }}"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: u=rw,g=r,o=
+  with_items:
+    - docker-compose.yml
+
+- name: Ollama  ----  Exporter  ----  Start exporter with Docker Compose
+  community.docker.docker_compose_v2:
+    project_src: "{{ ollama_exporter_dir }}"
+    state: present
+  register: ollama_exporter_compose
+
+- name: Ollama  ----  Exporter  ----  Wait for container startup
+  ansible.builtin.wait_for:
+    timeout: 3
+  delegate_to: localhost
+
+
+- name: Ollama  ----  Exporter  ----  Verify exporter container is running
+  ansible.builtin.assert:
+    that:
+      - ollama_metrics_container.State == 'running'
+    fail_msg: "Ollama exporter container is not running."
+    success_msg: "Ollama exporter container is running."
+  vars:
+    ollama_metrics_container: >-
+      {{ ollama_exporter_compose.containers | selectattr('Name', 'equalto', 'ollama-metrics') | first }}

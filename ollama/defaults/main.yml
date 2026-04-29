@@ -1,3 +1,5 @@
 ---
 ollama_models:
   - tinyllama
+
+ollama_exporter_dir: /opt/ollama/exporter
