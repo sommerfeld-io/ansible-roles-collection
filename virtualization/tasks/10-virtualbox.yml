@@ -33,7 +33,7 @@
         version: >-
           {% if ansible_distribution_version == '25.04' -%}
           7.0.20-*{%- elif ansible_distribution_version == '25.10' -%}
-          7.2.0-*{%- endif %}
+          7.2.2-*{%- endif %}
 
     - name: Virtualization  ----  Virtualbox ---- Create virtual machines folder
       ansible.builtin.file:
