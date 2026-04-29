@@ -40,3 +40,8 @@
   vars:
     ollama_metrics_container: >-
       {{ ollama_exporter_compose.containers | selectattr('Name', 'equalto', 'ollama-metrics') | first }}
+
+- name: Ollama  ----  Exporter  ----  Follow-Up Message
+  ansible.builtin.debug:
+    msg: |
+      IMPORTANT: To ensure Grafana picks up the exporter metrics, you must run the Alloy playbook immediately after this one. Alloy is required to collect and forward the metrics; they will not be detected automatically without it.
