@@ -28,7 +28,7 @@
         state: latest
         update_cache: true
       vars:
-        version: 7.2.8-*
+        version: 7.0.20-*
         ## TODO 7.2.2 on Ubuntu 25.10 did cause problems and resulted in no VMs starting
         ## TODO Update to a fixed version greater than 7.2.2 once the issues are resolved
         # version: >-
