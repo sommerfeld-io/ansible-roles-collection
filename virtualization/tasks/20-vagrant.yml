@@ -28,9 +28,11 @@
         mode: '0644'
       vars:
         ## HashiCorp supports only LTS releases
-        ## So 25.04 (plucky) and 25.10 (questing) are mapped to 24.04 LTS (noble)
+        ## So 25.04 (plucky), 25.10 (questing), and 26.04 (resolute) are mapped to 24.04 LTS (noble)
+        ## TODO: Revisit this when HashiCorp adds support for resolute (26.04 LTS)
         codename: >-
-          {% if ansible_distribution_version.startswith('25.') -%}
+          {% if ansible_distribution_version.startswith('25.') or ansible_distribution_version.startswith('26.') -%}
+          noble{%- elif ansible_distribution_release == 'noble' -%}
           noble{%- else -%}
           {{ ansible_distribution_release }}{%- endif %}
 
