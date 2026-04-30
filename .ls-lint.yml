@@ -51,6 +51,8 @@ ignore:
 
   - .task
 
+  - .github/skills/.markdownlint.yml
+
   # linter definitions etc.
   - .editorconfig
   - .ansible-lint.yml
