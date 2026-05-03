@@ -97,31 +97,38 @@ tasks:
     desc: *ssh-connect-desc
     cmds: *ssh-connect-cmd
 
-  ssh:connect:admin-pi:
+  ssh:connect:pi4-01:
     vars:
       USER: sebastian
-      HOST: admin-pi.fritz.box
+      HOST: pi4-01.fritz.box
     desc: *ssh-connect-desc
     cmds: *ssh-connect-cmd
 
-  ssh:connect:runner-04-pi:
+  ssh:connect:pi4-02:
     vars:
       USER: sebastian
-      HOST: runner-04-pi.fritz.box
+      HOST: pi4-02.fritz.box
     desc: *ssh-connect-desc
     cmds: *ssh-connect-cmd
 
-  ssh:connect:runner-05-pi:
+  ssh:connect:pi4-03:
     vars:
       USER: sebastian
-      HOST: runner-05-pi.fritz.box
+      HOST: pi4-03.fritz.box
     desc: *ssh-connect-desc
     cmds: *ssh-connect-cmd
 
-  ssh:connect:runner-06-pi5:
+  ssh:connect:pi4-04:
     vars:
       USER: sebastian
-      HOST: runner-06-pi5.fritz.box
+      HOST: pi4-04.fritz.box
+    desc: *ssh-connect-desc
+    cmds: *ssh-connect-cmd
+
+  ssh:connect:pi5-01:
+    vars:
+      USER: sebastian
+      HOST: pi5-01.fritz.box
     desc: *ssh-connect-desc
     cmds: *ssh-connect-cmd
 
