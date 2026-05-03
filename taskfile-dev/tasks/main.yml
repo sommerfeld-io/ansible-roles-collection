@@ -4,6 +4,3 @@
 
 - name: Task  ----  Configure
   ansible.builtin.import_tasks: 20-configure.yml
-
-- name: Task  ----  Uninstall
-  ansible.builtin.import_tasks: 90-uninstall.yml
