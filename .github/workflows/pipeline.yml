@@ -94,9 +94,7 @@ jobs:
       - name: Test ansible roles against multiple OS versions via Docker Compose
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          export TASK_X_REMOTE_TASKFILES=1
-          task test --yes
+        run: task test
         shell: bash
 
   # ----- Release stage ---------------------------------------------------------------------------
