@@ -21,3 +21,18 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     mode: u=rw,g=r,o=
+
+- name: Git  ----  Config  ----  Write aliases to .bashrc
+  ansible.builtin.lineinfile:
+    create: true
+    mode: u=rw,g=,o=
+    dest: "/home/{{ ansible_user }}/.bashrc"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    line: "{{ item }}"
+    state: present
+  loop:
+    - alias ll="ls -alFh --color=auto"
+    - alias ls="ls -a --color=auto"
+    - alias grep="grep --color=auto"
+    - alias pull-all-repos="git all pull"

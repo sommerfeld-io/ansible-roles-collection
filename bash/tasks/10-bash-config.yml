@@ -29,7 +29,6 @@
     - alias ll="ls -alFh --color=auto"
     - alias ls="ls -a --color=auto"
     - alias grep="grep --color=auto"
-    - alias pull-all-repos="git all pull"
 
 - name: Bash  ----  Config  ----  Update prompt in .bashrc
   ansible.builtin.lineinfile:

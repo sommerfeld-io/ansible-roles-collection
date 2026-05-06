@@ -1,5 +1,5 @@
 [alias]
-        all = "!f() { ls | xargs -I{} git -C {} $1; }; f"
+        all = "!f() { ls -A | xargs -I{} git -C {} $1; }; f"
 [user]
         email = sebastian@sommerfeld.io
         name = sebastian
