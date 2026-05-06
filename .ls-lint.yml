@@ -59,6 +59,7 @@ ignore:
   - .lychee.toml
   - .ls-lint.yml
   - .markdownlint.yml
+  - .mcp.json
   - .yamllint.yml
   - .pre-commit-config.yaml
   - .releaserc.js

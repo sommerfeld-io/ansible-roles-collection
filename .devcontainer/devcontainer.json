@@ -31,6 +31,13 @@
         "ghcr.io/devcontainers/features/docker-in-docker:2.16.1": {}
     },
 
+    "containerEnv": {
+      "SONARCLOUD_TOKEN": "${localEnv:SONARCLOUD_TOKEN}",
+      "SONARQUBE_TOKEN": "${localEnv:SONARCLOUD_TOKEN}",
+      "SONARQUBE_URL": "https://sonarcloud.io",
+      "SONARQUBE_ORGANIZATION": "sommerfeld-io"
+    },
+
     "postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/post-create.sh",
     "postStartCommand": "${containerWorkspaceFolder}/.devcontainer/post-start.sh"
 }
