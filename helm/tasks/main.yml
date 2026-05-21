@@ -3,16 +3,16 @@
   ansible.builtin.get_url:
     url: "https://get.helm.sh/helm-{{ common_version }}-linux-{{ common_architecture }}.tar.gz"
     dest: /tmp/helm-linux-{{ common_architecture }}.tar.gz
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=rx
 
 - name: Helm Setup  ----  Extract tarball
   ansible.builtin.unarchive:
     src: /tmp/helm-linux-{{ common_architecture }}.tar.gz
     dest: /tmp
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=rx
     remote_src: true
 

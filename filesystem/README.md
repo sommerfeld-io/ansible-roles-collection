@@ -8,7 +8,7 @@ The role is intended to be used on all machines (RasPi and workstation).
 
 | Variable                                  | Description                                                                               |
 |-------------------------------------------|-------------------------------------------------------------------------------------------|
-| `{{ ansible_user }}`                      | The user to install and configure for (typically the logged-in user).                     |
+| `{{ default_user }}`                      | The user to install and configure for (typically the logged-in user).                     |
 | `{{ dir_work }}`                          | Workspace directory.                                                                      |
 | `{{ dir_repos }}`                         | Directory for git repositories.                                                           |
 | `{{ dir_repos_bad_android }}`             | Directory for GitHub repositories under the `bad-android` organization.                   |

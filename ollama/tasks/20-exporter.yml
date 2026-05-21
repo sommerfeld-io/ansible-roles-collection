@@ -3,8 +3,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=
   with_items:
     - "{{ ollama_exporter_dir }}"
@@ -13,8 +13,8 @@
   ansible.builtin.copy:
     src: "../files/{{ item }}"
     dest: "{{ ollama_exporter_dir }}/{{ item }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rw,g=r,o=
   with_items:
     - docker-compose.yml

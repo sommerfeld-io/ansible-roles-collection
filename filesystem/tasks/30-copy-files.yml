@@ -3,18 +3,18 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=
   with_items:
-    - "/home/{{ ansible_user }}/Pictures/wallpapers"
+    - "/home/{{ default_user }}/Pictures/wallpapers"
 
 - name: Filesystem  ----  Wallpapers  ----  Copy images
   ansible.builtin.copy:
     src: "../files/wallpapers/{{ item }}"
-    dest: "/home/{{ ansible_user }}/Pictures/wallpapers/{{ item }}"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "/home/{{ default_user }}/Pictures/wallpapers/{{ item }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rw,g=r,o=
   with_items:
     - 1.jpg

@@ -15,7 +15,7 @@
         state: present
         mode: '0644'
       vars:
-        codename: "{{ ansible_distribution_release }}"
+        codename: "{{ ansible_facts['distribution_release'] }}"
 
     - name: Node  ----  Ubuntu ----  Install
       ansible.builtin.apt:
@@ -37,18 +37,18 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=
   loop:
-    - "/home/{{ ansible_user }}/.local"
-    - "/home/{{ ansible_user }}/.local/bin"
-    - "/home/{{ ansible_user }}/.local/lib"
+    - "/home/{{ default_user }}/.local"
+    - "/home/{{ default_user }}/.local/bin"
+    - "/home/{{ default_user }}/.local/lib"
 
 - name: Node  ----  Modules  ----  Ensure user-local npm bin directory is on PATH
   ansible.builtin.lineinfile:
     create: true
     mode: u=rw,g=,o=
-    dest: "/home/{{ ansible_user }}/.bashrc"
+    dest: "/home/{{ default_user }}/.bashrc"
     line: 'export PATH="$HOME/.local/bin:$PATH"'
     state: present

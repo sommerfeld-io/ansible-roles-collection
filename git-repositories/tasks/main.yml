@@ -16,7 +16,7 @@
         dest: "{{ item.item.dest }}/{{ item.item.repo }}"
         clone: true
         update: false
-        key_file: "/home/{{ ansible_user }}/.ssh/id_rsa"
+        key_file: "/home/{{ default_user }}/.ssh/id_rsa"
         accept_hostkey: true
       when: not item.stat.exists
       loop: "{{ repo_directory_status.results }}"

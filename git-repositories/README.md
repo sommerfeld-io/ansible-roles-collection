@@ -8,7 +8,7 @@ The role is intended to be used on all machines (RasPi and workstation).
 
 | Variable             | Description                                                                                                                                                          |
 |----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user).                                                                                                |
+| `{{ default_user }}` | The user to install and configure for (typically the logged-in user).                                                                                                |
 | `{{ repositories }}` | A list of Git repositories to clone. Each entry should be a dictionary with keys `dest` (the directory to where the repository should be cloned), `org`, and `repo`. |
 
 ## Optional Variables

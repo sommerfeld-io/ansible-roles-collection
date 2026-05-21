@@ -12,7 +12,7 @@ First, run `tasks_from: main`, then either `tasks_from: ubuntu` or `tasks_from: 
 
 | Variable             | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
-| `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user) |
+| `{{ default_user }}` | The user to install and configure for (typically the logged-in user) |
 | `{{ architecture }}` | The system architecture (`amd64` or `arm64`)                         |
 
 ## Optional Variables

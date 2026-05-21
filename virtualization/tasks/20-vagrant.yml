@@ -34,7 +34,7 @@
           {% if ansible_distribution_version.startswith('25.') or ansible_distribution_version.startswith('26.') -%}
           noble{%- elif ansible_distribution_release == 'noble' -%}
           noble{%- else -%}
-          {{ ansible_distribution_release }}{%- endif %}
+          {{ ansible_facts['distribution_release'] }}{%- endif %}
 
     - name: Virtualization  ----  Vagrant ---- Install Vagrant packages
       ansible.builtin.apt:
@@ -49,7 +49,7 @@
         # vagrant plugin install vagrant-vbguest
         # vagrant plugin install vagrant-docker-compose
       become: true
-      become_user: "{{ ansible_user }}"
+      become_user: "{{ default_user }}"
       args:
         executable: /bin/bash
 

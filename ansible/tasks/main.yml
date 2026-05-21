@@ -1,7 +1,7 @@
 ---
 - name: Ansible Setup  ----  Install
   block:
-    - name: Ansible Setup  ----  Ubuntu  ----  Install ansible (OS-codename {{ ansible_distribution_release }})
+    - name: Ansible Setup  ----  Ubuntu  ----  Install ansible (OS-codename {{ ansible_facts['distribution_release'] }})
       ansible.builtin.apt:
         name:
           - ansible
@@ -9,7 +9,7 @@
         update_cache: true
       when: ansible_facts['os_family'] == "Debian"
 
-    - name: Ansible Setup  ----  Arch  ----  Install ansible (OS-codename {{ ansible_distribution_release }})
+    - name: Ansible Setup  ----  Arch  ----  Install ansible (OS-codename {{ ansible_facts['distribution_release'] }})
       community.general.pacman:
         name:
           - ansible

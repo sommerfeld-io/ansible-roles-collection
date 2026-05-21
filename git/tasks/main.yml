@@ -17,18 +17,18 @@
 - name: Git  ----  Copy git configuration
   ansible.builtin.copy:
     src: ../files/.gitconfig
-    dest: "/home/{{ ansible_user }}/.gitconfig"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "/home/{{ default_user }}/.gitconfig"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rw,g=r,o=
 
 - name: Git  ----  Config  ----  Write aliases to .bashrc
   ansible.builtin.lineinfile:
     create: true
     mode: u=rw,g=,o=
-    dest: "/home/{{ ansible_user }}/.bashrc"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "/home/{{ default_user }}/.bashrc"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     line: "{{ item }}"
     state: present
   loop:

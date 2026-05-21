@@ -1,7 +1,7 @@
 ---
 - name: Config  ----  Allows remote taskfiles to be used by adding param to .bashrc
   ansible.builtin.lineinfile:
-    dest: "/home/{{ ansible_user }}/.bashrc"
+    dest: "/home/{{ default_user }}/.bashrc"
     state: present
     line: "{{ item }}"
   with_items:

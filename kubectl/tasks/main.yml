@@ -3,8 +3,8 @@
   ansible.builtin.get_url:
     url: "https://dl.k8s.io/release/{{ common_version }}/bin/linux/{{ common_architecture }}/kubectl"
     dest: /usr/local/bin/kubectl
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=rx
 
 - name: Kubectl  ----  Check version
@@ -21,9 +21,9 @@
   ansible.builtin.lineinfile:
     create: true
     mode: u=rw,g=,o=
-    dest: "/home/{{ ansible_user }}/.bashrc"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "/home/{{ default_user }}/.bashrc"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     line: "{{ item }}"
     state: present
   with_items:

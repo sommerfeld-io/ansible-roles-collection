@@ -1,7 +1,7 @@
 ---
 - name: Bash  ----  Config  ----  Write exports to .bashrc
   ansible.builtin.lineinfile:
-    dest: "/home/{{ ansible_user }}/.bashrc"
+    dest: "/home/{{ default_user }}/.bashrc"
     state: present
     line: "{{ item }}"
   loop:
@@ -20,9 +20,9 @@
   ansible.builtin.lineinfile:
     create: true
     mode: u=rw,g=,o=
-    dest: "/home/{{ ansible_user }}/.bashrc"
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    dest: "/home/{{ default_user }}/.bashrc"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
     line: "{{ item }}"
     state: present
   loop:
@@ -32,7 +32,7 @@
 
 - name: Bash  ----  Config  ----  Update prompt in .bashrc
   ansible.builtin.lineinfile:
-    dest: "/home/{{ ansible_user }}/.bashrc"
+    dest: "/home/{{ default_user }}/.bashrc"
     regexp: '^PS1='
     line: "export PS1='{{ ps1 }}'"
     state: present

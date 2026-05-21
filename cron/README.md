@@ -10,4 +10,4 @@ The role is intended to be used on all machines (RasPi and workstation).
 
 | Variable             | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
-| `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user) |
+| `{{ default_user }}` | The user to install and configure for (typically the logged-in user) |

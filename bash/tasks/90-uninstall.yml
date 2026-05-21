@@ -4,4 +4,4 @@
     path: "{{ item }}"
     state: absent
   with_items:
-    - /home/{{ ansible_user }}/.bash_aliases
+    - /home/{{ default_user }}/.bash_aliases

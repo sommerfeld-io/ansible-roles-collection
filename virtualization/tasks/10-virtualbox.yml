@@ -32,8 +32,8 @@
       ansible.builtin.file:
         path: "{{ item }}"
         state: directory
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
+        owner: "{{ default_user }}"
+        group: "{{ default_user }}"
         mode: u=rwx,g=rx,o=
       with_items:
         - "{{ virtualization_vm_folder }}"
@@ -41,11 +41,11 @@
     - name: Virtualization  ----  Virtualbox ---- Set virtual machines folder
       ansible.builtin.command: "vboxmanage setproperty machinefolder {{ virtualization_vm_folder }}"
       become: true
-      become_user: "{{ ansible_user }}"
+      become_user: "{{ default_user }}"
 
     - name: Virtualization  ----  Virtualbox ---- Add user to group
       ansible.builtin.user:
-        name: "{{ ansible_user }}"
+        name: "{{ default_user }}"
         shell: /bin/bash
         groups: vboxusers
         append: true

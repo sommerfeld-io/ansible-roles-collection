@@ -38,7 +38,7 @@
 
     - name: Ollama  ----  systemd  ----  Add current user to ollama group
       ansible.builtin.user:
-        name: "{{ ansible_user }}"
+        name: "{{ default_user }}"
         groups: "{{ ollama_group }}"
         append: true
 

@@ -4,6 +4,6 @@
     url: https://github.com/bcicen/ctop/releases/download/v{{ packages_ctop_version }}/ctop-{{ packages_ctop_version }}-linux-{{ architecture }}
     dest: /usr/local/bin/ctop
     mode: u=rwx,g=rx,o=rx
-    owner: "{{ ansible_user }}"
-    group: "{{ ansible_user }}"
+    owner: "{{ default_user }}"
+    group: "{{ default_user }}"
   become: true

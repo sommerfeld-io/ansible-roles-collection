@@ -91,7 +91,7 @@ The following variables are expected to be set globally or passed to the role:
 
 | Variable             | Description                                                          |
 |----------------------|----------------------------------------------------------------------|
-| `{{ ansible_user }}` | The user to install and configure for (typically the logged-in user) |
+| `{{ default_user }}` | The user to install and configure for (typically the logged-in user) |
 
 ## Optional Variables
 

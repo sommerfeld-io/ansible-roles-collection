@@ -28,7 +28,7 @@ The role does not offer a `main.yml`, so you always have to specify a file.
 
 | Variable                 | Description                                                          |
 |--------------------------|----------------------------------------------------------------------|
-| `{{ ansible_user }}`     | The user to install and configure for (typically the logged-in user) |
+| `{{ default_user }}`     | The user to install and configure for (typically the logged-in user) |
 | `{{ scan_path }}`        | The path to scan with ClamAV                                         |
 
 ## Based on

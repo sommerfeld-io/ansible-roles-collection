@@ -13,4 +13,4 @@
     )
   args:
     executable: /bin/bash
-    creates: /home/{{ ansible_user }}/.docker/cli-plugins/docker-scout
+    creates: /home/{{ default_user }}/.docker/cli-plugins/docker-scout
