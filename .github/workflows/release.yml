@@ -13,4 +13,4 @@ jobs:
   update-release-notes:
     uses: sommerfeld-io/.github/.github/workflows/release.yml@main
     permissions:
-    contents: write
+      contents: write
