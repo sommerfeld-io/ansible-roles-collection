@@ -19,6 +19,13 @@
         state: latest
         update_cache: true
 
+    - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install Dev tools
+      ansible.builtin.apt:
+        pkg: &dev-packages
+          - pre-commit
+        state: latest
+        update_cache: true
+
     - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install Ubuntu specifics
       ansible.builtin.apt:
         pkg:
@@ -36,6 +43,12 @@
     - name: Packages Main  ----  Arch  ----  Basics  ----  Install
       community.general.pacman:
         name: *packages
+        state: present
+        update_cache: true
+
+    - name: Packages Main  ----  Arch  ----  Basics  ----  Install Dev tools
+      community.general.pacman:
+        name: *dev-packages
         state: present
         update_cache: true
 
