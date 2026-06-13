@@ -1,0 +1,7 @@
+---
+- name: Claude  ----  Download and execute the claude code setup script
+  ansible.builtin.shell:
+    cmd: "curl -fsSL https://claude.ai/install.sh | bash"
+  args:
+    executable: /bin/bash
+    creates: "/home/{{ default_user }}/.local/bin/claude"
