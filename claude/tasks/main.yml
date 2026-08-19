@@ -4,4 +4,4 @@
     cmd: "curl -fsSL https://claude.ai/install.sh | bash"
   args:
     executable: /bin/bash
-    creates: "/home/{{ default_user }}/.local/bin/claude"
+    # creates: "/home/{{ default_user }}/.local/bin/claude"
