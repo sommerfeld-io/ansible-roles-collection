@@ -108,7 +108,7 @@ services:
 
   ansible-runner:
     profiles: ["test"]
-    image: alpine/ansible:2.20.0
+    image: alpine/ansible:2.21.0
     container_name: ansible-runner
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
