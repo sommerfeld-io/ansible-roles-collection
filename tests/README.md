@@ -51,6 +51,9 @@ The Ansible runner container waits for all targets to be healthy, then runs your
     - Docker containers used for systems under test do not run systemd, so snapd and snap packages cannot be reliably tested.
     - All snap-related Ansible tasks are skipped during tests using the `is_test: true` variable in the test inventory.
     - No snap packages are installed or validated in CI tests.
+- The cronie service is not started on Arch Linux
+    - Enabling and starting `cronie.service` via systemd requires a running init system, which the Arch Linux container does not have.
+    - The `cronie` package installation is still tested, but the "enable and start service" task is skipped during tests using the `is_test: true` variable in the test inventory.
 - VirtualBox and Vagrant are not tested
     - VirtualBox and Vagrant require kernel modules and privileged access that are not available in Docker containers.
     - Any Ansible roles or tasks related to VirtualBox or Vagrant are not executed or validated in this test setup.
