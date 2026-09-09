@@ -17,6 +17,6 @@
 - name: Bash  ----  Config root  ----  Update prompt in .bashrc
   ansible.builtin.lineinfile:
     dest: "/root/.bashrc"
-    regexp: '^PS1='
+    regexp: '^export PS1='
     line: "export PS1='{{ ps1_root }}'"
     state: present
