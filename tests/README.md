@@ -26,7 +26,7 @@ This ensures your Ansible roles are tested in an environment that more closely m
 
 ```sh
 # From the project root
-task test
+task test:run
 ```
 
 Multiple Ubuntu containers (e.g. 26.04, 25.10) as well as an Arch Linux container are built and started as test targets.

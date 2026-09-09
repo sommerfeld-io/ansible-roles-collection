@@ -9,7 +9,9 @@ vars:
 includes:
   cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
-  copilot: .github/skills/taskfile.yml
+  test:
+    taskfile: tests/taskfile.yml
+    dir: tests
 
 tasks:
 
@@ -19,23 +21,4 @@ tasks:
       - task: cleanup:filesystem
       - for: ['yaml', 'filenames', 'folders', 'ansible'] # 'workflows', 'markdown-links',
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
-
-  # ===============================================================================================
-
-  test:
-    desc: 'Run all tests against all target containers'
-    summary: |
-      This task starts all Ubuntu containers (system-under-test) in the background,
-      then runs ansible-runner in the foreground. Docker Compose will NOT start
-      duplicate containers - if the Ubuntu containers are already running, they are
-      reused for the test run. Only one instance of each Ubuntu container will ever
-      be running at a time. After tests, all containers are stopped and removed.
-    dir: tests
-    cmds:
-      - task: cleanup:filesystem
-      - docker compose build
-      - docker compose --profile lint up
-      - docker compose --profile system-under-test up  -d
-      - sleep 5s
-      - docker compose --profile system-under-test --profile test up --exit-code-from ansible-runner
-      - docker compose down --remove-orphans --volumes
+      - task: test:lint

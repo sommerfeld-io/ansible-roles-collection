@@ -35,15 +35,15 @@ Key docs: [Development Guide](../docs/development-guide.md) | [Contributing](../
 
 ```bash
 task lint          # Run all linters (YAML, Ansible, filenames, markdown-links) via Docker
-task test          # Full test: Docker Compose (multi-version Ubuntu) + Ansible provisioning
+task test:run      # Full test: Docker Compose (multi-version Ubuntu) + Ansible provisioning
 task cleanup       # Remove .cache, node_modules, .ansible, Docker artifacts
 ```
 
 ### Before committing
 
-- Always run `task test` to validate all roles and playbooks in the Docker-based test environment. This is required for all changes except those that affect only documentation files (e.g., README.md or other Markdown files or inline comments).
+- Always run `task test:run` to validate all roles and playbooks in the Docker-based test environment. This is required for all changes except those that affect only documentation files (e.g., README.md or other Markdown files or inline comments).
 - Linters and other checks/validations are run automatically from pre-commit hooks, so you do not need to run them manually.
-- You may skip `task test` only for pure documentation changes.
+- You may skip `task test:run` only for pure documentation changes.
 
 ## Role Structure
 
