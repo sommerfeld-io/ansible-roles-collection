@@ -24,7 +24,7 @@
 
     - name: Task  ----  Arch  ----  Install
       community.general.pacman:
-        name: task
+        name: go-task
         state: present
 
 - name: Task  ----  Verify
