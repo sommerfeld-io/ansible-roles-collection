@@ -2,7 +2,7 @@
 
 The role installs and configures ClamAV antivirus with automated signature updates via FreshClam. It provides on-demand scanning capability for specified paths without running as a daemon.
 
-The role is intended to be used on all Ubuntu machines (RasPi and workstation).
+The role is intended to be used on all Ubuntu machines (RasPi and workstation). It is also supported on Arch Linux, where a single `clamav` package (installed via `pacman`) provides the daemon and freshclam, unlike Ubuntu's three separate packages. Configuration file paths and systemd unit names are identical across both distros.
 
 ## How to use
 
