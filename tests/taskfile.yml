@@ -1,0 +1,30 @@
+---
+version: '3.42.1'
+
+includes:
+  cleanup:
+    taskfile: ../.task/cleanup/taskfile.yml
+    internal: true
+
+tasks:
+
+  lint:
+    desc: 'Lint the test Dockerfiles'
+    cmds:
+      - docker compose --profile lint up
+
+  run:
+    desc: 'Run all tests against all target containers'
+    summary: |
+      This task starts all Ubuntu containers (system-under-test) in the background,
+      then runs ansible-runner in the foreground. Docker Compose will NOT start
+      duplicate containers - if the Ubuntu containers are already running, they are
+      reused for the test run. Only one instance of each Ubuntu container will ever
+      be running at a time. After tests, all containers are stopped and removed.
+    cmds:
+      - task: cleanup:filesystem
+      - docker compose build
+      - docker compose --profile system-under-test up  -d
+      - sleep 5s
+      - docker compose --profile system-under-test --profile test up --exit-code-from ansible-runner
+      - docker compose down --remove-orphans --volumes

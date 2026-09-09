@@ -1,0 +1,35 @@
+FROM archlinux:base
+LABEL maintainer="sebastian@sommerfeld.io"
+
+## Pacman's download sandbox (landlock/unshare) is unavailable in restricted container
+## runtimes and causes "Permission denied" writing to /var/lib/pacman/sync - disable it.
+RUN sed -i '/^\[options\]/a DisableSandbox' /etc/pacman.conf \
+    && pacman-key --init \
+    && pacman-key --populate archlinux \
+    && pacman -Syu --noconfirm \
+    && pacman -S --noconfirm --needed \
+        openssh \
+        sudo \
+        python \
+        openbsd-netcat \
+        cronie \
+    && ssh-keygen -A \
+    && mkdir -p /run/sshd \
+    && echo 'root:root' | chpasswd \
+    && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd \
+    && mkdir -p /root/.ssh \
+    && echo 'export VISIBLE=now' >> /etc/profile
+
+ARG USER=testuser
+ARG PASSWORD=testpassword
+RUN useradd -m -s /bin/bash ${USER} \
+    && echo "${USER}:${PASSWORD}" | chpasswd \
+    && usermod -aG wheel ${USER} \
+    && mkdir -p /home/${USER}/.ssh \
+    && chown ${USER}:${USER} /home/${USER}/.ssh \
+    && echo "${USER} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USER} \
+    && chmod 0440 /etc/sudoers.d/${USER}
+
+EXPOSE 22
+CMD ["/usr/bin/sshd", "-D"]

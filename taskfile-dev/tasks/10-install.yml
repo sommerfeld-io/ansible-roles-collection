@@ -24,8 +24,15 @@
 
     - name: Task  ----  Arch  ----  Install
       community.general.pacman:
-        name: task
+        name: go-task
         state: present
+
+    ## The Arch package only ships /usr/bin/go-task, not a "task" binary.
+    - name: Task  ----  Arch  ----  Symlink go-task to task
+      ansible.builtin.file:
+        src: /usr/bin/go-task
+        dest: /usr/local/bin/task
+        state: link
 
 - name: Task  ----  Verify
   block:

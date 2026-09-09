@@ -21,7 +21,6 @@
     - name: Packages Desktop  ----  Ubuntu  ----  Media Players  ----  Audio CD ripper
       ansible.builtin.apt:
         pkg:
-          - asunder # https://wiki.ubuntuusers.de/Asunder
           - lame
           - vorbis-tools
           - flac
@@ -45,8 +44,44 @@
         state: present
       when: not is_test | default(false)
 
-# - name: Packages Desktop  ----  Arch  ----  Media Players
-#   when: ansible_facts['os_family'] == "Archlinux"
-#   block:
+- name: Packages Desktop  ----  Arch  ----  Media Players
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
 
-    # todo ...
+    - name: Packages Desktop  ----  Arch  ----  Media Players  ----  Players and DRM packages
+      community.general.pacman:
+        pkg:
+          - vlc
+          - ffmpeg
+          - libbluray
+          - libdvdcss
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Arch  ----  Media Players  ----  Audio CD ripper
+      community.general.pacman:
+        pkg:
+          - lame
+          - vorbis-tools
+          - flac
+          - wavpack
+        state: latest
+        update_cache: true
+
+    - name: Packages Desktop  ----  Arch  ----  Media Players  ----  CD/DVD writer
+      community.general.pacman:
+        pkg:
+          - brasero
+        state: latest
+        update_cache: true
+
+    # Spotify has no official package on vanilla Arch - this only resolves on Omarchy,
+    # which configures its own package repository (OPR) for it. Skipped in test/CI
+    # the same way the Ubuntu snap install is, since neither is exercised there.
+    - name: Packages Desktop  ----  Arch  ----  Media Players  ----  Spotify
+      community.general.pacman:
+        pkg:
+          - spotify
+        state: present
+        update_cache: true
+      when: not is_test | default(false)

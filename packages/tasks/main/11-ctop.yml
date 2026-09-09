@@ -1,9 +1,13 @@
 ---
-- name: Packages Main  ----  Install ctop
-  ansible.builtin.get_url:
-    url: https://github.com/bcicen/ctop/releases/download/v{{ packages_ctop_version }}/ctop-{{ packages_ctop_version }}-linux-{{ architecture }}
-    dest: /usr/local/bin/ctop
-    mode: u=rwx,g=rx,o=rx
-    owner: "{{ default_user }}"
-    group: "{{ default_user }}"
-  become: true
+- name: Packages Main  ----  Ubuntu  ----  Basics
+  when: ansible_facts['os_family'] == "Debian"
+  block:
+
+    - name: Packages Main  ----  Ubuntu  ----  Install ctop
+      ansible.builtin.get_url:
+        url: https://github.com/bcicen/ctop/releases/download/v{{ packages_ctop_version }}/ctop-{{ packages_ctop_version }}-linux-{{ architecture }}
+        dest: /usr/local/bin/ctop
+        mode: u=rwx,g=rx,o=rx
+        owner: "{{ default_user }}"
+        group: "{{ default_user }}"
+      become: true

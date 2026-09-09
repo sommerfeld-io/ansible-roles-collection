@@ -16,8 +16,3 @@
         name:
           - which
         state: present
-
-## TODO ... -------------------------------------------------------------------------------------
-## TODO ... move this into a dedicated role for Arch? So I can use this with real systems as well
-## TODO ... maybe create a "update-arch" playbook or similar
-## TODO ... -------------------------------------------------------------------------------------

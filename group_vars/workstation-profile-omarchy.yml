@@ -1,0 +1,77 @@
+---
+## Omarchy (Arch/Hyprland) desktop workstation profile.
+##
+## This file is not consumed automatically by any playbook in this repository - it is
+## a profile a downstream playbook can load (e.g. `vars_files: [.../workstation_profile_omarchy.yml]`)
+## to decide which roles/tasks_from to run and which individual tools to skip because
+## Omarchy already ships them, or because they have no official Arch package.
+##
+## See docs/omarchy-workstation-role-matrix.md for the full rationale behind every entry.
+
+## Roles to run for an Omarchy workstation, in suggested order.
+workstation_profile_omarchy_include_roles:
+  - hardening
+  - bash
+  - filesystem
+  - git
+  - git-repositories
+  - packages          # tasks_from: main, then tasks_from: desktop
+  - docker
+  - github-cli
+  - ansible
+  - cron
+  - taskfile-dev
+  - conky
+  - kubectl
+  - helm
+  - node
+  - clamav
+  - vscode
+  - atuin
+  - ollama
+  - claude
+  - virtualization    # tasks_from: main installs VirtualBox only, see exclude_tools below
+
+## Roles intentionally left out of the default Omarchy profile.
+workstation_profile_omarchy_exclude_roles:
+  - minikube          # role is non-functional today (fully commented out) on any OS
+
+## Individual tools/tasks skipped even though their role runs, because the tool has no
+## official Arch package (AUR-only). Postman, asunder and IntelliJ IDEA are not just
+## skipped on Arch - they are never installed on any OS, and are actively uninstalled
+## on Ubuntu too (see packages/tasks/desktop/90-uninstall.yml).
+workstation_profile_omarchy_exclude_tools:
+  - name: vagrant
+    role: virtualization
+    reason: aur_only_no_official_arch_package
+  - name: postman
+    role: packages
+    tasks_from: desktop
+    reason: removed_entirely_no_official_arch_package
+  - name: asunder
+    role: packages
+    tasks_from: desktop
+    reason: removed_entirely_no_official_arch_package
+  - name: intellij-idea
+    role: packages
+    tasks_from: desktop
+    reason: removed_entirely_no_official_arch_package
+
+## Tools whose package ships preinstalled on Omarchy, but ansible still ensures they
+## are installed - same treatment as Docker/GitHub CLI/Claude Code. Kept idempotent so
+## they also work standalone on non-Omarchy Arch or Ubuntu systems. Chromium resolves
+## via pacman on any Arch; Spotify only resolves on Omarchy itself (see
+## packages/tasks/desktop/50-media-players.yml).
+workstation_profile_omarchy_preinstalled_but_kept:
+  - name: docker
+    role: docker
+  - name: github-cli
+    role: github-cli
+  - name: claude-code
+    role: claude
+  - name: chromium
+    role: packages
+    tasks_from: desktop
+  - name: spotify
+    role: packages
+    tasks_from: desktop

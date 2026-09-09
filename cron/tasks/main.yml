@@ -14,6 +14,7 @@
         name: cronie.service
         enabled: true
         state: started
+      when: not is_test | default(false) # containers under test do not run systemd
 
 - name: Cron  ----  Ensure permissions
   ansible.builtin.file:

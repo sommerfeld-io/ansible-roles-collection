@@ -5,7 +5,6 @@
   become: true
   vars_files:
     - vars/main.yml
-    - vars/ubuntu.yml
   tasks:
     - name: System under Test  ----  Info  ----  Display system information
       ansible.builtin.debug:
@@ -15,18 +14,22 @@
           - "Kernel: {{ ansible_kernel }}"
           - "Architecture: {{ ansible_architecture }}"
 
-    - name: System under Test  ----  Info  ----  Get System info
+    - name: System under Test  ----  Arch  ----  Get System info
       shell: |
         echo "Build ID: $(grep BUILD_ID /etc/os-release | cut -d= -f2)"
         echo "Last updated: $(pacman -Qi filesystem | grep 'Install Date' | cut -d: -f2-)"
       register: system_info
+      changed_when: false
+      when: ansible_facts['os_family'] == "Archlinux"
 
-    - name: System under Test  ----  Info  ----  Display System info
+    - name: System under Test  ----  Arch  ----  Display System info
       debug:
         var: system_info.stdout_lines
+      when: ansible_facts['os_family'] == "Archlinux"
 
-    - name: System under Test  ----  Update  ----  Update Arch system
+    - name: System under Test  ----  Arch  ----  Update Arch system
       ansible.builtin.include_tasks: tasks/arch/update-system.yml
+      when: ansible_facts['os_family'] == "Archlinux"
 
 - name: Run roles against the System under Test
   hosts: all
@@ -34,7 +37,6 @@
   become: true
   vars_files:
     - vars/main.yml
-    - vars/ubuntu.yml
   tasks:
     - name: Run Roles  ----  Root  ----  Apply hardening
       ansible.builtin.include_role:
@@ -93,7 +95,6 @@
   become: false
   vars_files:
     - vars/main.yml
-    - vars/ubuntu.yml
   tasks:
     - name: Run Roles  ----  Non-Root  ----  Apply atuin
       ansible.builtin.include_role:

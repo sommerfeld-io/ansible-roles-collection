@@ -7,6 +7,15 @@
       - clamav-freshclam
     state: latest
     update_cache: true
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: ClamAV  ----  Arch  ----  Install
+  community.general.pacman:
+    pkg:
+      - clamav
+    state: latest
+    update_cache: true
+  when: ansible_facts['os_family'] == "Archlinux"
 
 - name: ClamAV  ----  Create directories
   ansible.builtin.file:

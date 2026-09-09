@@ -6,11 +6,13 @@
 		".github/workflows",
 		".github/workflows/assets",
 		".github/prompts",
-		".github/skills/*",
 
         ".task/**",
 
 		".vscode",
+
+        "docs",
+        "group_vars",
 
         "*/defaults",
 		"*/files/**",
@@ -20,6 +22,6 @@
 
         "tests/ansible/tasks/arch",
         "tests/ansible/tasks/ubuntu",
-        "tests/ansible/vars/arch"
+        "tests/ansible/vars"
 	]
 }

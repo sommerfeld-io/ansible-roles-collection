@@ -8,6 +8,8 @@ Use `tasks_from: modules-ai` to install node modules related to AI (CLIs and oth
 
 The role is intended to be used on all machines (RasPi and workstation).
 
+On Arch Linux, `nodejs` and `npm` are installed straight from the official Arch repos via `pacman`. `{{ node_version }}` only applies to the Ubuntu/Debian NodeSource apt-repo path — Arch always tracks whatever version is current in the Arch repos.
+
 ## Expected Variables
 
 | Variable             | Description                                                          |

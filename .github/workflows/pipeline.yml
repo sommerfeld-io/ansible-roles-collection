@@ -66,6 +66,32 @@ jobs:
         run: docker compose up "lint-$LINTER" --exit-code-from "lint-$LINTER"
         shell: bash
 
+  lint-dockerfiles:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    name: ${{ matrix.dockerfile }}
+    strategy:
+      matrix:
+        dockerfile: ['ubuntu-26_04', 'ubuntu-25_10', 'ubuntu-25_04', 'archlinux']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+      - name: Login to Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Run lint-${{ matrix.dockerfile }} from tests/docker-compose.yml
+        env:
+          DOCKERFILE: ${{ matrix.dockerfile }}
+        run: docker compose up "lint-$DOCKERFILE" --exit-code-from "lint-$DOCKERFILE"
+        working-directory: tests
+        shell: bash
+
   # ----- Test stage ------------------------------------------------------------------------------
 
   test:
@@ -73,6 +99,7 @@ jobs:
     needs: [
       'shellcheck',
       'lint',
+      'lint-dockerfiles',
     ]
     permissions:
       contents: read
@@ -95,7 +122,7 @@ jobs:
       - name: Test ansible roles against multiple OS versions via Docker Compose
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: task test
+        run: task test:run
         shell: bash
 
   # ----- Release stage ---------------------------------------------------------------------------

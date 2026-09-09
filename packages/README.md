@@ -8,6 +8,8 @@ With `tasks_from: raspi` The role installs packages specific to Raspberry Pi sys
 
 First, run `tasks_from: main`, then either `tasks_from: ubuntu` or `tasks_from: raspi`.
 
+With `tasks_from: desktop` The role installs desktop-specific packages (browser, media players, dev tools) common to workstation setups, on Ubuntu and Arch Linux. `asunder`, Postman, and IntelliJ IDEA are not installed on either OS and are actively uninstalled/purged on Ubuntu (no official Arch package exists, and they were dropped from the Ubuntu path too). Spotify is installed via `pacman` on Arch, but only resolves on Omarchy (which configures its own package repository for it) - it is not installed on vanilla Arch or in test/CI. See [docs/omarchy-workstation-role-matrix.md](../docs/omarchy-workstation-role-matrix.md) for the full compatibility matrix.
+
 ## Expected Variables
 
 | Variable             | Description                                                          |
