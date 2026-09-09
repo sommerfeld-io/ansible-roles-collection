@@ -22,13 +22,6 @@
         state: latest
         update_cache: true
 
-# - name: Packages Desktop  ----  Arch  ----  Sublime
-#   when: ansible_facts['os_family'] == "Archlinux"
-#   block:
-
-    # todo ...
-    # https://www.sublimetext.com/docs/linux_repositories.html#pacman
-
 - name: Packages Desktop  ----  Arch  ----  Sublime
   when: ansible_facts['os_family'] == "Archlinux"
   block:
