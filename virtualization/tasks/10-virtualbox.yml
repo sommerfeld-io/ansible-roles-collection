@@ -16,7 +16,8 @@
     - blacklist kvm_intel
     - blacklist kvm_amd
 
-- name: Virtualization  ----  Virtualbox Setup
+- name: Virtualization  ----  Virtualbox Setup  ----  Ubuntu
+  when: ansible_facts['os_family'] == "Debian"
   block:
 
     - name: Virtualization  ----  Virtualbox ---- Install Virtualbox and dependencies
@@ -27,6 +28,21 @@
           - virtualbox-dkms
         state: latest
         update_cache: true
+
+- name: Virtualization  ----  Virtualbox Setup  ----  Arch
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
+
+    - name: Virtualization  ----  Virtualbox ---- Install Virtualbox and dependencies
+      community.general.pacman:
+        pkg:
+          - virtualbox
+          - virtualbox-host-modules-arch
+        state: latest
+        update_cache: true
+
+- name: Virtualization  ----  Virtualbox Setup
+  block:
 
     - name: Virtualization  ----  Virtualbox ---- Create virtual machines folder
       ansible.builtin.file:
