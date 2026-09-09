@@ -84,6 +84,28 @@ services:
 
   # ---------------------------------------------------------------------------
 
+  lint-archlinux:
+    profiles: ["lint"]
+    image: *hadolint-image
+    volumes:
+      - project-tests-volume:/workspaces/roles/tests:ro
+    working_dir: *default-workdir
+    entrypoint: hadolint Dockerfile.archlinux
+    tty: *tty
+
+  archlinux:
+    profiles: ["system-under-test"]
+    image: local/archlinux:base
+    container_name: archlinux
+    tty: *tty
+    command: /usr/bin/sshd -D
+    build:
+      context: .
+      dockerfile: Dockerfile.archlinux
+    healthcheck: *healthcheck
+
+  # ---------------------------------------------------------------------------
+
   ansible-runner:
     profiles: ["test"]
     image: alpine/ansible:2.20.0
@@ -103,5 +125,7 @@ services:
       ubuntu-25_10:
         condition: service_healthy
       ubuntu-25_04:
+        condition: service_healthy
+      archlinux:
         condition: service_healthy
     tty: *tty

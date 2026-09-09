@@ -29,7 +29,7 @@ This ensures your Ansible roles are tested in an environment that more closely m
 task test
 ```
 
-Multiple Ubuntu containers (e.g. 26.04, 25.10) are built and started as test targets.
+Multiple Ubuntu containers (e.g. 26.04, 25.10) as well as an Arch Linux container are built and started as test targets.
 
 The Ansible runner container waits for all targets to be healthy, then runs your playbook against them.
 
@@ -44,7 +44,7 @@ The Ansible runner container waits for all targets to be healthy, then runs your
 
 ### Limitations: Snap, VirtualBox, Vagrant
 
-> **Note:** The following technologies have limitations in container-based CI environments.
+> **Note:** The following technologies have limitations in container-based CI environments. These limitations apply equally to the Ubuntu and Arch Linux test targets.
 
 - Snap packages are not tested
     - Snapd requires a full init system (systemd) to function properly.
@@ -54,9 +54,16 @@ The Ansible runner container waits for all targets to be healthy, then runs your
 - VirtualBox and Vagrant are not tested
     - VirtualBox and Vagrant require kernel modules and privileged access that are not available in Docker containers.
     - Any Ansible roles or tasks related to VirtualBox or Vagrant are not executed or validated in this test setup.
+    - On Arch Linux, Vagrant additionally has no official package at all (AUR-only) - see [docs/omarchy-workstation-role-matrix.md](../docs/omarchy-workstation-role-matrix.md).
 - Docker is tested
     - Docker-related roles and tasks are tested, as Docker can run inside Docker containers ("Docker-in-Docker") with the appropriate configuration.
     - This allows validation of Docker installation and configuration tasks within the test environment.
+
+### Arch Linux system under test
+
+- `Dockerfile.archlinux` mirrors the Ubuntu Dockerfiles (sshd, python, sudo, `testuser`), built on `archlinux:base` with packages installed via `pacman`.
+- Per-OS variables (e.g. `architecture`) are set directly on the `ubuntu` and `archlinux` inventory groups in `ansible/hosts.yml` - no explicit `vars_files` per OS are needed in the playbook.
+- Role tasks are written with internal `ansible_facts['os_family']` guards, so the same playbook runs unmodified against both the Ubuntu and Arch Linux containers.
 
 ### Why Docker-based testing is preferred over Vagrant
 

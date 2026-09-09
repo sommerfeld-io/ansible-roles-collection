@@ -29,9 +29,8 @@ ls:
   Dockerfile: PascalCase
   Vagrantfile: PascalCase
 
-  # Allow only versioned Ubuntu Dockerfiles in `tests` folder
-  # Adjust rule in case of adding other OS Dockerfiles (e.g. for Arch)
-  tests/Dockerfile.*: regex:^Dockerfile\.ubuntu(-[0-9]{2}\.[0-9]{2})?$
+  # Allow only versioned Ubuntu Dockerfiles plus the Arch Linux Dockerfile in `tests` folder
+  tests/Dockerfile.*: regex:^Dockerfile\.ubuntu(-[0-9]{2}\.[0-9]{2})?$ | regex:^Dockerfile\.archlinux$
 
   .babelrc: lowercase
   .env: lowercase
