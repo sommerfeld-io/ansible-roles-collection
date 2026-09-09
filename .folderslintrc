@@ -12,6 +12,9 @@
 
 		".vscode",
 
+        "docs",
+        "group_vars",
+
         "*/defaults",
 		"*/files/**",
         "*/handlers/**",
@@ -20,6 +23,6 @@
 
         "tests/ansible/tasks/arch",
         "tests/ansible/tasks/ubuntu",
-        "tests/ansible/vars/arch"
+        "tests/ansible/vars"
 	]
 }
