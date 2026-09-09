@@ -33,6 +33,26 @@
       ansible.builtin.debug:
         msg: "{{ node_v.stdout }}"
 
+- name: Node  ----  Arch
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
+    - name: Node  ----  Arch  ----  Install
+      community.general.pacman:
+        name:
+          - nodejs
+          - npm
+        state: present
+        update_cache: true
+
+    - name: Node  ----  Arch  ----  Verify installation
+      ansible.builtin.command: node --version
+      register: node_v
+      changed_when: false
+
+    - name: Node  ----  Arch  ----  Print Node.js version
+      ansible.builtin.debug:
+        msg: "{{ node_v.stdout }}"
+
 - name: Node  ----  Modules  ----  Ensure user-local npm prefix exists
   ansible.builtin.file:
     path: "{{ item }}"
