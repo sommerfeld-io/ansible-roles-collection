@@ -1,9 +1,12 @@
 ---
+## force: true works around the npm module's unreliable idempotency check for global
+## packages, which otherwise re-attempts the install and fails with EEXIST on the bin symlink.
 - name: Node  ----  Modules AI  ----  Install Node.js applications
   community.general.npm:
     name: "{{ item }}"
     global: true
     state: present
+    force: true
   environment:
     HOME: "/home/{{ default_user }}"
     NPM_CONFIG_PREFIX: "/home/{{ default_user }}/.local"
