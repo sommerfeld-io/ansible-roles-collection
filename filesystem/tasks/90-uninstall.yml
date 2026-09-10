@@ -6,3 +6,4 @@
   with_items:
     - /home/{{ default_user }}/.config/libreoffice
     - /home/{{ default_user }}/.repos
+    - /home/{{ default_user }}/Pictures/wallpapers
