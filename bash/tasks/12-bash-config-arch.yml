@@ -1,0 +1,29 @@
+---
+# Arch-only settings (e.g. Omarchy). Guarded by os_family so this never runs
+# against Debian/Ubuntu hosts, matching the internal os_family guard pattern
+# used elsewhere in this collection.
+
+- name: Bash  ----  Config (Arch)  ----  Disable Omarchy's starship prompt override
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
+    - name: Bash  ----  Config (Arch)  ----  Disable Omarchy's starship prompt override for default_user
+      ansible.builtin.blockinfile:
+        dest: "/home/{{ default_user }}/.bashrc"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - disable starship prompt override"
+        insertbefore: '^export PS1='
+        block: |
+          for _i in "${!PROMPT_COMMAND[@]}"; do
+              [[ "${PROMPT_COMMAND[$_i]}" == "starship_precmd" ]] && unset 'PROMPT_COMMAND[_i]'
+          done
+          unset _i
+
+    - name: Bash  ----  Config root (Arch)  ----  Disable Omarchy's starship prompt override
+      ansible.builtin.blockinfile:
+        dest: "/root/.bashrc"
+        marker: "# {mark} ANSIBLE MANAGED BLOCK - disable starship prompt override"
+        insertbefore: '^export PS1='
+        block: |
+          for _i in "${!PROMPT_COMMAND[@]}"; do
+              [[ "${PROMPT_COMMAND[$_i]}" == "starship_precmd" ]] && unset 'PROMPT_COMMAND[_i]'
+          done
+          unset _i
