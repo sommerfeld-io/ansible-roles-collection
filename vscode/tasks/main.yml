@@ -37,14 +37,38 @@
       failed_when: false
       when: not is_test | default(false)
 
-    - name: VSCode  ----  Arch  ----  Install
-      ansible.builtin.command:
-        cmd: yay -S --noconfirm --needed visual-studio-code-bin
-      become: true
-      become_user: "{{ default_user }}"
+    - name: VSCode  ----  Arch  ----  Install visual-studio-code-bin
       when:
         - not is_test | default(false)
         - vscode_arch_bin_installed.rc | default(1) != 0
+      block:
+
+        ## yay drops privileges for the AUR build itself, but internally shells out to its
+        ## own `sudo pacman -U ...` to install the finished package. That nested sudo call
+        ## is invisible to Ansible (no tty, no way to feed it a password), so it fails with
+        ## "sudo: timed out reading password" unless default_user already has passwordless
+        ## sudo for pacman. Grant that here, scoped to pacman only, and revoke it again in
+        ## `always` below - regardless of whether the install succeeds or fails.
+        - name: VSCode  ----  Arch  ----  Grant temporary passwordless sudo for pacman
+          community.general.sudoers:
+            name: "{{ default_user }}-vscode-pacman"
+            state: present
+            user: "{{ default_user }}"
+            commands: /usr/bin/pacman
+            nopassword: true
+
+        - name: VSCode  ----  Arch  ----  Install
+          ansible.builtin.command:
+            cmd: yay -S --noconfirm --needed visual-studio-code-bin
+          become: true
+          become_user: "{{ default_user }}"
+
+      always:
+
+        - name: VSCode  ----  Arch  ----  Revoke temporary passwordless sudo for pacman
+          community.general.sudoers:
+            name: "{{ default_user }}-vscode-pacman"
+            state: absent
 
 - name: VSCode  ----  Snippets
   ansible.builtin.import_tasks: 10-snippets.yml
