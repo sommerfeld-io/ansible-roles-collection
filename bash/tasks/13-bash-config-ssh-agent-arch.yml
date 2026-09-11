@@ -1,0 +1,17 @@
+---
+# Arch-only: auto-start an ssh-agent and load the role-managed key on login,
+# so SSH_AUTH_SOCK is populated for VS Code's devcontainer agent forwarding.
+# The "-z $SSH_AUTH_SOCK" check only starts an agent if none is already
+# reachable (e.g. from a parent shell), so nested/sub-shells don't each spawn
+# and leak their own ssh-agent process.
+
+- name: Bash  ----  Config (Arch)  ----  Auto-start ssh-agent for default_user
+  when: ansible_facts['os_family'] == "Archlinux"
+  ansible.builtin.blockinfile:
+    dest: "/home/{{ default_user }}/.bashrc"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - ssh-agent autostart"
+    block: |
+      if [ -z "$SSH_AUTH_SOCK" ]; then
+          eval "$(ssh-agent -s)" > /dev/null
+          ssh-add ~/.ssh/id_rsa 2>/dev/null
+      fi

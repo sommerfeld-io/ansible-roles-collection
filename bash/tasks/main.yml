@@ -8,6 +8,9 @@
 - name: Bash  ----  Configure (Arch-specific)
   ansible.builtin.import_tasks: 12-bash-config-arch.yml
 
+- name: Bash  ----  Configure ssh-agent (Arch-specific)
+  ansible.builtin.import_tasks: 13-bash-config-ssh-agent-arch.yml
+
 - name: Task  ----  SSH
   ansible.builtin.import_tasks: 20-ssh-keypair.yml
 
