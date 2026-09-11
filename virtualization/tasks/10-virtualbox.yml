@@ -34,11 +34,18 @@
   when: ansible_facts['os_family'] == "Archlinux"
   block:
 
+    ## virtualbox-host-dkms (DKMS sources) is used instead of the precompiled
+    ## virtualbox-host-modules-arch, which only targets the stock `linux` kernel package
+    ## and is therefore not resolvable/compatible on installs running a different kernel
+    ## (e.g. linux-lts, linux-zen, or a distro-specific kernel like Omarchy's). DKMS builds
+    ## against whatever kernel headers are installed, so it works regardless of kernel choice
+    ## and keeps working across kernel upgrades without waiting for a new precompiled build.
     - name: Virtualization  ----  Virtualbox ---- Install Virtualbox and dependencies
       community.general.pacman:
         pkg:
           - virtualbox
-          - virtualbox-host-modules-arch
+          - virtualbox-host-dkms
+          - linux-headers
         state: latest
         update_cache: true
 
