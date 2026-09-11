@@ -4,6 +4,3 @@
 [submodule ".task"]
 	path = .task
 	url = git@github.com:sommerfeld-io/.task.git
-[submodule ".github/skills"]
-	path = .github/skills
-	url = git@github.com:sommerfeld-io/skills.git
