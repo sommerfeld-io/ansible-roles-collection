@@ -33,6 +33,7 @@ services:
     container_name: ubuntu-26_04
     tty: *tty
     command: /usr/sbin/sshd -D
+    mem_limit: 3g
     build:
       context: .
       dockerfile: Dockerfile.ubuntu-26.04
@@ -55,6 +56,7 @@ services:
     container_name: ubuntu-25_10
     tty: *tty
     command: /usr/sbin/sshd -D
+    mem_limit: 3g
     build:
       context: .
       dockerfile: Dockerfile.ubuntu-25.10
@@ -77,6 +79,7 @@ services:
     container_name: ubuntu-25_04
     tty: *tty
     command: /usr/sbin/sshd -D
+    mem_limit: 3g
     build:
       context: .
       dockerfile: Dockerfile.ubuntu-25.04
@@ -99,6 +102,7 @@ services:
     container_name: archlinux
     tty: *tty
     command: /usr/bin/sshd -D
+    mem_limit: 3g
     build:
       context: .
       dockerfile: Dockerfile.archlinux
