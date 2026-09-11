@@ -62,3 +62,66 @@
     - name: Virtualization  ----  Vagrant  ----  Ubuntu ---- Print version
       ansible.builtin.debug:
         msg: "{{ virtualization_vagrant_version_output.stdout }}"
+
+- name: Virtualization  ----  Vagrant  ----  Arch
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
+
+    ## Vagrant has no official Arch Linux package - it is AUR-only, installed via yay,
+    ## which Omarchy ships by default. This is a deliberate exception to this collection's
+    ## usual no-AUR-helper policy, same treatment as visual-studio-code-bin in the vscode role.
+    - name: Virtualization  ----  Vagrant  ----  Arch ---- Check if vagrant is installed
+      ansible.builtin.command: pacman -Qi vagrant
+      register: virtualization_vagrant_arch_installed
+      changed_when: false
+      failed_when: false
+
+    - name: Virtualization  ----  Vagrant  ----  Arch ---- Install
+      when: virtualization_vagrant_arch_installed.rc | default(1) != 0
+      block:
+
+        ## yay drops privileges for the AUR build itself, but internally shells out to its
+        ## own `sudo pacman -U ...` to install the finished package. That nested sudo call
+        ## is invisible to Ansible (no tty, no way to feed it a password), so it fails with
+        ## "sudo: timed out reading password" unless default_user already has passwordless
+        ## sudo for pacman. Grant that here, scoped to pacman only, and revoke it again in
+        ## `always` below - regardless of whether the install succeeds or fails.
+        - name: Virtualization  ----  Vagrant  ----  Arch ---- Grant temporary passwordless sudo for pacman
+          community.general.sudoers:
+            name: "{{ default_user }}-vagrant-pacman"
+            state: present
+            user: "{{ default_user }}"
+            commands: /usr/bin/pacman
+            nopassword: true
+
+        - name: Virtualization  ----  Vagrant  ----  Arch ---- Install vagrant
+          ansible.builtin.command:
+            cmd: yay -S --noconfirm --needed vagrant
+          become: true
+          become_user: "{{ default_user }}"
+
+      always:
+
+        - name: Virtualization  ----  Vagrant  ----  Arch ---- Revoke temporary passwordless sudo for pacman
+          community.general.sudoers:
+            name: "{{ default_user }}-vagrant-pacman"
+            state: absent
+
+    - name: Virtualization  ----  Vagrant  ----  Arch ---- Install Vagrant plugins
+      ansible.builtin.shell: |
+        vagrant plugin install vagrant-cachier
+        # vagrant plugin install vagrant-vbguest
+        # vagrant plugin install vagrant-docker-compose
+      become: true
+      become_user: "{{ default_user }}"
+      args:
+        executable: /bin/bash
+
+    - name: Virtualization  ----  Vagrant  ----  Arch ---- Verify installation
+      ansible.builtin.command: vagrant --version
+      register: virtualization_vagrant_version_output
+      changed_when: false
+
+    - name: Virtualization  ----  Vagrant  ----  Arch ---- Print version
+      ansible.builtin.debug:
+        msg: "{{ virtualization_vagrant_version_output.stdout }}"

@@ -30,7 +30,7 @@ workstation_profile_omarchy_include_roles:
   - atuin
   - ollama
   - claude
-  - virtualization    # tasks_from: main installs VirtualBox only, see exclude_tools below
+  - virtualization    # tasks_from: main installs VirtualBox (pacman) and Vagrant (yay)
 
 ## Roles intentionally left out of the default Omarchy profile.
 workstation_profile_omarchy_exclude_roles:
@@ -39,11 +39,10 @@ workstation_profile_omarchy_exclude_roles:
 ## Individual tools/tasks skipped even though their role runs, because the tool has no
 ## official Arch package (AUR-only). Postman, asunder and IntelliJ IDEA are not just
 ## skipped on Arch - they are never installed on any OS, and are actively uninstalled
-## on Ubuntu too (see packages/tasks/desktop/90-uninstall.yml).
+## on Ubuntu too (see packages/tasks/desktop/90-uninstall.yml). Vagrant is no longer
+## excluded here - it is installed via `yay`, a deliberate AUR exception documented in
+## the virtualization role README (same treatment as vscode/visual-studio-code-bin).
 workstation_profile_omarchy_exclude_tools:
-  - name: vagrant
-    role: virtualization
-    reason: aur_only_no_official_arch_package
   - name: postman
     role: packages
     tasks_from: desktop
