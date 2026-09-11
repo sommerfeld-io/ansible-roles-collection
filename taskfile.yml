@@ -15,6 +15,16 @@ includes:
 
 tasks:
 
+  compose:pull:
+    desc: 'Pull all container images for linting and validation'
+    cmds:
+      - docker compose pull
+
+  symlinks:
+    desc: 'Create symlinks for shared files'
+    cmds:
+      - ln -sf "$(pwd)/.github/copilot-instructions.md" "$(pwd)/CLAUDE.md"
+
   lint:
     desc: 'Run all project linters outside of Dockerfile linters'
     cmds:

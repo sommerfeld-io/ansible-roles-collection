@@ -1,11 +1,16 @@
 ---
-description: "Scaffold a new Ansible role with the correct file layout following project conventions"
-name: "add a new role"
-argument-hint: "role-name [description]"
-agent: "agent"
+name: add-role
+description: 'Scaffold a new Ansible role with the correct file layout following project conventions. Use when adding a new role to this collection. Takes a role name (required, lowercase, hyphen-separated) and an optional one-sentence description.'
+argument-hint: 'role-name [description]'
 ---
 
-Scaffold a new Ansible role in this repository following the project conventions defined in [.github/copilot-instructions.md](../copilot-instructions.md).
+# Add Role
+
+Scaffold a new Ansible role in this repository following the project conventions defined in [.github/copilot-instructions.md](../../../.github/copilot-instructions.md).
+
+## When to Use
+
+- Adding a brand new role to this collection.
 
 ## Inputs
 
@@ -16,13 +21,12 @@ The user will provide (via argument or prompt):
 - **OS-specific** (optional): whether tasks need `when: ansible_os_family` branches.
 - **Needs handler** (optional): whether to create `handlers/main.yml`.
 
-If the argument is missing, ask the user for the role name before proceeding.
+If the role name is missing, ask the user for it before proceeding.
 
-## Files to Create
+## Procedure
 
-Create the following files under `<role-name>/`:
+### 1. Create `<role-name>/tasks/main.yml`
 
-### `<role-name>/tasks/main.yml`
 Import numbered subtasks using `ansible.builtin.import_tasks`. Use this skeleton:
 ```yaml
 ---
@@ -36,7 +40,8 @@ Import numbered subtasks using `ansible.builtin.import_tasks`. Use this skeleton
   ansible.builtin.import_tasks: 90-uninstall.yml
 ```
 
-### `<role-name>/tasks/10-install.yml`
+### 2. Create `<role-name>/tasks/10-install.yml`
+
 Stub install tasks. If OS-specific, include both Debian and Archlinux blocks with `when:` guards:
 ```yaml
 ---
@@ -55,20 +60,24 @@ Stub install tasks. If OS-specific, include both Debian and Archlinux blocks wit
   when: ansible_facts['os_family'] == "Archlinux"
 ```
 
-### `<role-name>/tasks/20-configure.yml`
+### 3. Create `<role-name>/tasks/20-configure.yml`
+
 Stub configure tasks (empty or minimal placeholder).
 
-### `<role-name>/tasks/90-uninstall.yml`
+### 4. Create `<role-name>/tasks/90-uninstall.yml`
+
 Stub uninstall tasks with `state: absent`.
 
-### `<role-name>/defaults/main.yml` (if has defaults)
+### 5. Create `<role-name>/defaults/main.yml` (if has defaults)
+
 ```yaml
 ---
 <role_name>_version: "1.0.0"
 ```
 All variables **must** be prefixed with the role name (underscores, no hyphens): e.g. `my_role_version`.
 
-### `<role-name>/handlers/main.yml` (if needs handler)
+### 6. Create `<role-name>/handlers/main.yml` (if needs handler)
+
 ```yaml
 ---
 - name: Restart <service>
@@ -78,7 +87,8 @@ All variables **must** be prefixed with the role name (underscores, no hyphens):
   become: true
 ```
 
-### `<role-name>/README.md`
+### 7. Create `<role-name>/README.md`
+
 Use this exact structure:
 ```markdown
 # Role: <role-name>
@@ -102,7 +112,7 @@ The following variables are optional and have default values:
 | `{{ <role_name>_version }}`       | Version to install       | `1.0.0`  |
 ```
 
-## Conventions to Follow
+### 8. Follow these conventions throughout
 
 - Task names: `Role Title  ----  Section  ----  Action`
 - Variables: lowercase, underscore-separated, prefixed with role name. Never use hyphens.
@@ -111,9 +121,9 @@ The following variables are optional and have default values:
 - Read-only/informational tasks: add `changed_when: false`
 - Use `ansible.builtin.import_tasks` for static subtask imports
 
-## After Scaffolding
+### 9. Wrap up
 
 1. Confirm all files were created.
 2. Remind the user to:
-   - Add the role to [tests/ansible/playbook.yml](../../tests/ansible/playbook.yml) in the correct phase (root or user-space)
+   - Add the role to [tests/ansible/playbook.yml](../../../tests/ansible/playbook.yml) in the correct phase (root or user-space)
    - Run `task lint` to validate the new role files

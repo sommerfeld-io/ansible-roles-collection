@@ -1,0 +1,1 @@
+/home/sebastian/work/repos/sommerfeld-io/ansible-roles-collection/.github/copilot-instructions.md
