@@ -15,12 +15,36 @@
   when: ansible_facts['os_family'] == "Archlinux"
   block:
 
-    - name: VSCode  ----  Arch  ----  Install
+    ## Code - OSS (official Arch repos) is replaced by Microsoft's own build below, so it
+    ## must be removed first - both packages provide a /usr/bin/code binary and would
+    ## otherwise conflict.
+    - name: VSCode  ----  Arch  ----  Uninstall Code - OSS
       community.general.pacman:
         name:
           - code
-        state: present
-        update_cache: true
+        state: absent
+
+    ## visual-studio-code-bin is AUR-only (the real Microsoft build, required to pass the
+    ## Dev Containers extension's build check and use the Microsoft Marketplace) - install
+    ## via yay, which Omarchy ships by default. This is a deliberate exception to this
+    ## collection's usual no-AUR-helper policy, see docs/omarchy-workstation-role-matrix.md.
+    ## AUR builds must not run as root, hence become_user. Skipped in test/CI the same way
+    ## other Omarchy-only installs are, since yay is not available there.
+    - name: VSCode  ----  Arch  ----  Check if visual-studio-code-bin is installed
+      ansible.builtin.command: pacman -Qi visual-studio-code-bin
+      register: vscode_arch_bin_installed
+      changed_when: false
+      failed_when: false
+      when: not is_test | default(false)
+
+    - name: VSCode  ----  Arch  ----  Install
+      ansible.builtin.command:
+        cmd: yay -S --noconfirm --needed visual-studio-code-bin
+      become: true
+      become_user: "{{ default_user }}"
+      when:
+        - not is_test | default(false)
+        - vscode_arch_bin_installed.rc | default(1) != 0
 
 - name: VSCode  ----  Snippets
   ansible.builtin.import_tasks: 10-snippets.yml

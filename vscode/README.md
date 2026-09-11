@@ -6,7 +6,7 @@ With `tasks_from: plugins` The role installs a set of useful plugins. This shoul
 
 The role is intended to be used on Ubuntu Desktop machines.
 
-On Arch Linux, the role installs `code` (Code - OSS) from the official Arch repos via `pacman`. This is the open-source build without Microsoft's proprietary branding, telemetry, or marketplace access, unlike the Ubuntu path which installs Microsoft's own `code` snap. VS Code is not preinstalled on Omarchy.
+On Arch Linux, the role first removes `code` (Code - OSS, the open-source build without Microsoft's proprietary branding, telemetry, or marketplace access) if present, then installs `visual-studio-code-bin` from the AUR via `yay` - the official Microsoft build, same as the Ubuntu path's `code` snap. This is required to pass the Dev Containers extension's build check and use the Microsoft Marketplace. `visual-studio-code-bin` is AUR-only, so this is a deliberate exception to this collection's usual policy of not depending on an AUR helper (see `docs/omarchy-workstation-role-matrix.md`); it relies on `yay`, which Omarchy ships by default. VS Code is not preinstalled on Omarchy.
 
 ## Expected Variables
 

@@ -1,4 +1,7 @@
 ---
+- name: Packages  ----  Uninstall unneeded packages
+  ansible.builtin.import_tasks: desktop/00-uninstall.yml
+
 - name: Packages  ----  Install basics
   ansible.builtin.import_tasks: desktop/10-basics.yml
 
@@ -13,6 +16,3 @@
 
 - name: Packages  ----  Install Media Players
   ansible.builtin.import_tasks: desktop/50-media-players.yml
-
-- name: Packages  ----  Uninstall unneeded packages
-  ansible.builtin.import_tasks: desktop/90-uninstall.yml
