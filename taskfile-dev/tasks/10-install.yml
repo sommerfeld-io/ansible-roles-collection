@@ -5,7 +5,7 @@
 
     - name: Task  ----  Ubuntu  ----  Install  ----  Download
       ansible.builtin.get_url:
-        url: "https://github.com/go-task/task/releases/download/v{{ version }}/task_linux_{{ architecture }}.deb"
+        url: "https://github.com/go-task/task/releases/download/v{{ version }}/task_{{ version }}_linux_{{ architecture }}.deb"
         dest: /tmp/task_{{ architecture }}.deb
         owner: "{{ default_user }}"
         group: "{{ default_user }}"
