@@ -1,8 +1,6 @@
 ---
-- name: Config  ----  Allows remote taskfiles to be used by adding param to .bashrc
+- name: Task  ----  Configure  ----  Ensure TASK_X_REMOTE_TASKFILES is absent from .bashrc
   ansible.builtin.lineinfile:
     dest: "/home/{{ default_user }}/.bashrc"
-    state: present
-    line: "{{ item }}"
-  with_items:
-    - export TASK_X_REMOTE_TASKFILES=1
+    state: absent
+    regexp: '^export TASK_X_REMOTE_TASKFILES='
