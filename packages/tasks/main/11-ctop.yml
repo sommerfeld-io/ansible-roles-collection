@@ -11,3 +11,15 @@
         owner: "{{ default_user }}"
         group: "{{ default_user }}"
       become: true
+
+- name: Packages Main  ----  Arch  ----  ctop
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
+
+    - name: Packages Main  ----  Arch  ----  Install ctop
+      community.general.pacman:
+        name:
+          - ctop
+        state: present
+        update_cache: true
+      become: true
