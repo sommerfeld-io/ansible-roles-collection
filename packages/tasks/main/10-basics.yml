@@ -46,6 +46,13 @@
         state: present
         update_cache: true
 
+    - name: Packages Main  ----  Arch  ----  Additionals  ----  Install additional packages
+      community.general.pacman:
+        name:
+          - bc # arbitrary-precision command-line calculator for mathematical calculations (used for different styles of window tiling)
+        state: present
+        update_cache: true
+
     - name: Packages Main  ----  Arch  ----  Basics  ----  Install Dev tools
       community.general.pacman:
         name: *dev-packages
