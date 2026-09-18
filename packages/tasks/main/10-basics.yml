@@ -50,6 +50,7 @@
       community.general.pacman:
         name:
           - bc # arbitrary-precision command-line calculator for mathematical calculations (used for different styles of window tiling)
+          - uv # provides both the uv and uvx binaries
         state: present
         update_cache: true
 
