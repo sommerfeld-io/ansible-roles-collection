@@ -47,7 +47,7 @@ services:
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
     working_dir: *default-workdir
-    entrypoint: hadolint Dockerfile.ubuntu-26.04
+    entrypoint: hadolint Dockerfile.ubuntu-25.10
     tty: *tty
 
   ubuntu-25_10:
@@ -70,7 +70,7 @@ services:
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
     working_dir: *default-workdir
-    entrypoint: hadolint Dockerfile.ubuntu-26.04
+    entrypoint: hadolint Dockerfile.ubuntu-25.04
     tty: *tty
 
   ubuntu-25_04:

@@ -22,6 +22,7 @@
 
         "tests/compose/ansible/tasks/arch",
         "tests/compose/ansible/tasks/ubuntu",
-        "tests/compose/ansible/vars"
+        "tests/compose/ansible/vars",
+        "tests/molecule/**"
 	]
 }
