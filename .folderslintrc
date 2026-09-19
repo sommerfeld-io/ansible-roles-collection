@@ -7,22 +7,22 @@
 		".github/workflows/assets",
 		".github/prompts",
 
-        ".task/**",
+    ".task/**",
 
 		".vscode",
 
-        "docs",
-        "group_vars",
+    "docs",
+    "group_vars",
 
-        "*/defaults",
+    "*/defaults",
 		"*/files/**",
-        "*/handlers/**",
-        "*/tasks/**",
-        "*/templates/**",
+    "*/handlers/**",
+    "*/tasks/**",
+    "*/templates/**",
 
-        "tests/compose/ansible/tasks/arch",
-        "tests/compose/ansible/tasks/ubuntu",
-        "tests/compose/ansible/vars",
-        "tests/molecule/**"
+    "tests/compose/ansible/tasks/arch",
+    "tests/compose/ansible/tasks/ubuntu",
+    "tests/compose/ansible/vars",
+    "tests/molecule/**"
 	]
 }
