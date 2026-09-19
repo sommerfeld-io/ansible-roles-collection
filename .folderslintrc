@@ -20,8 +20,8 @@
         "*/tasks/**",
         "*/templates/**",
 
-        "tests/ansible/tasks/arch",
-        "tests/ansible/tasks/ubuntu",
-        "tests/ansible/vars"
+        "tests/compose/ansible/tasks/arch",
+        "tests/compose/ansible/tasks/ubuntu",
+        "tests/compose/ansible/vars"
 	]
 }

@@ -20,6 +20,7 @@
 - name: Ansible  ----  Verify installation
   ansible.builtin.command: ansible --version
   register: ansible_version_output
+  changed_when: false
 - name: Ansible  ----  Print version
   ansible.builtin.debug:
     msg: "{{ ansible_version_output.stdout }}"
@@ -32,3 +33,5 @@
     - community.docker
   args:
     executable: /bin/bash
+  register: ansible_galaxy_output
+  changed_when: "'Nothing to do' not in ansible_galaxy_output.stdout"

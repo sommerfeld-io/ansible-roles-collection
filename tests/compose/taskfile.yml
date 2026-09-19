@@ -3,7 +3,7 @@ version: '3.42.1'
 
 includes:
   cleanup:
-    taskfile: ../.task/cleanup/taskfile.yml
+    taskfile: ../../.task/cleanup/taskfile.yml
     internal: true
 
 tasks:

@@ -1,0 +1,100 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: true
+  vars:
+    default_user: molecule
+  tasks:
+    - name: hardening  ----  Check UMASK was hardened in /etc/login.defs
+      ansible.builtin.command: grep -q '^UMASK 027' /etc/login.defs
+      changed_when: false
+
+    - name: bash  ----  Check ll alias was added to .bashrc
+      ansible.builtin.command: grep -q 'alias ll="ls -alFh --color=auto"' /home/{{ default_user }}/.bashrc
+      changed_when: false
+
+    - name: bash  ----  Check SSH keypair was generated
+      ansible.builtin.stat:
+        path: /home/{{ default_user }}/.ssh/id_rsa.pub
+      register: ssh_pubkey
+
+    - name: bash  ----  Assert SSH keypair exists
+      ansible.builtin.assert:
+        that: ssh_pubkey.stat.exists
+
+    - name: filesystem  ----  Check timezone was set
+      ansible.builtin.command: grep -q 'Europe/Berlin' /etc/timezone
+      changed_when: false
+
+    - name: filesystem  ----  Check autostart directory exists
+      ansible.builtin.stat:
+        path: /home/{{ default_user }}/.config/autostart
+      register: autostart_dir
+
+    - name: filesystem  ----  Assert autostart directory exists
+      ansible.builtin.assert:
+        that: autostart_dir.stat.exists and autostart_dir.stat.isdir
+
+    - name: git  ----  Check gitconfig was copied
+      ansible.builtin.command: grep -q 'helper = cache --timeout=3600' /home/{{ default_user }}/.gitconfig
+      changed_when: false
+
+    - name: packages  ----  Check jq (main) was installed
+      ansible.builtin.command: jq --version
+      changed_when: false
+
+    - name: cron  ----  Check cron.d exists
+      ansible.builtin.stat:
+        path: /etc/cron.d
+      register: cron_d
+
+    - name: cron  ----  Assert cron.d exists
+      ansible.builtin.assert:
+        that: cron_d.stat.exists and cron_d.stat.isdir
+
+    - name: taskfile-dev  ----  Check task was installed
+      ansible.builtin.command: task --version
+      changed_when: false
+
+    - name: ansible  ----  Check ansible was installed
+      ansible.builtin.command: ansible --version
+      changed_when: false
+
+    - name: conky  ----  Check host.conkyrc was copied
+      ansible.builtin.stat:
+        path: /home/{{ default_user }}/.config/conky/host.conkyrc
+      register: conkyrc
+
+    - name: conky  ----  Assert host.conkyrc exists
+      ansible.builtin.assert:
+        that: conkyrc.stat.exists
+
+    - name: github-cli  ----  Check gh was installed
+      ansible.builtin.command: gh --version
+      changed_when: false
+
+    - name: kubectl  ----  Check kubectl was installed
+      ansible.builtin.command: kubectl version --client
+      changed_when: false
+
+    - name: helm  ----  Check helm was installed
+      ansible.builtin.command: helm version
+      changed_when: false
+
+    - name: atuin  ----  Check atuin binary was installed
+      ansible.builtin.stat:
+        path: /home/{{ default_user }}/.atuin/bin/atuin
+      register: atuin_bin
+
+    - name: atuin  ----  Assert atuin binary exists and is executable
+      ansible.builtin.assert:
+        that: atuin_bin.stat.exists and atuin_bin.stat.executable
+
+    - name: docker  ----  Check docker-scout plugin was installed
+      ansible.builtin.stat:
+        path: /home/{{ default_user }}/.docker/cli-plugins/docker-scout
+      register: docker_scout
+
+    - name: docker  ----  Assert docker-scout plugin exists
+      ansible.builtin.assert:
+        that: docker_scout.stat.exists

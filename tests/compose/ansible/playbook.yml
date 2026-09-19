@@ -40,54 +40,54 @@
   tasks:
     - name: Run Roles  ----  Root  ----  Apply hardening
       ansible.builtin.include_role:
-        name: ../hardening
+        name: ../../hardening
     - name: Run Roles  ----  Root  ----  Apply bash
       ansible.builtin.include_role:
-        name: ../bash
+        name: ../../bash
     - name: Run Roles  ----  Root  ----  Apply filesystem
       ansible.builtin.include_role:
-        name: ../filesystem
+        name: ../../filesystem
     - name: Run Roles  ----  Root  ----  Apply git
       ansible.builtin.include_role:
-        name: ../git
+        name: ../../git
     - name: Run Roles  ----  Root  ----  Apply packages (main)
       ansible.builtin.include_role:
-        name: ../packages
+        name: ../../packages
         tasks_from: main
     - name: Run Roles  ----  Root  ----  Apply packages (desktop)
       ansible.builtin.include_role:
-        name: ../packages
+        name: ../../packages
         tasks_from: desktop
     # - name: Run Roles  ----  Root  ----  Apply docker (main)
     #   ansible.builtin.include_role:
-    #     name: ../docker
+    #     name: ../../docker
     #     tasks_from: main
     # - name: Run Roles  ----  Root  ----  Apply vscode (main)
     #   ansible.builtin.include_role:
-    #     name: ../vscode
+    #     name: ../../vscode
     #     tasks_from: main
     - name: Run Roles  ----  Root  ----  Apply cron (main)
       ansible.builtin.include_role:
-        name: ../cron
+        name: ../../cron
         tasks_from: main
     - name: Run Roles  ----  Root  ----  Apply taskfile-dev
       ansible.builtin.include_role:
-        name: ../taskfile-dev
+        name: ../../taskfile-dev
     - name: Run Roles  ----  Root  ----  Apply ansible
       ansible.builtin.include_role:
-        name: ../ansible
+        name: ../../ansible
     - name: Run Roles  ----  Root  ----  Apply conky
       ansible.builtin.include_role:
-        name: ../conky
+        name: ../../conky
     - name: Run Roles  ----  Root  ----  Apply github-cli
       ansible.builtin.include_role:
-        name: ../github-cli
+        name: ../../github-cli
     - name: Run Roles  ----  Non-Root  ----  Apply kubectl
       ansible.builtin.include_role:
-        name: ../kubectl
+        name: ../../kubectl
     - name: Run Roles  ----  Non-Root  ----  Apply helm
       ansible.builtin.include_role:
-        name: ../helm
+        name: ../../helm
 
 - name: Run roles against the System under Test (non-root)
   hosts: all
@@ -98,16 +98,16 @@
   tasks:
     - name: Run Roles  ----  Non-Root  ----  Apply atuin
       ansible.builtin.include_role:
-        name: ../atuin
+        name: ../../atuin
     - name: Run Roles  ----  Non-Root  ----  Apply cron (jobs)
       ansible.builtin.include_role:
-        name: ../cron
+        name: ../../cron
         tasks_from: jobs
     - name: Run Roles  ----  Non-Root  ----  Apply docker (scout)
       ansible.builtin.include_role:
-        name: ../docker
+        name: ../../docker
         tasks_from: scout
     # - name: Run Roles  ----  Non-Root  ----  Apply vscode (plugins)
     #   ansible.builtin.include_role:
-    #     name: ../vscode
+    #     name: ../../vscode
     #     tasks_from: plugins

@@ -1,0 +1,34 @@
+---
+- name: Prepare (Ubuntu family)
+  hosts: ubuntu
+  gather_facts: false
+  tasks:
+    - name: Install python3, cron, openssh-client and sudo
+      ansible.builtin.raw: apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y python3 cron openssh-client sudo
+      changed_when: false
+
+- name: Prepare (Archlinux family)
+  hosts: archlinux
+  gather_facts: false
+  tasks:
+    - name: Disable pacman sandboxed download user (breaks under Docker's default seccomp profile)
+      ansible.builtin.raw: sed -i 's/^DownloadUser/#DownloadUser/' /etc/pacman.conf
+      changed_when: false
+
+    - name: Install python3, openssh and sudo
+      ansible.builtin.raw: pacman -Sy --noconfirm python openssh sudo
+      changed_when: false
+
+    - name: Initialize and populate the pacman keyring (needed to locally sign imported GPG keys)
+      ansible.builtin.raw: pacman-key --init && pacman-key --populate archlinux
+      changed_when: false
+
+- name: Prepare (all hosts)
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Create default_user test account (with home dir)
+      ansible.builtin.user:
+        name: molecule
+        state: present
+        create_home: true

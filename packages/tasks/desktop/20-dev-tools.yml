@@ -20,3 +20,41 @@
         name: *packages
         state: present
         update_cache: true
+
+    # rpi-imager self-elevates to root via sudo (for raw block-device access)
+    # and forces the Qt "xcb" platform plugin, so under Hyprland/Wayland it
+    # must connect through XWayland as root. These are additional runtime
+    # dependencies for that XWayland path, not for rpi-imager itself:
+    # xcb-util-cursor provides libxcb-cursor, required by Qt 6.5+ to load the
+    # xcb platform plugin; qt6-wayland is required alongside it; xorg-xhost
+    # provides the xhost binary used by the config task below.
+    - name: Packages Desktop  ----  Arch  ----  Dev Tools  ----  Install additional dependencies for rpi-imager GUI under XWayland
+      community.general.pacman:
+        name:
+          - xcb-util-cursor
+          - qt6-wayland
+          - xorg-xhost
+        state: present
+        update_cache: true
+
+    # Only present on actual Omarchy/Hyprland hosts (not vanilla Arch/test
+    # containers), so check for it first instead of forcing blockinfile to
+    # create it. Mirrors the bindings.lua guard in 00-uninstall.yml.
+    - name: Packages Desktop  ----  Arch  ----  Dev Tools  ----  Check for Hyprland autostart config needed by rpi-imager GUI fix
+      ansible.builtin.stat:
+        path: "/home/{{ default_user }}/.config/hypr/autostart.lua"
+      register: packages_desktop_arch_dev_tools_hypr_autostart_file
+
+    # root is not authorized against the user's running X/XWayland server, so
+    # rpi-imager fails with "Authorization required, but no authorization
+    # protocol specified" - the forwarded XAUTHORITY cookie doesn't help
+    # under Hyprland. Grant access on every Hyprland start (server-side,
+    # cookie-independent). This edits a user Hyprland config file, not
+    # rpi-imager itself.
+    - name: Packages Desktop  ----  Arch  ----  Dev Tools  ----  Add Hyprland autostart config to authorize root for rpi-imager GUI
+      ansible.builtin.blockinfile:
+        dest: "/home/{{ default_user }}/.config/hypr/autostart.lua"
+        marker: "-- {mark} ANSIBLE MANAGED BLOCK - authorize root for rpi-imager XWayland GUI"
+        block: |
+          o.exec_on_start("xhost +SI:localuser:root")
+      when: packages_desktop_arch_dev_tools_hypr_autostart_file.stat.exists

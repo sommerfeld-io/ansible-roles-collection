@@ -79,7 +79,7 @@ when: ansible_facts['os_family'] == "Debian"
 when: ansible_facts['os_family'] == "Archlinux"
 ```
 
-**Privilege model**: root tasks use `become: true`; user-space tasks use `become: false`. The test playbook runs these in separate phases - see [tests/ansible-playbook.yml](../tests/ansible-playbook.yml).
+**Privilege model**: root tasks use `become: true`; user-space tasks use `become: false`. The test playbook runs these in separate phases - see [tests/compose/ansible/playbook.yml](../tests/compose/ansible/playbook.yml).
 
 **State reporting**: Use `changed_when: false` on informational/read-only tasks. Handlers only fire when a task reports `changed`.
 
@@ -87,7 +87,7 @@ when: ansible_facts['os_family'] == "Archlinux"
 
 ## Testing
 
-Tests use Docker Compose and Taskfile for orchestration. See [tests/README.md](../tests/README.md) for the full Docker-based test setup and instructions.
+Tests use Docker Compose and Taskfile for orchestration. See [tests/compose/README.md](../tests/compose/README.md) for the full Docker-based test setup and instructions.
 
 ## Ansible Lint
 
