@@ -57,7 +57,7 @@ The Ansible runner container waits for all targets to be healthy, then runs your
 - VirtualBox and Vagrant are not tested
     - VirtualBox and Vagrant require kernel modules and privileged access that are not available in Docker containers.
     - Any Ansible roles or tasks related to VirtualBox or Vagrant are not executed or validated in this test setup.
-    - On Arch Linux, Vagrant additionally has no official package at all (AUR-only, installed via `yay`) - see [docs/omarchy-workstation-role-matrix.md](../docs/omarchy-workstation-role-matrix.md).
+    - On Arch Linux, Vagrant additionally has no official package at all (AUR-only, installed via `yay`) - see [docs/omarchy-workstation-role-matrix.md](../../docs/omarchy-workstation-role-matrix.md).
 - Docker is tested
     - Docker-related roles and tasks are tested, as Docker can run inside Docker containers ("Docker-in-Docker") with the appropriate configuration.
     - This allows validation of Docker installation and configuration tasks within the test environment.

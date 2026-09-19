@@ -40,6 +40,7 @@
     - name: Task  ----  Verify installation
       ansible.builtin.command: task --version
       register: task_output
+      changed_when: false
 
     - name: Task  ----  Print version
       ansible.builtin.debug:

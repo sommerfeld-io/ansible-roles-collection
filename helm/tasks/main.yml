@@ -1,4 +1,9 @@
 ---
+- name: Helm Setup  ----  Check if already installed
+  ansible.builtin.stat:
+    path: /usr/local/bin/helm
+  register: helm_binary
+
 - name: Helm Setup  ----  Download
   ansible.builtin.get_url:
     url: "https://get.helm.sh/helm-{{ common_version }}-linux-{{ common_architecture }}.tar.gz"
@@ -6,6 +11,7 @@
     owner: "{{ default_user }}"
     group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=rx
+  when: not helm_binary.stat.exists
 
 - name: Helm Setup  ----  Extract tarball
   ansible.builtin.unarchive:
@@ -15,6 +21,7 @@
     group: "{{ default_user }}"
     mode: u=rwx,g=rx,o=rx
     remote_src: true
+  when: not helm_binary.stat.exists
 
 - name: Helm Setup  ----  Move to /usr/local/bin
   ansible.builtin.command: mv /tmp/linux-{{ common_architecture }}/helm /usr/local/bin/helm
@@ -24,6 +31,7 @@
 - name: Helm Setup  ----  Verify installation
   ansible.builtin.command: helm version
   register: helm_output
+  changed_when: false
 
 - name: Helm Setup  ----  Print version
   ansible.builtin.debug:

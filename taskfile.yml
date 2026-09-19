@@ -10,8 +10,11 @@ includes:
   cleanup: .task/cleanup/taskfile.yml
   common: .task/common/taskfile.yml
   test:
-    taskfile: tests/taskfile.yml
-    dir: tests
+    taskfile: tests/compose/taskfile.yml
+    dir: tests/compose
+  molecule:
+    taskfile: tests/molecule/taskfile.yml
+    dir: tests/molecule
 
 tasks:
 

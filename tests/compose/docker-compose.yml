@@ -116,7 +116,7 @@ services:
     container_name: ansible-runner
     volumes:
       - project-tests-volume:/workspaces/roles/tests:ro
-      - ../:/workspaces/roles:ro
+      - ../../:/workspaces/roles:ro
     working_dir: /workspaces/roles/tests
     entrypoint: ["/bin/sh", "-c"]
     command:

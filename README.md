@@ -11,7 +11,7 @@ A collection of Ansible roles for various purposes.
 
 For documentation on a role, see the `README.md` in the folder of the respective role.
 
-We have a testing process in place to ensure our Ansible roles remain compatible with the targeted operating systems. See <tests/README.md> for details
+We have a testing process in place to ensure our Ansible roles remain compatible with the targeted operating systems. See <tests/compose/README.md> for details
 
 Roles target Ubuntu/Debian and Arch Linux (including [Omarchy](https://github.com/basecamp/omarchy) desktop workstations). See <docs/omarchy-workstation-role-matrix.md> for the per-role compatibility matrix and <group_vars/workstation-profile-omarchy.yml> for the include/exclude profile a downstream playbook can load for an Omarchy workstation.
 

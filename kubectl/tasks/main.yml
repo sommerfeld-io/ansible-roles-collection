@@ -12,6 +12,7 @@
   args:
     executable: /bin/bash
   register: common_version_output
+  changed_when: false
 
 - name: Kubectl  ----  Display version
   ansible.builtin.debug:

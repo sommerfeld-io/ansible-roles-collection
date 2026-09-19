@@ -1,0 +1,87 @@
+---
+- name: Converge  ----  Run roles (root)
+  hosts: all
+  become: false
+  gather_facts: true
+  vars_files:
+    - ../../../../../tests/compose/ansible/vars/main.yml
+  vars:
+    is_test: true
+    default_user: molecule
+    architecture: amd64
+    ps1: '\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] $ '
+    ps1_root: '\[\033[38;5;213m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] $ '
+  tasks:
+    - name: Run Roles  ----  Root  ----  Apply hardening
+      ansible.builtin.include_role:
+        name: hardening
+    - name: Run Roles  ----  Root  ----  Apply bash
+      ansible.builtin.include_role:
+        name: bash
+    - name: Run Roles  ----  Root  ----  Apply filesystem
+      ansible.builtin.include_role:
+        name: filesystem
+    - name: Run Roles  ----  Root  ----  Apply git
+      ansible.builtin.include_role:
+        name: git
+    - name: Run Roles  ----  Root  ----  Apply packages (main)
+      ansible.builtin.include_role:
+        name: packages
+        tasks_from: main
+    - name: Run Roles  ----  Root  ----  Apply packages (desktop)
+      ansible.builtin.include_role:
+        name: packages
+        tasks_from: desktop
+    - name: Run Roles  ----  Root  ----  Apply cron (main)
+      ansible.builtin.include_role:
+        name: cron
+        tasks_from: main
+    - name: Run Roles  ----  Root  ----  Apply taskfile-dev
+      ansible.builtin.include_role:
+        name: taskfile-dev
+    - name: Run Roles  ----  Root  ----  Apply ansible
+      ansible.builtin.include_role:
+        name: ansible
+    - name: Run Roles  ----  Root  ----  Apply conky
+      ansible.builtin.include_role:
+        name: conky
+    - name: Run Roles  ----  Root  ----  Apply github-cli
+      ansible.builtin.include_role:
+        name: github-cli
+    - name: Run Roles  ----  Root  ----  Apply kubectl
+      ansible.builtin.include_role:
+        name: kubectl
+    - name: Run Roles  ----  Root  ----  Apply helm
+      ansible.builtin.include_role:
+        name: helm
+
+- name: Converge  ----  Run roles (non-root)
+  hosts: all
+  become: true
+  become_method: ansible.builtin.su
+  become_user: molecule
+  gather_facts: true
+  vars_files:
+    - ../../../../../tests/compose/ansible/vars/main.yml
+  vars:
+    is_test: true
+    default_user: molecule
+  tasks:
+    - name: Run Roles  ----  Non-Root  ----  Apply atuin
+      ansible.builtin.include_role:
+        name: atuin
+    - name: Run Roles  ----  Non-Root  ----  Apply cron (jobs)
+      ansible.builtin.include_role:
+        name: cron
+        tasks_from: jobs
+    - name: Run Roles  ----  Non-Root  ----  Ensure ~/.docker exists (docker-scout install.sh requires it)
+      ansible.builtin.file:
+        path: "/home/{{ default_user }}/.docker"
+        state: directory
+        owner: "{{ default_user }}"
+        group: "{{ default_user }}"
+        mode: u=rwx,g=rx,o=
+    - name: Run Roles  ----  Non-Root  ----  Apply docker (scout)
+      ansible.builtin.include_role:
+        name: docker
+        tasks_from: scout

@@ -13,6 +13,10 @@
     state: *state
     update_cache: *update
   when: ansible_facts['os_family'] == "Archlinux"
+  # state: latest against Arch's rolling-release repos can genuinely report changed a second
+  # time if a newer build lands between two nearby runs - not a logic bug, so excluded from
+  # Molecule's idempotence check.
+  tags: [molecule-idempotence-notest]
 
 - name: Git  ----  Copy git configuration
   ansible.builtin.copy:
