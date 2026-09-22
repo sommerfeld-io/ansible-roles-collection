@@ -9,9 +9,27 @@
         dest: /etc/apt/keyrings/sublimehq-pub.asc
         mode: '0644'
 
+    - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Find stale apt_repository sources file
+      ansible.builtin.find:
+        paths: /etc/apt/sources.list.d
+        patterns: "*.list"
+        contains: download.sublimetext.com
+      register: packages_sublime_stale_sources
+
+    - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Remove stale apt_repository sources file
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        state: absent
+      loop: "{{ packages_sublime_stale_sources.files }}"
+
     - name: Packages Desktop  ----  Ubuntu  ----  Sublime  ----  Add apt repository
-      ansible.builtin.apt_repository:
-        repo: deb [signed-by=/etc/apt/keyrings/sublimehq-pub.asc] https://download.sublimetext.com apt/stable/
+      ansible.builtin.deb822_repository:
+        name: sublime-text
+        types: [deb]
+        uris: https://download.sublimetext.com
+        suites: ["apt/stable/"]
+        signed_by: /etc/apt/keyrings/sublimehq-pub.asc
+        install_python_debian: true
         state: present
         mode: '0644'
 

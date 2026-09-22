@@ -21,10 +21,20 @@
         path: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
         mode: '0644'
 
+    - name: Virtualization  ----  Vagrant  ----  Ubuntu ---- Remove stale apt_repository sources file
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/hashicorp.list
+        state: absent
+
     - name: Virtualization  ----  Vagrant  ----  Ubuntu ---- Add apt repository
-      ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/etc/apt/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com {{ codename }} main"
-        filename: hashicorp
+      ansible.builtin.deb822_repository:
+        name: hashicorp
+        types: [deb]
+        uris: https://apt.releases.hashicorp.com
+        suites: ["{{ codename }}"]
+        components: [main]
+        signed_by: /etc/apt/keyrings/hashicorp-archive-keyring.gpg
+        install_python_debian: true
         state: present
         mode: '0644'
       vars:
