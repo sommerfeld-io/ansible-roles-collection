@@ -27,6 +27,17 @@
         state: latest
         update_cache: true
 
+    - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install doctl via snap
+      community.general.snap:
+        name: doctl
+        state: present
+
+    - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install OpenTofu via snap
+      community.general.snap:
+        name: opentofu
+        classic: true
+        state: present
+
     - name: Packages Main  ----  Ubuntu  ----  Basics  ----  Install Ubuntu specifics
       ansible.builtin.apt:
         pkg:
@@ -58,6 +69,14 @@
     - name: Packages Main  ----  Arch  ----  Basics  ----  Install Dev tools
       community.general.pacman:
         name: *dev-packages
+        state: present
+        update_cache: true
+
+    - name: Packages Main  ----  Arch  ----  Basics  ----  Install doctl and OpenTofu
+      community.general.pacman:
+        name:
+          - doctl
+          - opentofu
         state: present
         update_cache: true
 
