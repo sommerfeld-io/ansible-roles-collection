@@ -1,0 +1,5 @@
+---
+# Basic command line tools, used by main.yml and on their own by hosts that
+# need only these (tasks_from: basics, e.g. the DigitalOcean droplet).
+- name: Packages  ----  Install basics
+  ansible.builtin.import_tasks: main/10-basics.yml
