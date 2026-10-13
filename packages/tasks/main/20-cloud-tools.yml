@@ -1,0 +1,27 @@
+---
+- name: Packages Main  ----  Ubuntu  ----  Cloud tools
+  when: ansible_facts['os_family'] == "Debian"
+  block:
+
+    - name: Packages Main  ----  Ubuntu  ----  Cloud tools  ----  Install doctl via snap
+      community.general.snap:
+        name: doctl
+        state: present
+
+    - name: Packages Main  ----  Ubuntu  ----  Cloud tools  ----  Install OpenTofu via snap
+      community.general.snap:
+        name: opentofu
+        classic: true
+        state: present
+
+- name: Packages Main  ----  Arch  ----  Cloud tools
+  when: ansible_facts['os_family'] == "Archlinux"
+  block:
+
+    - name: Packages Main  ----  Arch  ----  Cloud tools  ----  Install doctl and OpenTofu
+      community.general.pacman:
+        name:
+          - doctl
+          - opentofu
+        state: present
+        update_cache: true

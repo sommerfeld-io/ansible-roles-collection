@@ -7,3 +7,6 @@
 
 - name: Packages  ----  Install ctop
   ansible.builtin.import_tasks: main/11-ctop.yml
+
+- name: Packages  ----  Install cloud tools
+  ansible.builtin.import_tasks: main/20-cloud-tools.yml
