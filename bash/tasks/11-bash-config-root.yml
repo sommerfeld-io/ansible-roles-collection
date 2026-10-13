@@ -13,6 +13,7 @@
     - alias ls="ls -a --color=auto"
     - alias grep="grep --color=auto"
     - alias pull-all-repos="git all pull"
+    - export HOSTNAME # Ensure this is available for other processes and sub-shells
 
 - name: Bash  ----  Config root  ----  Update prompt in .bashrc
   ansible.builtin.lineinfile:
