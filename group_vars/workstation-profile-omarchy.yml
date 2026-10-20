@@ -25,7 +25,6 @@ workstation_profile_omarchy_include_roles:
   - kubectl
   - helm
   - node
-  - clamav
   - vscode
   - atuin
   - ollama

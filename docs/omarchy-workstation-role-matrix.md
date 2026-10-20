@@ -13,7 +13,6 @@ Omarchy's default package set was read from [`basecamp/omarchy` `install/omarchy
 | `ansible`                         | Ansible                    | yes    | yes  | no                       | yes                | yes                     | include  |
 | `atuin`                           | Atuin                      | yes    | yes  | no                       | yes                | yes                     | include  |
 | `bash`                            | Bash config                | yes    | yes  | n/a (base OS)            | yes                | yes                     | include  |
-| `clamav`                          | ClamAV                     | yes    | yes  | no                       | yes                | yes                     | include  |
 | `claude`                          | Claude Code CLI            | yes    | yes  | **yes**                  | no                 | yes                     | include (dedicated role kept) |
 | `conky`                           | Conky                      | yes    | yes  | no                       | yes                | yes                     | include  |
 | `cron`                            | cron / cronie              | yes    | yes  | no                       | yes                | yes                     | include  |

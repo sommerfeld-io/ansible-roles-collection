@@ -61,7 +61,7 @@ role-name/
 └── files/                # Static files
 ```
 
-Some roles expose multiple entry points via `tasks_from` (e.g. `packages` has `main`, `desktop`, `raspi`; `clamav` has `install`, `scan`).
+Some roles expose multiple entry points via `tasks_from` (e.g. `packages` has `main`, `desktop`, `raspi`).
 
 ## Conventions
 
