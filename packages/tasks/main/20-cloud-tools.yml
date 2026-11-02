@@ -7,12 +7,14 @@
       community.general.snap:
         name: doctl
         state: present
+      when: not is_test | default(false)
 
     - name: Packages Main  ----  Ubuntu  ----  Cloud tools  ----  Install OpenTofu via snap
       community.general.snap:
         name: opentofu
         classic: true
         state: present
+      when: not is_test | default(false)
 
 - name: Packages Main  ----  Arch  ----  Cloud tools
   when: ansible_facts['os_family'] == "Archlinux"
