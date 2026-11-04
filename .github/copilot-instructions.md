@@ -73,7 +73,7 @@ Always prefix variables with the role name: `docker_version`, `packages_ctop_ver
 - name: Role Name  ----  Section  ----  Action
 ```
 
-**OS detection** - always use `when:` with `ansible_os_family`, never hardcode paths:
+**OS detection** - always use `when:` with `ansible_facts['os_family']`, never hardcode paths:
 ```yaml
 when: ansible_facts['os_family'] == "Debian"
 when: ansible_facts['os_family'] == "Archlinux"

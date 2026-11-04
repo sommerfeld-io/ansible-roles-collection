@@ -18,7 +18,7 @@ The user will provide (via argument or prompt):
 - **Role name** (required): lowercase, hyphen-separated (e.g. `my-role`). This becomes the top-level directory name.
 - **Description** (optional): one-sentence description of what the role does.
 - **Has defaults** (optional): whether to create `defaults/main.yml` (default: yes if the role has configurable variables).
-- **OS-specific** (optional): whether tasks need `when: ansible_os_family` branches.
+- **OS-specific** (optional): whether tasks need `when: ansible_facts['os_family']` branches.
 - **Needs handler** (optional): whether to create `handlers/main.yml`.
 
 If the role name is missing, ask the user for it before proceeding.

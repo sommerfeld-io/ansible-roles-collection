@@ -10,7 +10,7 @@
   environment:
     HOME: "/home/{{ default_user }}"
     NPM_CONFIG_PREFIX: "/home/{{ default_user }}/.local"
-    PATH: "/home/{{ default_user }}/.local/bin:{{ ansible_env.PATH }}"
+    PATH: "/home/{{ default_user }}/.local/bin:{{ ansible_facts['env']['PATH'] }}"
   loop:
     - "@google/gemini-cli"
     - "@github/copilot"
