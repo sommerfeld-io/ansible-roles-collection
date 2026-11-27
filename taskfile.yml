@@ -33,6 +33,6 @@ tasks:
     desc: 'Run all project linters outside of Dockerfile linters'
     cmds:
       - task: cleanup:filesystem
-      - for: ['yaml', 'filenames', 'folders', 'ansible'] # 'workflows', 'markdown-links',
+      - for: ['yaml', 'filenames', 'folders', 'ansible'] # 'workflows' and the markdown-links service are not run here
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
       - task: test:lint
