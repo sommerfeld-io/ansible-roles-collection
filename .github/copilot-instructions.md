@@ -95,4 +95,4 @@ Config in [.ansible-lint.yml](../.ansible-lint.yml): profile `basic`, offline mo
 
 ## CI/CD
 
-Pipeline at [.github/workflows/pipeline.yml](./workflows/pipeline.yml): ShellCheck → lint matrix → semantic-release on `main`.
+Pipeline at [.github/workflows/pipeline.yml](./workflows/pipeline.yml): ShellCheck → lint matrix → semantic-release on `main`. Markdown links are checked in [.github/workflows/docs.yml](./workflows/docs.yml) (`markdown-links`), which also runs for Markdown-only changes.
